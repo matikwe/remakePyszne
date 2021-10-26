@@ -1,4 +1,4 @@
-package com.example.remakepyszne;
+package com.example.remakepyszne.sql;
 
 import android.annotation.SuppressLint;
 import android.os.StrictMode;
@@ -8,11 +8,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class ConnectionHelper {
-    Connection con;
-    String uname, pass, ip, port, database;
+    private static String uname, pass, ip, port, database;
+    private String  connectionURL = null;
+    private Connection connection = null;
 
     @SuppressLint("NewApi")
     public Connection connectionClass(){
+        //pomyśleć nad tymi danymi
         ip = "192.168.0.175";
         database = "remakePyszne";
         uname = "sa";
@@ -21,9 +23,6 @@ public class ConnectionHelper {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
-        Connection connection = null;
-        String connectionURL = null;
 
         try{
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
