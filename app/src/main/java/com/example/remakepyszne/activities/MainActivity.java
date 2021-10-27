@@ -2,7 +2,6 @@ package com.example.remakepyszne.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,7 +19,8 @@ public class MainActivity extends AppCompatActivity {
 
     EditText editTextLogin;
     EditText editTextPassword;
-    String error = "";
+    String emptyEditText = "";
+    private static final String incorrectLoginOrPassword = "Dane logowania nie są poprawne";
 
 
     @Override
@@ -34,31 +34,38 @@ public class MainActivity extends AppCompatActivity {
 
     public void tryLoginOnClick(View v) throws SQLException {
         if (editTextLogin.getText().toString().isEmpty()) {
-            error += "Wpisz login";
+            emptyEditText += "Wpisz login";
         }
         if (editTextPassword.getText().toString().isEmpty()) {
-            error += " Wpisz hasło";
+            emptyEditText += " Wpisz hasło";
         }
-        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
 
-        if (error.equals("")) {
-            String query = "select * from [remakePyszne].[dbo].[users];";
+        if (emptyEditText.equals("")) {
+            String query = "SELECT * FROM [remakePyszne].[dbo].[users] WHERE login='" + editTextLogin.getText() + "';";
             List<Users> usersList = new QueryHelper(query).tryLoginToDataBase();
 
-            //wywolanie
-            Log.d("Msg:", String.valueOf(usersList.get(0).getId()));
-            openActivityHome();
+            if (!(usersList.isEmpty())) {
+                if (String.valueOf(usersList.get(0).getPassword()).equals(editTextPassword.getText().toString())) {
+                    openActivityHome();
+                } else {
+                    Toast.makeText(getApplicationContext(), incorrectLoginOrPassword, Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), incorrectLoginOrPassword, Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), emptyEditText, Toast.LENGTH_LONG).show();
         }
-        error = "";
+        emptyEditText = "";
     }
 
-    public void openActivityRegister(View v){
-        Intent intent = new Intent(this,RegisterActivity.class);
+    public void openActivityRegister(View v) {
+        Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
     public void openActivityHome() {
-        Intent intent = new Intent(this,HomeActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
 }
