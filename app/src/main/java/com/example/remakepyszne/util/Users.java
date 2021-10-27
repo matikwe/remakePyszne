@@ -4,14 +4,14 @@ public class Users {
     private int id;
     private String login;
     private String password;
-    private String mail;
+    private String email;
     private int phoneNumber;
 
     public static final class Builder {
         private int id;
         private String login;
         private String password;
-        private String mail;
+        private String email;
         private int phoneNumber;
 
         public Builder id(int id) {
@@ -29,8 +29,8 @@ public class Users {
             return this;
         }
 
-        public Builder mail(String mail) {
-            this.mail = mail;
+        public Builder email(String email) {
+            this.email = email;
             return this;
         }
 
@@ -44,7 +44,7 @@ public class Users {
             users.id = this.id;
             users.login = this.login;
             users.password = this.password;
-            users.mail = this.mail;
+            users.email = this.email;
             users.phoneNumber = this.phoneNumber;
             return users;
         }
@@ -62,8 +62,8 @@ public class Users {
         return password;
     }
 
-    public String getMail() {
-        return mail;
+    public String getEmail() {
+        return email;
     }
 
     public int getPhoneNumber() {

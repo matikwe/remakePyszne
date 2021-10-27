@@ -17,11 +17,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText editTextLogin;
-    EditText editTextPassword;
-    String emptyEditText = "";
+    EditText editTextLogin, editTextPassword;
+    private boolean notEmptyData = true;
     private static final String incorrectLoginOrPassword = "Dane logowania nie są poprawne";
-
+    private static final String emptyLogin = "Uzupełnij login";
+    private static final String emptyPassword = "Uzupełnij hasło";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +34,23 @@ public class MainActivity extends AppCompatActivity {
 
     public void tryLoginOnClick(View v) throws SQLException {
         if (editTextLogin.getText().toString().isEmpty()) {
-            emptyEditText += "Wpisz login";
+            notEmptyData = false;
+            Toast.makeText(getApplicationContext(), emptyLogin, Toast.LENGTH_LONG).show();
         }
         if (editTextPassword.getText().toString().isEmpty()) {
-            emptyEditText += " Wpisz hasło";
+            if (notEmptyData) {
+                Toast.makeText(getApplicationContext(), emptyPassword, Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getApplicationContext(), emptyLogin + ". " + emptyPassword, Toast.LENGTH_LONG).show();
+            }
+            notEmptyData = false;
         }
+        sendRequestToDatabaseAndEquals(notEmptyData);
+        notEmptyData = true;
+    }
 
-        if (emptyEditText.equals("")) {
+    private void sendRequestToDatabaseAndEquals(boolean notEmptyData) throws SQLException {
+        if (notEmptyData) {
             String query = "SELECT * FROM [remakePyszne].[dbo].[users] WHERE login='" + editTextLogin.getText() + "';";
             List<Users> usersList = new QueryHelper(query).tryLoginToDataBase();
 
@@ -53,10 +63,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(getApplicationContext(), incorrectLoginOrPassword, Toast.LENGTH_LONG).show();
             }
-        } else {
-            Toast.makeText(getApplicationContext(), emptyEditText, Toast.LENGTH_LONG).show();
         }
-        emptyEditText = "";
     }
 
     public void openActivityRegister(View v) {

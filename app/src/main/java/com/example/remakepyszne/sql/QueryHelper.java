@@ -26,12 +26,11 @@ public class QueryHelper {
         ResultSet resultSet = tryConnectToDatabase();
         if (resultSet != null) {
             while (resultSet.next()) {
-                //textViewErrorLogin.setText(resultSet.getString(1));
                 usersList.add(new Users.Builder()
                         .id(resultSet.getInt(1))
                         .login(resultSet.getString(2))
                         .password(resultSet.getString(3))
-                        .mail(resultSet.getString(4))
+                        .email(resultSet.getString(4))
                         .phoneNumber(resultSet.getInt(5))
                         .build()
                 );
