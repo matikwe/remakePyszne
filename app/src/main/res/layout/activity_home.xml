@@ -7,9 +7,17 @@
     tools:context=".activities.HomeActivity">
 
 
+    <Button
+        android:id="@+id/currentLocation"
+        android:layout_width="277dp"
+        android:layout_height="59dp"
+        android:onClick="getCurrentLocation"
+        android:text="Current location" />
+
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="home" />
+        android:id="@+id/testTV"
+        android:layout_width="322dp"
+        android:layout_height="74dp"
+        android:layout_marginLeft="50px"
+        android:layout_marginTop="200px" />
 </RelativeLayout>
