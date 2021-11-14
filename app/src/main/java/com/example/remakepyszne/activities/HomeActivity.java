@@ -16,7 +16,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
-    private List<Addresses> addresses = new LinkedList<>();
+    //private List<Addresses> addresses = new LinkedList<>();
+    String addressLine;
     private TextView testTV;
 
     @Override
@@ -29,5 +30,6 @@ public class HomeActivity extends AppCompatActivity {
     public void getCurrentLocation(View view) {
         GetCurrentLocation getCurrentLocation = new GetCurrentLocation();
         getCurrentLocation.getGeoLocation(this,testTV);
+        addressLine = testTV.getText().toString();
     }
 }

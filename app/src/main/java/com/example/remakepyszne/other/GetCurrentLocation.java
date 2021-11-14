@@ -55,8 +55,4 @@ public class GetCurrentLocation {
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
     }
-
-    public List<Addresses> getListAddresses() {
-        return addresses;
-    }
 }
