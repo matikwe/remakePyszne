@@ -97,8 +97,8 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                 isNotDuplicated = false;
 
             if (isNotDuplicated) {
-                String query = "INSERT INTO Users (login, password, email, phone_number) values ('" + editTextLoginRegisterPage.getText().toString() +
-                        "','" + editTextPasswordRegisterPage1.getText().toString() + "','" + editTextEmailAddressRegisterPage.getText().toString() +
+                String query = "INSERT INTO Users (login, password, role, email, phone_number) values ('" + editTextLoginRegisterPage.getText().toString() +
+                        "','" + editTextPasswordRegisterPage1.getText().toString() + "','" + role + "','" + editTextEmailAddressRegisterPage.getText().toString() +
                         "','" + editTextPhoneRegisterPage.getText().toString() + "');";
                 insertIntoDatabase(query);
                 openMainActivityMethod();

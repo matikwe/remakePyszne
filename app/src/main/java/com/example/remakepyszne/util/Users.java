@@ -3,10 +3,11 @@ package com.example.remakepyszne.util;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Users implements Parcelable{
+public class Users implements Parcelable {
     private int id;
     private String login;
     private String password;
+    private String role;
     private String email;
     private int phoneNumber;
 
@@ -14,6 +15,7 @@ public class Users implements Parcelable{
         id = in.readInt();
         login = in.readString();
         password = in.readString();
+        role = in.readString();
         email = in.readString();
         phoneNumber = in.readInt();
     }
@@ -44,6 +46,7 @@ public class Users implements Parcelable{
         parcel.writeInt(id);
         parcel.writeString(login);
         parcel.writeString(password);
+        parcel.writeString(role);
         parcel.writeString(email);
         parcel.writeInt(phoneNumber);
     }
@@ -53,6 +56,7 @@ public class Users implements Parcelable{
         private int id;
         private String login;
         private String password;
+        private String role;
         private String email;
         private int phoneNumber;
 
@@ -71,6 +75,11 @@ public class Users implements Parcelable{
             return this;
         }
 
+        public Builder role(String role) {
+            this.role = role;
+            return this;
+        }
+
         public Builder email(String email) {
             this.email = email;
             return this;
@@ -86,6 +95,7 @@ public class Users implements Parcelable{
             users.id = this.id;
             users.login = this.login;
             users.password = this.password;
+            users.role = this.role;
             users.email = this.email;
             users.phoneNumber = this.phoneNumber;
             return users;
@@ -102,6 +112,10 @@ public class Users implements Parcelable{
 
     public String getPassword() {
         return password;
+    }
+
+    public String gerRole() {
+        return role;
     }
 
     public String getEmail() {

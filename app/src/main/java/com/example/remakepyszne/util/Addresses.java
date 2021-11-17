@@ -1,12 +1,55 @@
 package com.example.remakepyszne.util;
 
-public class Addresses {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Addresses implements Parcelable {
     private int addressID;
     private int userID;
     private String street;
     private String number;
     private String city;
     private String zip;
+
+    protected Addresses(Parcel in) {
+        addressID = in.readInt();
+        userID = in.readInt();
+        street = in.readString();
+        number = in.readString();
+        city = in.readString();
+        zip = in.readString();
+    }
+
+    public static final Creator<Addresses> CREATOR = new Creator<Addresses>() {
+        @Override
+        public Addresses createFromParcel(Parcel in) {
+            return new Addresses(in);
+        }
+
+        @Override
+        public Addresses[] newArray(int size) {
+            return new Addresses[size];
+        }
+    };
+
+    public Addresses() {
+
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(addressID);
+        parcel.writeInt(userID);
+        parcel.writeString(street);
+        parcel.writeString(number);
+        parcel.writeString(city);
+        parcel.writeString(zip);
+    }
 
     public static final class Builder {
         private String street;

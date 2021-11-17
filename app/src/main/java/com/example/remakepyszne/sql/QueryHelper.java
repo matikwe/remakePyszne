@@ -3,6 +3,7 @@ package com.example.remakepyszne.sql;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
+import com.example.remakepyszne.util.Addresses;
 import com.example.remakepyszne.util.Users;
 
 import java.sql.Connection;
@@ -30,8 +31,9 @@ public class QueryHelper {
                         .id(resultSet.getInt(1))
                         .login(resultSet.getString(2))
                         .password(resultSet.getString(3))
-                        .email(resultSet.getString(4))
-                        .phoneNumber(resultSet.getInt(5))
+                        .role(resultSet.getString(4))
+                        .email(resultSet.getString(5))
+                        .phoneNumber(resultSet.getInt(6))
                         .build();
             }
         } else {
@@ -40,6 +42,28 @@ public class QueryHelper {
         if(users.getPassword() == null)
             users = null;
         return users ;
+    }
+
+    public Addresses tryLoginToDataBaeForAddresses() throws SQLException {
+        Addresses addresses = new Addresses();
+        ResultSet resultSet = tryConnectToDatabase();
+        if (resultSet != null){
+            while (resultSet.next()){
+                addresses = new Addresses.Builder()
+                        .addressID(resultSet.getInt(1))
+                        .userID(resultSet.getInt(2))
+                        .street(resultSet.getString(3))
+                        .number(resultSet.getString(4))
+                        .city(resultSet.getString(5))
+                        .zip(resultSet.getString(6))
+                        .build();
+            }
+        }else {
+            Log.d("Error database", "Error query");
+        }
+        if(addresses.getStreet() == null)
+            addresses = null;
+        return addresses;
     }
 
     @SuppressLint("LongLogTag")

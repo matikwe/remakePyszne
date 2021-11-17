@@ -72,8 +72,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="42dp"
-        android:layout_marginBottom="234dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginBottom="98dp"
         android:onClick="getCurrentLocation"
         android:text="lok" />
 
@@ -83,8 +83,20 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="104dp"
-        android:layout_marginBottom="230dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="163dp"
+        android:layout_marginBottom="100dp"
         android:onClick="getAddressFromDataBase"
         android:text="DB" />
+
+    <Button
+        android:id="@+id/addAddressToDataBase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="96dp"
+        android:onClick="addAddressToDataBase"
+        android:text="add a" />
 </RelativeLayout>
