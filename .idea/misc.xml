@@ -3,9 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/layout/activity_home.xml" value="0.4" />
+        <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/layout/activity_home.xml" value="0.1" />
         <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/layout/activity_main.xml" value="0.176" />
-        <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/layout/activity_register.xml" value="0.1" />
+        <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/layout/activity_managerhome.xml" value="0.1" />
+        <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/layout/activity_register.xml" value="0.536" />
+        <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/layout/activity_test.xml" value="0.103125" />
       </map>
     </option>
   </component>

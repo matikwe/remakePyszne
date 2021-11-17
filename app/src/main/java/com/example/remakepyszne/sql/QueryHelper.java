@@ -21,24 +21,25 @@ public class QueryHelper {
     }
 
     @SuppressLint("LongLogTag")
-    public List<Users> tryLoginToDataBase() throws SQLException {
-        List<Users> usersList = new LinkedList<>();
+    public Users tryLoginToDataBaseForUsers() throws SQLException {
+        Users users = new Users();
         ResultSet resultSet = tryConnectToDatabase();
         if (resultSet != null) {
             while (resultSet.next()) {
-                usersList.add(new Users.Builder()
+                 users = new Users.Builder()
                         .id(resultSet.getInt(1))
                         .login(resultSet.getString(2))
                         .password(resultSet.getString(3))
                         .email(resultSet.getString(4))
                         .phoneNumber(resultSet.getInt(5))
-                        .build()
-                );
+                        .build();
             }
         } else {
             Log.d("Error database", "Error query");
         }
-        return usersList;
+        if(users.getPassword() == null)
+            users = null;
+        return users ;
     }
 
     @SuppressLint("LongLogTag")

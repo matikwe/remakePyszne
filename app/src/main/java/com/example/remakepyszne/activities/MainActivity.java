@@ -13,7 +13,6 @@ import com.example.remakepyszne.sql.QueryHelper;
 import com.example.remakepyszne.util.Users;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String incorrectLoginOrPassword = "Dane logowania nie są poprawne";
     private static final String emptyLogin = "Uzupełnij login";
     private static final String emptyPassword = "Uzupełnij hasło";
+    private Users users;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         editTextLogin = (EditText) findViewById(R.id.editTextLogin);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+
     }
 
     public void tryLoginOnClick(View v) throws SQLException {
@@ -52,10 +54,10 @@ public class MainActivity extends AppCompatActivity {
     private void sendRequestToDatabaseAndEquals(boolean notEmptyData) throws SQLException {
         if (notEmptyData) {
             String query = "SELECT * FROM [remakePyszne].[dbo].[users] WHERE login='" + editTextLogin.getText() + "';";
-            List<Users> usersList = new QueryHelper(query).tryLoginToDataBase();
+            users = new QueryHelper(query).tryLoginToDataBaseForUsers();
 
-            if (!(usersList.isEmpty())) {
-                if (String.valueOf(usersList.get(0).getPassword()).equals(editTextPassword.getText().toString())) {
+            if (!(users == null)) {
+                if (String.valueOf(users.getPassword()).equals(editTextPassword.getText().toString())) {
                     openActivityHome();
                 } else {
                     Toast.makeText(getApplicationContext(), incorrectLoginOrPassword, Toast.LENGTH_LONG).show();
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void openActivityHome() {
         Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("currentUser", users);
         startActivity(intent);
     }
 }

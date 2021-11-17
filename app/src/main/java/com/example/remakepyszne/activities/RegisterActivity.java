@@ -1,10 +1,14 @@
 package com.example.remakepyszne.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,14 +18,14 @@ import com.example.remakepyszne.sql.QueryHelper;
 import com.example.remakepyszne.util.Users;
 
 import java.sql.SQLException;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     EditText editTextLoginRegisterPage, editTextPasswordRegisterPage1,
             editTextPasswordRegisterPage2, editTextEmailAddressRegisterPage, editTextPhoneRegisterPage;
+    Spinner spinner;
     private static final String emptyEditText = "Uzupełnij dane do rejestracji";
     private static final String notSimilarPassword = "Hasła się różnią";
     private static final String passwordTooShort = "Hasło musi zawierać 8 znaków";
@@ -29,6 +33,8 @@ public class RegisterActivity extends AppCompatActivity {
     private static final String badFormatEmail = "Email być w formacie domena@yxz.pl";
     private boolean nextActivity = true;
     private boolean isNotDuplicated = true;
+    private Users users;
+    private String role;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,13 @@ public class RegisterActivity extends AppCompatActivity {
         editTextPasswordRegisterPage2 = (EditText) findViewById(R.id.editTextPasswordRegisterPage2);
         editTextEmailAddressRegisterPage = (EditText) findViewById(R.id.editTextEmailAddressRegisterPage);
         editTextPhoneRegisterPage = (EditText) findViewById(R.id.editTextPhoneRegisterPage);
+        spinner = (Spinner) findViewById(R.id.userRoleSpinner);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.roles, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+        users = new Users();
     }
 
     public void tryRegisterOnClick(View v) throws SQLException {
@@ -97,14 +110,14 @@ public class RegisterActivity extends AppCompatActivity {
 
     public boolean dataIsDuplicated(String col, String value) throws SQLException {
         String query = "SELECT * FROM [remakePyszne].[dbo].[users] WHERE " + col + "='" + value + "';";
-        List<Users> usersList = new QueryHelper(query).tryLoginToDataBase();
+        users = new QueryHelper(query).tryLoginToDataBaseForUsers();
 
-        if(usersList.isEmpty()){
-            Log.d("State list: "+col, " empty");
+        if (users == null) {
+            Log.d("State list: " + col, " empty");
             return false;
-        }else {
-            Log.d("State list: "+col, " notEmpty");
-            Toast.makeText(getApplicationContext(), "Podany " + col + "jest już zajęty !!!", Toast.LENGTH_LONG).show();
+        } else {
+            Log.d("State list: " + col, " notEmpty");
+            Toast.makeText(getApplicationContext(), "Podany " + col + " jest już zajęty !!!", Toast.LENGTH_LONG).show();
             return true;
         }
     }
@@ -117,7 +130,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void insertIntoDatabase(String query) throws SQLException {
-        new QueryHelper(query).tryLoginToDataBase();
+        new QueryHelper(query).tryLoginToDataBaseForUsers();
     }
 
     public void openMainActivity(View v) {
@@ -127,5 +140,16 @@ public class RegisterActivity extends AppCompatActivity {
     void openMainActivityMethod() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        role = adapterView.getItemAtPosition(i).toString();
+        Log.d("Role", role);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

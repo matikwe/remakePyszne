@@ -12,8 +12,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="61dp"
         android:text="Rejestracja"
         android:textSize="40sp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextLoginRegisterPage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,9 +24,10 @@
         android:id="@+id/editTextLoginRegisterPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginBottom="23dp"
         android:ems="10"
         android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/editTextPasswordRegisterPage1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewRegister" />
@@ -33,9 +36,10 @@
         android:id="@+id/editTextPasswordRegisterPage1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
         android:ems="10"
         android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/editTextPasswordRegisterPage2"
         app:layout_constraintStart_toStartOf="@+id/editTextLoginRegisterPage"
         app:layout_constraintTop_toBottomOf="@+id/editTextLoginRegisterPage" />
 
@@ -43,9 +47,10 @@
         android:id="@+id/editTextPasswordRegisterPage2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
         android:ems="10"
         android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/editTextEmailAddressRegisterPage"
         app:layout_constraintStart_toStartOf="@+id/editTextPasswordRegisterPage1"
         app:layout_constraintTop_toBottomOf="@+id/editTextPasswordRegisterPage1" />
 
@@ -53,9 +58,10 @@
         android:id="@+id/editTextPhoneRegisterPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginBottom="26dp"
         android:ems="10"
         android:inputType="phone"
+        app:layout_constraintBottom_toTopOf="@+id/userRoleSpinner"
         app:layout_constraintStart_toStartOf="@+id/editTextEmailAddressRegisterPage"
         app:layout_constraintTop_toBottomOf="@+id/editTextEmailAddressRegisterPage" />
 
@@ -63,34 +69,50 @@
         android:id="@+id/editTextEmailAddressRegisterPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
         android:ems="10"
         android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/editTextPhoneRegisterPage"
         app:layout_constraintStart_toStartOf="@+id/editTextPasswordRegisterPage2"
         app:layout_constraintTop_toBottomOf="@+id/editTextPasswordRegisterPage2" />
 
     <Button
         android:id="@+id/button"
-        android:layout_width="205dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="64dp"
         android:onClick="tryRegisterOnClick"
         android:text="Zarejestruj się"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPhoneRegisterPage"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintEnd_toEndOf="@+id/editTextPhoneRegisterPage"
+        app:layout_constraintStart_toStartOf="@+id/button2"
+        app:layout_constraintTop_toBottomOf="@+id/userRoleSpinner"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="205dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="24dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginBottom="33dp"
         android:onClick="openMainActivity"
         android:text="Masz już konto? Zaloguj się"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button"
         tools:ignore="MissingConstraints" />
+
+    <Spinner
+        android:id="@+id/userRoleSpinner"
+        android:layout_width="222dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="23dp"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPhoneRegisterPage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">remakePyszne</string>
+    <string-array name="roles">
+        <item>user</item>
+        <item>restaurant manager</item>
+    </string-array>
 </resources>
