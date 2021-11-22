@@ -68,35 +68,45 @@
 
     <Button
         android:id="@+id/buttonGetLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="130dp"
+        android:layout_height="88dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="46dp"
-        android:layout_marginBottom="98dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginBottom="179dp"
         android:onClick="getCurrentLocation"
-        android:text="lok" />
+        android:text="Aktualna lokalizacja" />
 
     <Button
         android:id="@+id/buttonGetAddressFromDataBase"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="74dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginEnd="163dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginEnd="137dp"
+        android:layout_marginBottom="98dp"
         android:onClick="getAddressFromDataBase"
-        android:text="DB" />
+        android:text="Pobierz ostatni" />
 
     <Button
         android:id="@+id/addAddressToDataBase"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="96dp"
-        android:onClick="addAddressToDataBase"
-        android:text="add a" />
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="174dp"
+        android:onClick="validationAddress"
+        android:text="Wpisz ręcznie" />
+
+    <Button
+        android:id="@+id/searchRestaurant"
+        android:layout_width="248dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:onClick="addAddressToDatabase"
+        android:text="Szukaj reastauracji" />
 </RelativeLayout>

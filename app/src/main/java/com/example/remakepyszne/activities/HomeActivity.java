@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -21,7 +22,10 @@ import java.util.regex.Pattern;
 
 public class HomeActivity extends AppCompatActivity {
     private EditText street, number, city, zip;
+    Button searchRestaurant;
     private boolean stateEditText = true;
+    private boolean addToDataBase = false;
+    private boolean doubleRecord = false;
     private Users users;
     private Addresses addresses;
     private static final String emptyEditText = "Uzupełnij dane adresowe";
@@ -29,6 +33,9 @@ public class HomeActivity extends AppCompatActivity {
     private static final String badFormatNumber = "Numer domu powinien być w formacie xxxxY";
     private static final String badFormatCity = "Błedna nazwa miejscowości";
     private static final String badFormatZip = "Kod pocztowy powinien być w formacie xx-xxx";
+    private static final String unlockedFields = "Pola odblokowane możesz wpisać adres";
+    protected static final String emptyLocation = "Twój telefon nie umożliwia pobrania lokalizacji";
+    private static final String notSelectedMethod = "Wybierz powyższe metody do ustalenia adresu";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +48,8 @@ public class HomeActivity extends AppCompatActivity {
             number = (EditText) findViewById(R.id.editTextNumber);
             city = (EditText) findViewById(R.id.editTextCity);
             zip = (EditText) findViewById(R.id.editTextZip);
+            searchRestaurant = (Button) findViewById(R.id.searchRestaurant);
+            searchRestaurant.setEnabled(false);
         }
         /*
         else if(users.gerRole().equals("restaurant manager"))
@@ -80,13 +89,23 @@ public class HomeActivity extends AppCompatActivity {
     public void getCurrentLocation(View view) {
         GetCurrentLocation getCurrentLocation = new GetCurrentLocation();
         getCurrentLocation.getGeoLocation(this, street, number, city, zip);
-        stateEditText = false;
-        EditTextNonEditable(stateEditText);
+
+        if (getCurrentLocation.isEmptyLocation()) {
+            stateEditText = false;
+            EditTextNonEditable(stateEditText);
+            addToDataBase = true;
+            doubleRecord = false;
+        } else {
+            Toast.makeText(getApplicationContext(), emptyLocation, Toast.LENGTH_LONG).show();
+            addToDataBase = false;
+            setEmptyFields();
+        }
+        Log.d("Empty location: ", String.valueOf(getCurrentLocation.isEmptyLocation()));
+        searchRestaurant.setEnabled(addToDataBase);
     }
 
     public void getAddressFromDataBase(View view) throws SQLException {
-        String query = "SELECT * FROM [remakePyszne].[dbo].[Addresses] WHERE userid='" + users.getId() + "';";
-        addresses = new QueryHelper(query).tryLoginToDataBaeForAddresses();
+        selectAddress();
 
         street.setText(addresses.getStreet());
         number.setText(addresses.getNumber());
@@ -95,11 +114,17 @@ public class HomeActivity extends AppCompatActivity {
 
         stateEditText = false;
         EditTextNonEditable(stateEditText);
+        addToDataBase = true;
+        doubleRecord = true;
+        searchRestaurant.setEnabled(addToDataBase);
     }
 
-    public void addAddressToDataBase(View view) throws SQLException {
-        if (!stateEditText)
-            Toast.makeText(getApplicationContext(), "Pola odblokowane możesz wpisać adres", Toast.LENGTH_LONG).show();
+    public void validationAddress(View view) throws SQLException {
+        if (!stateEditText) {
+            setEmptyFields();
+            Toast.makeText(getApplicationContext(), unlockedFields, Toast.LENGTH_LONG).show();
+        }
+
         stateEditText = true;
         EditTextNonEditable(stateEditText);
 
@@ -107,7 +132,7 @@ public class HomeActivity extends AppCompatActivity {
                 city.getText().toString().isEmpty() || zip.getText().toString().isEmpty()) {
             Toast.makeText(getApplicationContext(), emptyEditText, Toast.LENGTH_LONG).show();
         } else {
-            boolean addToDataBase = true;
+            addToDataBase = true;
             if (!validation("^[a-zA-Z]+(?:[\\s-][a-zA-Z]+)*$", street.getText().toString())) {
                 Toast.makeText(getApplicationContext(), badFormatStreet, Toast.LENGTH_LONG).show();
                 addToDataBase = false;
@@ -124,19 +149,42 @@ public class HomeActivity extends AppCompatActivity {
                 addToDataBase = false;
             }
 
-            if(!validation("^[0-9]{2}(?:-[0-9]{3})?$", zip.getText().toString())){
+            if (!validation("^[0-9]{2}(?:-[0-9]{3})?$", zip.getText().toString())) {
                 Toast.makeText(getApplicationContext(), badFormatZip, Toast.LENGTH_LONG).show();
                 addToDataBase = false;
             }
+            doubleRecord = false;
+        }
+        searchRestaurant.setEnabled(addToDataBase);
+    }
 
-            if(addToDataBase){
+    public void addAddressToDatabase(View view) throws SQLException {
+        if (addToDataBase) {
+            if (!doubleRecord) {
                 String query = "INSERT INTO Addresses (userid, street, number, city, zip_code) values ('" + users.getId() +
                         "','" + street.getText().toString() + "','" + number.getText().toString() + "','" + city.getText().toString() +
                         "','" + zip.getText().toString() + "');";
-                insertIntoDatabase(query);
-                //open new activity
+                new QueryHelper(query).tryLoginToDataBaseForAddresses();
+                selectAddress();
             }
+            openActivity();
+        } else {
+            Toast.makeText(getApplicationContext(), notSelectedMethod, Toast.LENGTH_LONG).show();
         }
+        Toast.makeText(getApplicationContext(), addresses.getCity(), Toast.LENGTH_LONG).show();
+        addToDataBase = false;
+    }
+
+    void selectAddress() throws SQLException {
+        String query = "SELECT * FROM [remakePyszne].[dbo].[Addresses] WHERE userid='" + users.getId() + "';";
+        addresses = new QueryHelper(query).tryLoginToDataBaseForAddresses();
+    }
+
+    void setEmptyFields() {
+        street.setText("");
+        number.setText("");
+        city.setText("");
+        zip.setText("");
     }
 
     boolean validation(String regex, String dataFromValid) {
@@ -152,7 +200,10 @@ public class HomeActivity extends AppCompatActivity {
         zip.setEnabled(state);
     }
 
-    public void insertIntoDatabase(String query) throws SQLException {
-        new QueryHelper(query).tryLoginToDataBaseForUsers();
+    public void openActivity() {
+        Intent intent = new Intent(this, RestaurantActivity.class);
+        intent.putExtra("currentUser", users);
+        intent.putExtra("currentAddress", addresses);
+        startActivity(intent);
     }
 }

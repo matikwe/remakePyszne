@@ -44,7 +44,7 @@ public class QueryHelper {
         return users ;
     }
 
-    public Addresses tryLoginToDataBaeForAddresses() throws SQLException {
+    public Addresses tryLoginToDataBaseForAddresses() throws SQLException {
         Addresses addresses = new Addresses();
         ResultSet resultSet = tryConnectToDatabase();
         if (resultSet != null){

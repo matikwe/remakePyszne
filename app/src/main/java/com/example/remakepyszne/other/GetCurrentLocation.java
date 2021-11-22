@@ -28,6 +28,7 @@ public class GetCurrentLocation {
 
     FusedLocationProviderClient fusedLocationProviderClient;
     private List<Address> address;
+    private boolean emptyLocation = false;
 
     public void getGeoLocation(Activity activity, EditText street, EditText number, EditText city, EditText zip) {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(activity);
@@ -39,7 +40,6 @@ public class GetCurrentLocation {
                 public void onComplete(@NonNull Task<Location> task) {
                     Location location = task.getResult();
                     if (location != null) {
-
                         try {
                             Geocoder geocoder = new Geocoder(activity, Locale.getDefault());
                             address = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
@@ -51,11 +51,17 @@ public class GetCurrentLocation {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
+                    }else{
+                        emptyLocation = true;
                     }
                 }
             });
         } else {
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
+    }
+
+    public boolean isEmptyLocation() {
+        return emptyLocation;
     }
 }
