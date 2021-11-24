@@ -4,12 +4,14 @@ import android.annotation.SuppressLint;
 import android.util.Log;
 
 import com.example.remakepyszne.util.Addresses;
+import com.example.remakepyszne.util.Restaurants;
 import com.example.remakepyszne.util.Users;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -64,6 +66,29 @@ public class QueryHelper {
         if(addresses.getStreet() == null)
             addresses = null;
         return addresses;
+    }
+
+    public ArrayList<Restaurants> tryLoginToDataBaseForRestaurants() throws SQLException {
+        Restaurants restaurants = new Restaurants();
+        ArrayList<Restaurants> restaurantsList = new ArrayList<>();
+        ResultSet resultSet = tryConnectToDatabase();
+        if(resultSet != null){
+            while (resultSet.next()){
+                restaurants = new Restaurants.Builder()
+                        .restaurantID(resultSet.getInt(1))
+                        .nameRestaurant(resultSet.getString(2))
+                        .type(resultSet.getString(3))
+                        .street(resultSet.getString(4))
+                        .number(resultSet.getString(5))
+                        .city(resultSet.getString(6))
+                        .zip(resultSet.getString(7))
+                        .build();
+                restaurantsList.add(restaurants);
+            }
+        }else{
+            Log.d("Error database", "Error query");
+        }
+        return restaurantsList;
     }
 
     @SuppressLint("LongLogTag")
