@@ -1,5 +1,24 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">remakePyszne</string>
+    <string name="zaloguj_sie">Zaloguj się</string>
+    <string name="rejestracja" tools:ignore="DuplicateDefinition">Rejestracja</string>
+    <string name="login" tools:ignore="DuplicateDefinition">Login</string>
+    <string name="powt_rz_has_o">Powtórz hasło</string>
+    <string name="numer_telefonu">Numer telefonu</string>
+    <string name="email">Email</string>
+    <string name="zarejestruj_si">Zarejestruj się</string>
+    <string name="masz_ju_konto_nzaloguj_si">Masz już konto?\nZaloguj się</string>
+    <string name="has_o">Hasło</string>
+    <string name="zaloguj">Zaloguj</string>
+    <string name="wpisz_dane_do_dostawy">Wpisz dane do dostawy</string>
+    <string name="ulica">Ulica</string>
+    <string name="numer_domu">Numer domu</string>
+    <string name="miasto">Miasto</string>
+    <string name="kod_pocztowy">Kod pocztowy</string>
+    <string name="twoja_lokalizacja">Twoja lokalizacja</string>
+    <string name="ostatni_u_yty_adres">Ostatnio użyty adres</string>
+    <string name="wpisz_r_cznie">Wpisz ręcznie</string>
+    <string name="szukaj_reastauracji">Szukaj reastauracji</string>
     <string-array name="roles">
         <item>user</item>
         <item>restaurant manager</item>

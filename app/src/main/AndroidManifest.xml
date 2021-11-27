@@ -16,13 +16,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RemakePyszne">
         <activity
+            android:name=".activities.ProductActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.RestaurantActivity"
             android:exported="false" />
         <activity
             android:name=".activities.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.HomeActivity"
+            android:name=".activities.AddressActivity"
             android:exported="false" />
         <activity
             android:name=".activities.MainActivity"

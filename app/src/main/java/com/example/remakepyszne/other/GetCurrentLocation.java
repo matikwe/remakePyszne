@@ -8,20 +8,16 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.util.Log;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
-import com.example.remakepyszne.activities.HomeActivity;
-import com.example.remakepyszne.util.Addresses;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 public class GetCurrentLocation {

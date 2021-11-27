@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openActivityHome() {
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, AddressActivity.class);
         intent.putExtra("currentUser", users);
         startActivity(intent);
     }

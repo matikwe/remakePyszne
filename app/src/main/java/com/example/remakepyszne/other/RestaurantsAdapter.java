@@ -5,9 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
 
 import com.example.remakepyszne.R;
 import com.example.remakepyszne.util.Restaurants;
@@ -25,16 +24,19 @@ public class RestaurantsAdapter extends ArrayAdapter<Restaurants> {
         Restaurants restaurants = getItem(position);
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_user, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_restaurant, parent, false);
         }
 
-        // Lookup view for data population
-        TextView tvName = (TextView) convertView.findViewById(R.id.tvName);
-        TextView tvHome = (TextView) convertView.findViewById(R.id.tvHome);
-        // Populate the data into the template view using the data object
-        tvName.setText(restaurants.getNameRestaurant());
-        tvHome.setText(restaurants.getType());
-        // Return the completed view to render on screen
+        TextView nameRestaurant = (TextView) convertView.findViewById(R.id.nameRestaurant);
+        TextView type = (TextView) convertView.findViewById(R.id.type);
+        ImageView iconRestaurant = (ImageView) convertView.findViewById(R.id.iconRestaurant);
+        TextView address = (TextView) convertView.findViewById(R.id.address);
+
+        nameRestaurant.setText(restaurants.getNameRestaurant());
+        type.setText(restaurants.getType());
+        iconRestaurant.setImageResource(R.drawable.test);
+        String addressString = "ul. Goplany 54a  \n44-321 Marklowice";
+        address.setText(addressString);
 
         return convertView;
     }

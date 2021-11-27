@@ -20,7 +20,7 @@ import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class HomeActivity extends AppCompatActivity {
+public class AddressActivity extends AppCompatActivity {
     private EditText street, number, city, zip;
     Button searchRestaurant;
     private boolean stateEditText = true;
@@ -36,6 +36,7 @@ public class HomeActivity extends AppCompatActivity {
     private static final String unlockedFields = "Pola odblokowane możesz wpisać adres";
     protected static final String emptyLocation = "Twój telefon nie umożliwia pobrania lokalizacji";
     private static final String notSelectedMethod = "Wybierz powyższe metody do ustalenia adresu";
+    private static final String searchRestaurantMessage = "Możesz szukać restauracji";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = getIntent();
         users = intent.getParcelableExtra("currentUser");
         if (users.gerRole().equals("user")) {
-            setContentView(R.layout.activity_homeuser);
+            setContentView(R.layout.activity_address);
             street = (EditText) findViewById(R.id.editTextStreet);
             number = (EditText) findViewById(R.id.editTextNumber);
             city = (EditText) findViewById(R.id.editTextCity);
@@ -119,15 +120,17 @@ public class HomeActivity extends AppCompatActivity {
         searchRestaurant.setEnabled(addToDataBase);
     }
 
-    public void validationAddress(View view) throws SQLException {
+    public void validationAddress(View view) {
         if (!stateEditText) {
             setEmptyFields();
             Toast.makeText(getApplicationContext(), unlockedFields, Toast.LENGTH_LONG).show();
-        }
 
-        stateEditText = true;
+            stateEditText = true;
+
+    }
+        searchRestaurant.setEnabled(false);
+
         EditTextNonEditable(stateEditText);
-
         if (street.getText().toString().isEmpty() || number.getText().toString().isEmpty() ||
                 city.getText().toString().isEmpty() || zip.getText().toString().isEmpty()) {
             Toast.makeText(getApplicationContext(), emptyEditText, Toast.LENGTH_LONG).show();
@@ -153,9 +156,13 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), badFormatZip, Toast.LENGTH_LONG).show();
                 addToDataBase = false;
             }
+            if(addToDataBase && doubleRecord) {
+                searchRestaurant.setEnabled(true);
+                Toast.makeText(getApplicationContext(), searchRestaurantMessage, Toast.LENGTH_LONG).show();
+            }
             doubleRecord = false;
         }
-        searchRestaurant.setEnabled(addToDataBase);
+
     }
 
     public void addAddressToDatabase(View view) throws SQLException {
