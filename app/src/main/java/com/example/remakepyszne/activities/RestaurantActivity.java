@@ -25,8 +25,10 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
     private Addresses addresses;
     private Restaurants restaurants;
     private ListView listViewRestaurant;
+    ImageView iconRestaurant;
     protected ArrayList<Restaurants> restaurantsArrayList = new ArrayList<Restaurants>();
     private static String query = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,16 +39,19 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
         addresses = intent.getParcelableExtra("currentAddress");
 
         listViewRestaurant = (ListView) findViewById(R.id.listViewRestaurant);
+        iconRestaurant = (ImageView) findViewById(R.id.iconRestaurant);
 
-        //dorobić szukanie po kategorii
+        setUpAdapter(null);
+    }
+
+    void setUpAdapter(String type) {
+
         query = "SELECT * FROM [remakePyszne].[dbo].[Restaurants] INNER JOIN [remakePyszne].[dbo].[DeliveryCity] " +
                 "ON [remakePyszne].[dbo].[Restaurants].restaurantid = [remakePyszne].[dbo].[DeliveryCity].restaurantid " +
                 "WHERE DeliveryCity.city LIKE '" + addresses.getCity() + "'";
-
-        setUpAdapter(query);
-    }
-
-    void setUpAdapter(String query){
+        if (type != null) {
+            query += " AND Restaurants.type LIKE '" + type + "'";
+        }
 
         try {
             restaurantsArrayList = new QueryHelper(query).tryLoginToDataBaseForRestaurants();
@@ -61,7 +66,39 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+        openActivity(restaurantsArrayList.get(i));
         Log.d("Current position", " " + restaurantsArrayList.get(i).getNameRestaurant() + " poz:" + i);
+    }
+
+    public void sortByPizza(View view) {
+        setUpAdapter("pizza");
+    }
+
+    public void sortByKebab(View view) {
+        setUpAdapter("kebab");
+    }
+
+    public void sortByIndyjska(View view) {
+        setUpAdapter("indyjska");
+    }
+
+    public void sortByWloska(View view) {
+        setUpAdapter("Włoska");
+    }
+
+    public void sortByBurger(View view) {
+        setUpAdapter("Burger");
+    }
+
+    public void sortByAll(View view) {
+        setUpAdapter(null);
+    }
+
+    public void openActivity(Restaurants restaurants) {
+        Intent intent = new Intent(this, ProductActivity.class);
+        intent.putExtra("currentUser", users);
+        intent.putExtra("currentAddress", addresses);
+        intent.putExtra("currentRestaurant", restaurants);
+        startActivity(intent);
     }
 }

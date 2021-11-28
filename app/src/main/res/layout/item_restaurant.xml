@@ -1,41 +1,74 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/iconRestaurant"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="@drawable/custom_image"
-        android:padding="5dp"
-        android:outlineProvider="background"
-        />
-
-    <TextView
-        android:id="@+id/nameRestaurant"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="Name"
-        android:textSize="25dp"
-        android:textStyle="bold"/>
+        android:orientation="horizontal"
+        android:background="#4D31CFE1">
 
-    <TextView
-        android:id="@+id/type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="type"
-        android:textSize="18dp"
-        android:textStyle="bold"/>
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
 
-    <TextView
-        android:id="@+id/address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="address"
-        android:textSize="15dp"/>
+            <ImageView
+                android:id="@+id/iconRestaurant"
+                android:layout_width="60dp"
+                android:layout_height="120dp"
+                android:background="@drawable/custom_image"
+                android:outlineProvider="background"
+                android:padding="5dp" />
+        </FrameLayout>
+
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/nameRestaurant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="1dp"
+            android:text="Name"
+            android:textSize="35dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="1dp"
+            android:text="type"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/pin"
+                android:layout_width="25dp"
+                android:layout_height="52dp"
+                app:srcCompat="@drawable/ic_pin" />
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="1dp"
+                android:text="address"
+                android:textSize="18dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

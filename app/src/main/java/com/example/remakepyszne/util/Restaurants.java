@@ -3,6 +3,8 @@ package com.example.remakepyszne.util;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.sql.Time;
+
 public class Restaurants implements Parcelable {
     private int restaurantID;
     private String nameRestaurant;
@@ -11,6 +13,9 @@ public class Restaurants implements Parcelable {
     private String number;
     private String city;
     private String zip;
+    private int logo;
+    private Time openingHour;
+    private Time closingHour;
 
     protected Restaurants(Parcel in) {
         restaurantID = in.readInt();
@@ -35,7 +40,6 @@ public class Restaurants implements Parcelable {
     };
 
     public Restaurants() {
-
     }
 
     @Override
@@ -62,6 +66,9 @@ public class Restaurants implements Parcelable {
         private String number;
         private String city;
         private String zip;
+        private int logo;
+        private Time openingHour;
+        private Time closingHour;
 
         public Builder restaurantID(int restaurantID) {
             this.restaurantID = restaurantID;
@@ -98,6 +105,21 @@ public class Restaurants implements Parcelable {
             return this;
         }
 
+        public Builder logo(int logo) {
+            this.logo = logo;
+            return this;
+        }
+
+        public Builder openingHour(Time openingHour) {
+            this.openingHour = openingHour;
+            return this;
+        }
+
+        public Builder closingHour(Time closingHour) {
+            this.closingHour = closingHour;
+            return this;
+        }
+
         public Restaurants build() {
             Restaurants restaurants = new Restaurants();
             restaurants.restaurantID = this.restaurantID;
@@ -107,6 +129,9 @@ public class Restaurants implements Parcelable {
             restaurants.number = this.number;
             restaurants.city = this.city;
             restaurants.zip = this.zip;
+            restaurants.logo = this.logo;
+            restaurants.openingHour = this.openingHour;
+            restaurants.closingHour = this.closingHour;
             return restaurants;
         }
     }
@@ -137,5 +162,17 @@ public class Restaurants implements Parcelable {
 
     public String getZip() {
         return zip;
+    }
+
+    public int getLogo() {
+        return logo;
+    }
+
+    public Time getOpeningHour() {
+        return openingHour;
+    }
+
+    public Time getClosingHour() {
+        return closingHour;
     }
 }

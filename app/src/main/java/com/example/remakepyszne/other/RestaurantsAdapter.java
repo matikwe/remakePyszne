@@ -1,6 +1,8 @@
 package com.example.remakepyszne.other;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ public class RestaurantsAdapter extends ArrayAdapter<Restaurants> {
         super(context, 0, restaurantsArrayAdapter);
     }
 
+    @SuppressLint("ResourceType")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -34,8 +37,23 @@ public class RestaurantsAdapter extends ArrayAdapter<Restaurants> {
 
         nameRestaurant.setText(restaurants.getNameRestaurant());
         type.setText(restaurants.getType());
-        iconRestaurant.setImageResource(R.drawable.test);
-        String addressString = "ul. Goplany 54a  \n44-321 Marklowice";
+
+        if (restaurants.getLogo() > 0) {
+            String name = "pobyku";
+
+            String t = "pobyku";
+            //iconRestaurant.setImageResource(restaurants.getLogo());
+            //iconRestaurant.setImageURI(Uri.parse("C:\\Users\\Mateusz\\AndroidStudioProjects\\remakePyszne\\app\\src\\main\\res\\drawable\\mcdonald.png"));
+            //String src= "C:\\Users\\Mateusz\\AndroidStudioProjects\\remakePyszne\\app\\src\\main\\res\\drawable\\mcdonald.png";
+            //Bitmap bmImg = BitmapFactory.decodeFile(src);
+            // iconRestaurant.setImageBitmap(bmImg);
+            iconRestaurant.setImageBitmap(BitmapFactory.decodeFile("../src/main/res/drawable/mcdonald.png"));
+        } else
+            iconRestaurant.setImageResource(R.drawable.test);
+
+        String addressString = "ul. " + restaurants.getStreet() + " " + restaurants.getNumber() + "\n"
+                + restaurants.getZip() + " " + restaurants.getCity();
+
         address.setText(addressString);
 
         return convertView;
