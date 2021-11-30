@@ -1,6 +1,7 @@
 package com.example.remakepyszne.activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.remakepyszne.R;
@@ -18,6 +20,7 @@ import com.example.remakepyszne.util.Restaurants;
 import com.example.remakepyszne.util.Users;
 
 import java.sql.SQLException;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
 public class RestaurantActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -29,6 +32,7 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
     protected ArrayList<Restaurants> restaurantsArrayList = new ArrayList<Restaurants>();
     private static String query = null;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,14 +48,25 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
         setUpAdapter(null);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     void setUpAdapter(String type) {
+
+        String time = java.time.LocalTime.now(ZoneId.of("ECT")).toString();
+        Log.d("Current time: ", time);
+
+        if (type == null) {
+            type = "";
+        }
 
         query = "SELECT * FROM [remakePyszne].[dbo].[Restaurants] INNER JOIN [remakePyszne].[dbo].[DeliveryCity] " +
                 "ON [remakePyszne].[dbo].[Restaurants].restaurantid = [remakePyszne].[dbo].[DeliveryCity].restaurantid " +
-                "WHERE DeliveryCity.city LIKE '" + addresses.getCity() + "'";
-        if (type != null) {
-            query += " AND Restaurants.type LIKE '" + type + "'";
-        }
+                "WHERE DeliveryCity.city LIKE '" + addresses.getCity() + "' AND Restaurants.type LIKE '" + type + "%' AND" +
+                "(Restaurants.openingHour < Restaurants.closingHour AND" +
+                "'" + time + "' >= Restaurants.openingHour AND" +
+                "'" + time + "' <= Restaurants.closingHour) OR (" +
+                "Restaurants.openingHour > Restaurants.closingHour AND" +
+                "('" + time + "' >= Restaurants.openingHour OR " +
+                "'" + time + "' <= Restaurants.closingHour))";
 
         try {
             restaurantsArrayList = new QueryHelper(query).tryLoginToDataBaseForRestaurants();
@@ -70,26 +85,32 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
         Log.d("Current position", " " + restaurantsArrayList.get(i).getNameRestaurant() + " poz:" + i);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void sortByPizza(View view) {
         setUpAdapter("pizza");
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void sortByKebab(View view) {
         setUpAdapter("kebab");
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void sortByIndyjska(View view) {
         setUpAdapter("indyjska");
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void sortByWloska(View view) {
-        setUpAdapter("Włoska");
+        setUpAdapter("włoska");
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void sortByBurger(View view) {
         setUpAdapter("Burger");
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void sortByAll(View view) {
         setUpAdapter(null);
     }

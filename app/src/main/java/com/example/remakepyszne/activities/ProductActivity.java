@@ -50,7 +50,7 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
                 "ON [remakePyszne].[dbo].[Restaurants].restaurantid = [remakePyszne].[dbo].[DeliveryCity].restaurantid " +
                 "INNER JOIN [remakePyszne].[dbo].[Products] " +
                 "ON [remakePyszne].[dbo].[Restaurants].restaurantid = [remakePyszne].[dbo].[Products].restaurantid " +
-                "WHERE DeliveryCity.city LIKE 'marklo' AND Restaurants.restaurantid = 1;";
+                "WHERE DeliveryCity.city LIKE '" + addresses.getCity() + "' AND Restaurants.restaurantid = " + restaurants.getRestaurantID() + ";";
 
         try {
             productsArrayList = new QueryHelper(query).tryLoginToDataBaseForProducts();
