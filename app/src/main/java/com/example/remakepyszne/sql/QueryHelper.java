@@ -81,9 +81,9 @@ public class QueryHelper {
                         .number(resultSet.getString(5))
                         .city(resultSet.getString(6))
                         .zip(resultSet.getString(7))
-                        .logo(resultSet.getInt(8))
-                        .openingHour(resultSet.getTime(9))
-                        .openingHour(resultSet.getTime(10))
+                        .openingHour(resultSet.getTime(8))
+                        .closingHour(resultSet.getTime(9))
+                        .image(resultSet.getString(10))
                         .build();
                 restaurantsList.add(restaurants);
             }

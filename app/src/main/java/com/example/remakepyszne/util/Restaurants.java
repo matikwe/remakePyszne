@@ -13,9 +13,9 @@ public class Restaurants implements Parcelable {
     private String number;
     private String city;
     private String zip;
-    private int logo;
     private Time openingHour;
     private Time closingHour;
+    private String image;
 
     protected Restaurants(Parcel in) {
         restaurantID = in.readInt();
@@ -66,9 +66,9 @@ public class Restaurants implements Parcelable {
         private String number;
         private String city;
         private String zip;
-        private int logo;
         private Time openingHour;
         private Time closingHour;
+        private String image;
 
         public Builder restaurantID(int restaurantID) {
             this.restaurantID = restaurantID;
@@ -105,8 +105,8 @@ public class Restaurants implements Parcelable {
             return this;
         }
 
-        public Builder logo(int logo) {
-            this.logo = logo;
+        public Builder image(String image) {
+            this.image = image;
             return this;
         }
 
@@ -129,9 +129,9 @@ public class Restaurants implements Parcelable {
             restaurants.number = this.number;
             restaurants.city = this.city;
             restaurants.zip = this.zip;
-            restaurants.logo = this.logo;
             restaurants.openingHour = this.openingHour;
             restaurants.closingHour = this.closingHour;
+            restaurants.image = this.image;
             return restaurants;
         }
     }
@@ -164,8 +164,8 @@ public class Restaurants implements Parcelable {
         return zip;
     }
 
-    public int getLogo() {
-        return logo;
+    public String getImage() {
+        return image;
     }
 
     public Time getOpeningHour() {

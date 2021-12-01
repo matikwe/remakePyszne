@@ -12,6 +12,7 @@ import android.widget.ListView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.remakepyszne.R;
 import com.example.remakepyszne.other.RestaurantsAdapter;
 import com.example.remakepyszne.sql.QueryHelper;
@@ -44,6 +45,9 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
 
         listViewRestaurant = (ListView) findViewById(R.id.listViewRestaurant);
         iconRestaurant = (ImageView) findViewById(R.id.iconRestaurant);
+
+        //int drawableResourceId = this.getResources().getIdentifier("pobyku", "drawable", this.getPackageName());
+        //iconRestaurant.setImageResource(drawableResourceId);
 
         setUpAdapter(null);
     }
