@@ -64,5 +64,4 @@ public class RestaurantsAdapter extends ArrayAdapter<Restaurants> {
 
         return convertView;
     }
-
 }

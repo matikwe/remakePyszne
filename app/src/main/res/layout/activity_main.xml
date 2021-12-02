@@ -8,103 +8,93 @@
     android:background="@drawable/background1"
     android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/loginTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:layout_marginBottom="54dp"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:text="@string/zaloguj_sie"
-        android:textSize="60sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/editTextLogin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/editTextLogin"
-        android:layout_marginBottom="53dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
 
-        android:layout_width="280dp"
-        android:layout_height="55dp"
-        android:background="@drawable/custom_input"
-        android:drawableStart="@drawable/ic_user"
-        android:drawablePadding="12dp"
-        android:ems="10"
-        android:hint="@string/login"
-        android:inputType="textPersonName"
-        android:padding="12dp"
-        android:textSize="15sp"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
+            <TextView
+                android:id="@+id/loginTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="68dp"
+                android:layout_marginBottom="54dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="@string/zaloguj_sie"
+                android:textSize="60sp"
+                android:textStyle="bold" />
 
-        android:maxLength="20"
-        app:layout_constraintBottom_toTopOf="@+id/editTextPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginTV"
-        tools:ignore="SpeakableTextPresentCheck" />
+            <EditText
+                android:id="@+id/editTextLogin"
+                android:layout_width="280dp"
 
-    <EditText
-        android:id="@+id/editTextPassword"
+                android:layout_height="55dp"
+                android:layout_marginBottom="53dp"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/ic_user"
+                android:drawablePadding="12dp"
+                android:ems="10"
+                android:hint="@string/login"
+                android:inputType="textPersonName"
+                android:maxLength="20"
+                android:padding="12dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
 
-        android:layout_width="280dp"
-        android:layout_height="55dp"
-        android:background="@drawable/custom_input"
-        android:drawableStart="@drawable/ic_password"
-        android:drawablePadding="12dp"
-        android:ems="10"
-        android:hint="@string/has_o"
-        android:padding="12dp"
-        android:paddingStart="12dp"
-        android:inputType="textPassword"
+                android:textSize="15sp"
+                tools:ignore="SpeakableTextPresentCheck" />
 
-        android:maxLength="30"
-        android:paddingEnd="12dp"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonLogin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editTextLogin"
-        app:layout_constraintTop_toBottomOf="@+id/editTextLogin"
-        tools:ignore="SpeakableTextPresentCheck"/>
+            <EditText
+                android:id="@+id/editTextPassword"
 
-    <Button
-        android:id="@+id/buttonLogin"
-        android:layout_width="250dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="10dp"
-        android:onClick="tryLoginOnClick"
-        android:text="@string/zaloguj"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:textAllCaps="false"
-        android:background="@drawable/custom_button"
-        app:backgroundTint="@null"
-        app:layout_constraintBottom_toTopOf="@+id/buttonRegister"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword"/>
+                android:layout_width="280dp"
+                android:layout_height="55dp"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/ic_password"
+                android:drawablePadding="12dp"
+                android:ems="10"
+                android:hint="@string/has_o"
+                android:inputType="textPassword"
+                android:maxLength="30"
+                android:padding="12dp"
 
-    <Button
-        android:id="@+id/buttonRegister"
-        android:layout_width="250dp"
-        android:layout_height="70dp"
-        android:layout_marginBottom="150dp"
-        android:onClick="openActivityRegister"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:textAllCaps="false"
-        android:background="@drawable/custom_button"
-        app:backgroundTint="@null"
-        android:text="@string/rejestracja"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textSize="15sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <Button
+                android:id="@+id/buttonLogin"
+                android:layout_width="250dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/custom_button"
+                android:onClick="tryLoginOnClick"
+                android:text="@string/zaloguj"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:backgroundTint="@null" />
+
+            <Button
+                android:id="@+id/buttonRegister"
+                android:layout_width="250dp"
+                android:layout_height="70dp"
+                android:layout_marginBottom="150dp"
+                android:background="@drawable/custom_button"
+                android:onClick="openActivityRegister"
+                android:text="@string/rejestracja"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:backgroundTint="@null" />
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

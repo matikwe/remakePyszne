@@ -8,11 +8,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
 import com.example.remakepyszne.R;
 import com.example.remakepyszne.other.RestaurantsAdapter;
 import com.example.remakepyszne.sql.QueryHelper;
@@ -31,7 +31,7 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
     private ListView listViewRestaurant;
     ImageView iconRestaurant;
     protected ArrayList<Restaurants> restaurantsArrayList = new ArrayList<Restaurants>();
-    private static String query = null;
+    static final String emptyListRestaurants = "W tej chwili żadna restauracja nie przyjmuje zmówień dla tej kategorii.\nSpróbuj ponownie później!";
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -46,9 +46,6 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
         listViewRestaurant = (ListView) findViewById(R.id.listViewRestaurant);
         iconRestaurant = (ImageView) findViewById(R.id.iconRestaurant);
 
-        //int drawableResourceId = this.getResources().getIdentifier("pobyku", "drawable", this.getPackageName());
-        //iconRestaurant.setImageResource(drawableResourceId);
-
         setUpAdapter(null);
     }
 
@@ -62,18 +59,8 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
             type = "";
         }
 
-        query = "SELECT * FROM [remakePyszne].[dbo].[Restaurants] INNER JOIN [remakePyszne].[dbo].[DeliveryCity] " +
-                "ON [remakePyszne].[dbo].[Restaurants].restaurantid = [remakePyszne].[dbo].[DeliveryCity].restaurantid " +
-                "WHERE DeliveryCity.city LIKE '" + addresses.getCity() + "' AND Restaurants.type LIKE '" + type + "%' AND" +
-                "(Restaurants.openingHour < Restaurants.closingHour AND" +
-                "'" + time + "' >= Restaurants.openingHour AND" +
-                "'" + time + "' <= Restaurants.closingHour) OR (" +
-                "Restaurants.openingHour > Restaurants.closingHour AND" +
-                "('" + time + "' >= Restaurants.openingHour OR " +
-                "'" + time + "' <= Restaurants.closingHour))";
-
         try {
-            restaurantsArrayList = new QueryHelper(query).tryLoginToDataBaseForRestaurants();
+            restaurantsArrayList = new QueryHelper(getQueryToListRestaurants(time, type)).tryLoginToDataBaseForRestaurants();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -81,6 +68,10 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
         RestaurantsAdapter restaurantsAdapter = new RestaurantsAdapter(this, restaurantsArrayList);
         listViewRestaurant.setAdapter(restaurantsAdapter);
         listViewRestaurant.setOnItemClickListener(this);
+
+        if(restaurantsArrayList.isEmpty()) {
+            Toast.makeText(getApplicationContext(), emptyListRestaurants, Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -125,5 +116,18 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
         intent.putExtra("currentAddress", addresses);
         intent.putExtra("currentRestaurant", restaurants);
         startActivity(intent);
+    }
+
+    String getQueryToListRestaurants(String time, String type) {
+        String query = "SELECT * FROM [remakePyszne].[dbo].[Restaurants] INNER JOIN [remakePyszne].[dbo].[DeliveryCity] " +
+                "ON [remakePyszne].[dbo].[Restaurants].restaurantid = [remakePyszne].[dbo].[DeliveryCity].restaurantid " +
+                "WHERE DeliveryCity.city LIKE '" + addresses.getCity() + "' AND Restaurants.type LIKE '" + type + "%' AND" +
+                "(Restaurants.openingHour < Restaurants.closingHour AND" +
+                "'" + time + "' >= Restaurants.openingHour AND" +
+                "'" + time + "' <= Restaurants.closingHour) OR (" +
+                "Restaurants.openingHour > Restaurants.closingHour AND" +
+                "('" + time + "' >= Restaurants.openingHour OR " +
+                "'" + time + "' <= Restaurants.closingHour))";
+        return query;
     }
 }

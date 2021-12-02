@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,6 +27,7 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
     private Restaurants restaurants;
     private ListView listViewProduct;
     protected ArrayList<Products> productsArrayList = new ArrayList<>();
+    TextView availableProduct;
     String query;
 
     @Override
@@ -38,6 +40,7 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
         addresses = intent.getParcelableExtra("currentAddress");
         restaurants = intent.getParcelableExtra("currentRestaurant");
         listViewProduct = (ListView) findViewById(R.id.listViewProduct);
+        availableProduct = (TextView) findViewById(R.id.TextViewAvailableProduct);
 
         Log.d("Current: ", restaurants.getNameRestaurant() + " " + addresses.getStreet() + " " + users.getLogin());
 
@@ -45,15 +48,10 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
     }
 
     void setUpAdapter() {
-        query = "SELECT *  FROM [remakePyszne].[dbo].[Restaurants] " +
-                "INNER JOIN [remakePyszne].[dbo].[DeliveryCity] " +
-                "ON [remakePyszne].[dbo].[Restaurants].restaurantid = [remakePyszne].[dbo].[DeliveryCity].restaurantid " +
-                "INNER JOIN [remakePyszne].[dbo].[Products] " +
-                "ON [remakePyszne].[dbo].[Restaurants].restaurantid = [remakePyszne].[dbo].[Products].restaurantid " +
-                "WHERE DeliveryCity.city LIKE '" + addresses.getCity() + "' AND Restaurants.restaurantid = " + restaurants.getRestaurantID() + ";";
+        availableProduct.setText("Dostępne produkty z: " + restaurants.getNameRestaurant());
 
         try {
-            productsArrayList = new QueryHelper(query).tryLoginToDataBaseForProducts();
+            productsArrayList = new QueryHelper(getQueryToListProducts()).tryLoginToDataBaseForProducts();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -66,6 +64,29 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Log.d("Current position", " " + productsArrayList.get(i).getNameProduct() + " poz:" + i);
+        int count = 1;
+        String query = "INSERT INTO [remakePyszne].[dbo].[ShopCart] (userid,productid,quantity,restaurantid) " +
+                "VALUES (" + users.getId() + "," + productsArrayList.get(i).getProductID() + "," + count + "," + restaurants.getRestaurantID() + ");";
 
+        new QueryHelper(query).tryConnectToDatabase();
+
+    }
+
+    String getQueryToListProducts() {
+        String query = "SELECT *  FROM [remakePyszne].[dbo].[Restaurants] " +
+                "INNER JOIN [remakePyszne].[dbo].[DeliveryCity] " +
+                "ON [remakePyszne].[dbo].[Restaurants].restaurantid = [remakePyszne].[dbo].[DeliveryCity].restaurantid " +
+                "INNER JOIN [remakePyszne].[dbo].[Products] " +
+                "ON [remakePyszne].[dbo].[Restaurants].restaurantid = [remakePyszne].[dbo].[Products].restaurantid " +
+                "WHERE DeliveryCity.city LIKE '" + addresses.getCity() + "' AND Restaurants.restaurantid = " + restaurants.getRestaurantID() + ";";
+        return query;
+    }
+
+    public void openShopCart(View view) {
+        Intent intent = new Intent(this, ShopCartActivity.class);
+        intent.putExtra("currentUser", users);
+        intent.putExtra("currentAddress", addresses);
+        intent.putExtra("currentRestaurant", restaurants);
+        startActivity(intent);
     }
 }

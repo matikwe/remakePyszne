@@ -105,7 +105,7 @@ public class QueryHelper {
                         .nameProduct(resultSet.getString("nameProduct"))
                         .category(resultSet.getString("category"))
                         .price(resultSet.getFloat("price"))
-                        .logo(resultSet.getString("logo"))
+                        .image(resultSet.getString("imageProduct"))
                         .build();
                 productsArrayList.add(products);
             }

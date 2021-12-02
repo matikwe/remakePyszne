@@ -9,7 +9,7 @@ public class Products implements Parcelable {
     private String nameProduct;
     private String category;
     private float price;
-    private String logo;
+    private String image;
 
     protected Products(Parcel in) {
         productID = in.readInt();
@@ -17,7 +17,7 @@ public class Products implements Parcelable {
         nameProduct = in.readString();
         category = in.readString();
         price = in.readInt();
-        logo = in.readString();
+        image = in.readString();
     }
 
     public static final Creator<Products> CREATOR = new Creator<Products>() {
@@ -48,7 +48,7 @@ public class Products implements Parcelable {
         parcel.writeString(nameProduct);
         parcel.writeString(category);
         parcel.writeFloat(price);
-        parcel.writeString(logo);
+        parcel.writeString(image);
     }
 
     public static final class Builder {
@@ -57,7 +57,7 @@ public class Products implements Parcelable {
         private String nameProduct;
         private String category;
         private float price;
-        private String logo;
+        private String image;
 
         public Builder productID(int productID) {
             this.productID = productID;
@@ -84,8 +84,8 @@ public class Products implements Parcelable {
             return this;
         }
 
-        public Builder logo(String logo) {
-            this.logo = logo;
+        public Builder image(String image) {
+            this.image = image;
             return this;
         }
 
@@ -96,7 +96,7 @@ public class Products implements Parcelable {
             products.nameProduct = this.nameProduct;
             products.category = this.category;
             products.price = this.price;
-            products.logo = this.logo;
+            products.image = this.image;
             return products;
         }
     }
@@ -120,7 +120,7 @@ public class Products implements Parcelable {
         return price;
     }
 
-    public String getLogo() {
-        return logo;
+    public String getImage() {
+        return image;
     }
 }

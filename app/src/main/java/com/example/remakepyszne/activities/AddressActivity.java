@@ -126,8 +126,7 @@ public class AddressActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), unlockedFields, Toast.LENGTH_LONG).show();
 
             stateEditText = true;
-
-    }
+        }
         searchRestaurant.setEnabled(false);
 
         EditTextNonEditable(stateEditText);
@@ -156,7 +155,7 @@ public class AddressActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), badFormatZip, Toast.LENGTH_LONG).show();
                 addToDataBase = false;
             }
-            if(addToDataBase && doubleRecord) {
+            if (addToDataBase && doubleRecord) {
                 searchRestaurant.setEnabled(true);
                 Toast.makeText(getApplicationContext(), searchRestaurantMessage, Toast.LENGTH_LONG).show();
             }
@@ -178,7 +177,6 @@ public class AddressActivity extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), notSelectedMethod, Toast.LENGTH_LONG).show();
         }
-        Toast.makeText(getApplicationContext(), addresses.getCity(), Toast.LENGTH_LONG).show();
         addToDataBase = false;
     }
 
