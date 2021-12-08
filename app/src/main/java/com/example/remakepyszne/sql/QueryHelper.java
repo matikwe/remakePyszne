@@ -6,6 +6,7 @@ import android.util.Log;
 import com.example.remakepyszne.util.Addresses;
 import com.example.remakepyszne.util.Products;
 import com.example.remakepyszne.util.Restaurants;
+import com.example.remakepyszne.util.ShopCart;
 import com.example.remakepyszne.util.Users;
 
 import java.sql.Connection;
@@ -113,6 +114,37 @@ public class QueryHelper {
             Log.d("Error database", "Error query");
         }
         return productsArrayList;
+    }
+
+    public ArrayList<ShopCart> tryLoginToDataBaseForShopCart() throws SQLException {
+        ShopCart shopCart = new ShopCart();
+        ArrayList<ShopCart> shopCartArrayList = new ArrayList<>();
+        ResultSet resultSet = tryConnectToDatabase();
+        if(resultSet!=null){
+            while (resultSet.next()){
+                shopCart = new ShopCart.Builder()
+                        .shopCartid(resultSet.getInt("shopCartid"))
+                        .userid(resultSet.getInt("userid"))
+                        .productID(resultSet.getInt("productid"))
+                        .quantity(resultSet.getInt("quantity"))
+                        .restaurantID(resultSet.getInt("restaurantid"))
+                        .price(resultSet.getFloat("price"))
+                        .build();
+                shopCartArrayList.add(shopCart);
+            }
+        }else {
+            Log.d("Error database", "Error query");
+        }
+        return shopCartArrayList;
+    }
+
+    public int getQuantity() throws SQLException {
+        int quantity = 0;
+        ResultSet resultSet = tryConnectToDatabase();
+        while (resultSet.next()){
+            quantity = resultSet.getInt("quantity");
+        }
+        return quantity;
     }
 
     @SuppressLint("LongLogTag")

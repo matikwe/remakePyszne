@@ -1,10 +1,12 @@
 package com.example.remakepyszne.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -16,17 +18,21 @@ import com.example.remakepyszne.sql.QueryHelper;
 import com.example.remakepyszne.util.Addresses;
 import com.example.remakepyszne.util.Products;
 import com.example.remakepyszne.util.Restaurants;
+import com.example.remakepyszne.util.ShopCart;
 import com.example.remakepyszne.util.Users;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ProductActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private Users users;
     private Addresses addresses;
     private Restaurants restaurants;
     private ListView listViewProduct;
+    private Button buttonShopCart;
     protected ArrayList<Products> productsArrayList = new ArrayList<>();
+    ArrayList<ShopCart> shopCartArrayList = null;
     TextView availableProduct;
     String query;
 
@@ -44,32 +50,51 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
 
         Log.d("Current: ", restaurants.getNameRestaurant() + " " + addresses.getStreet() + " " + users.getLogin());
 
-        setUpAdapter();
-    }
-
-    void setUpAdapter() {
-        availableProduct.setText("Dostępne produkty z: " + restaurants.getNameRestaurant());
-
         try {
-            productsArrayList = new QueryHelper(getQueryToListProducts()).tryLoginToDataBaseForProducts();
+            setUpAdapter();
+            updateShopCartIcon();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    void setUpAdapter() throws SQLException {
+        availableProduct.setText("Dostępne produkty z: " + restaurants.getNameRestaurant());
+
+        productsArrayList = new QueryHelper(getQueryToListProducts()).tryLoginToDataBaseForProducts();
 
         ProductsAdapter productsAdapter = new ProductsAdapter(this, productsArrayList);
         listViewProduct.setAdapter(productsAdapter);
         listViewProduct.setOnItemClickListener(this);
+
+        buttonShopCart = (Button) findViewById(R.id.buttonShopCart);
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Log.d("Current position", " " + productsArrayList.get(i).getNameProduct() + " poz:" + i);
-        int count = 1;
-        String query = "INSERT INTO [remakePyszne].[dbo].[ShopCart] (userid,productid,quantity,restaurantid) " +
-                "VALUES (" + users.getId() + "," + productsArrayList.get(i).getProductID() + "," + count + "," + restaurants.getRestaurantID() + ");";
+        String query = "SELECT * FROM [remakePyszne].[dbo].[ShopCart] WHERE userid=" + users.getId() + "AND productid="
+                + productsArrayList.get(i).getProductID() + "AND restaurantid=" + restaurants.getRestaurantID();
+        try {
+            shopCartArrayList = new QueryHelper(query).tryLoginToDataBaseForShopCart();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        if (Objects.requireNonNull(shopCartArrayList).isEmpty()) {
+            String queryAddProductToShoCart = "INSERT INTO [remakePyszne].[dbo].[ShopCart] (userid,productid,quantity,restaurantid) " +
+                    "VALUES (" + users.getId() + "," + productsArrayList.get(i).getProductID() + "," + 1 + "," + restaurants.getRestaurantID() + ");";
 
-        new QueryHelper(query).tryConnectToDatabase();
-
+            new QueryHelper(queryAddProductToShoCart).tryConnectToDatabase();
+        } else {
+            String updateProduct = "UPDATE [remakePyszne].[dbo].[ShopCart] SET quantity = " + (shopCartArrayList.get(0).getQuantity() + 1) + " WHERE userid=" + users.getId()
+                    + "AND productid=" + productsArrayList.get(i).getProductID() + "AND restaurantid=" + restaurants.getRestaurantID();
+            new QueryHelper(updateProduct).tryConnectToDatabase();
+        }
+        try {
+            updateShopCartIcon();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     String getQueryToListProducts() {
@@ -88,5 +113,16 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
         intent.putExtra("currentAddress", addresses);
         intent.putExtra("currentRestaurant", restaurants);
         startActivity(intent);
+    }
+
+    @SuppressLint("SetTextI18n")
+    void updateShopCartIcon() throws SQLException {
+        String query = "SELECT sum(quantity) AS 'quantity' FROM [remakePyszne].[dbo].[ShopCart] WHERE userid=" +
+                users.getId() + "AND restaurantid=" + restaurants.getRestaurantID();
+        int quantity = new QueryHelper(query).getQuantity();
+        if (quantity == 0)
+            buttonShopCart.setText("KOSZYK(" + 0 + ")");
+        else
+            buttonShopCart.setText("KOSZYK(" + quantity + ")");
     }
 }
