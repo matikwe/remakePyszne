@@ -10,6 +10,8 @@ public class ShopCart implements Parcelable {
     private int quantity;
     private int restaurantID;
     private float price;
+    private String nameProduct;
+    private String imageProduct;
 
     protected ShopCart(Parcel in) {
         shopCartid = in.readInt();
@@ -58,6 +60,8 @@ public class ShopCart implements Parcelable {
         private int quantity;
         private int restaurantID;
         private float price;
+        private String nameProduct;
+        private String imageProduct;
 
         public Builder shopCartid(int shopCartid) {
             this.shopCartid = shopCartid;
@@ -89,6 +93,16 @@ public class ShopCart implements Parcelable {
             return this;
         }
 
+        public Builder nameProduct(String nameProduct) {
+            this.nameProduct = nameProduct;
+            return this;
+        }
+
+        public Builder imageProduct(String imageProduct) {
+            this.imageProduct = imageProduct;
+            return this;
+        }
+
         public ShopCart build() {
             ShopCart shopCart = new ShopCart();
             shopCart.shopCartid = this.shopCartid;
@@ -97,6 +111,8 @@ public class ShopCart implements Parcelable {
             shopCart.quantity = this.quantity;
             shopCart.restaurantID = this.restaurantID;
             shopCart.price = this.price;
+            shopCart.nameProduct = this.nameProduct;
+            shopCart.imageProduct = this.imageProduct;
             return shopCart;
         }
     }
@@ -147,5 +163,21 @@ public class ShopCart implements Parcelable {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public String getNameProduct() {
+        return nameProduct;
+    }
+
+    public void setNameProduct(String nameProduct) {
+        this.nameProduct = nameProduct;
+    }
+
+    public String getImageProduct() {
+        return imageProduct;
+    }
+
+    public void setImageProduct(String imageProduct) {
+        this.imageProduct = imageProduct;
     }
 }

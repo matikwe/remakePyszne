@@ -129,6 +129,8 @@ public class QueryHelper {
                         .quantity(resultSet.getInt("quantity"))
                         .restaurantID(resultSet.getInt("restaurantid"))
                         .price(resultSet.getFloat("price"))
+                        .nameProduct(resultSet.getString("nameProduct"))
+                        .imageProduct(resultSet.getString("imageProduct"))
                         .build();
                 shopCartArrayList.add(shopCart);
             }

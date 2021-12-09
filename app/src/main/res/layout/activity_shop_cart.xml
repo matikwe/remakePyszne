@@ -1,34 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context="activities.ShopCartActivity"
-        android:padding="10dp"
-        android:background="@drawable/background1"
-        android:gravity="right">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background1"
+    android:gravity="right"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context="activities.ShopCartActivity">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:text="Twój koszyk"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            android:gravity="center"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:gravity="center"
+        android:text="Twój koszyk"
+        android:textSize="26sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/backToProduct"
-            android:layout_width="170dp"
-            android:layout_height="50dp"
-            android:text="Powrót do zakupów"
+            android:layout_width="130dp"
+            android:layout_height="70dp"
             android:onClick="backToProduct"
-            tools:ignore="OnClick" />
+            android:text="Powrót do zakupów"
+            tools:ignore="OnClick"
+            android:background="@drawable/custom_button"
+            app:backgroundTint="@null"
+            android:textColor="@color/black"
+            android:layout_marginRight="10dp"/>
 
-        <ListView
-            android:id="@+id/listViewShopCart"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/orderProduct"
+            android:layout_width="130dp"
+            android:layout_height="70dp"
+            android:onClick="orderProduct"
+            android:text="Zamów produkty"
+            android:background="@drawable/custom_button"
+            app:backgroundTint="@null"
+            android:textColor="@color/black"
+            android:layout_marginRight="10dp"/>
+
+        <Button
+            android:id="@+id/refresh"
+            android:layout_width="60dp"
+            android:layout_height="70dp"
+            android:onClick="refreshShopCart"
+            android:background="@drawable/custom_button"
+            app:backgroundTint="@null"
+            android:textColor="@color/black"
+            android:drawableLeft="@drawable/ic_baseline_refresh_24"/>
 
     </LinearLayout>
+
+    <ListView
+        android:id="@+id/listViewShopCart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"/>
+
+</LinearLayout>

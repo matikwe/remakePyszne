@@ -6,6 +6,7 @@
         <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/drawable/custom_button.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/drawable/custom_image.xml" value="0.202734375" />
         <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/drawable/custom_input.xml" value="0.2703125" />
+        <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/drawable/ic_baseline_refresh_24.xml" value="0.1015625" />
         <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/drawable/ic_password.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/drawable/ic_shopping_cart.xml" value="0.202734375" />
         <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/drawable/ic_user.xml" value="0.2703125" />
@@ -15,14 +16,14 @@
         <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/layout/activity_homeuser.xml" value="0.2" />
         <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/layout/activity_main.xml" value="0.4" />
         <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/layout/activity_managerhome.xml" value="0.1" />
-        <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/layout/activity_product.xml" value="0.1" />
+        <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/layout/activity_product.xml" value="0.2" />
         <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/layout/activity_register.xml" value="0.34782608695652173" />
         <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/layout/activity_restaurant.xml" value="0.152" />
         <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/layout/activity_shop_cart.xml" value="0.1" />
         <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/layout/activity_test.xml" value="0.103125" />
         <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/layout/item_product.xml" value="0.1" />
         <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/layout/item_restaurant.xml" value="0.12998522895125553" />
-        <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/layout/item_shopcart.xml" value="0.1" />
+        <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/layout/item_shopcart.xml" value="0.2" />
         <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/layout/item_sort.xml" value="0.1" />
         <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/layout/item_user.xml" value="0.1" />
         <entry key="..\:/Users/Mateusz/AndroidStudioProjects/remakePyszne/app/src/main/res/menu/menu_navigation.xml" value="0.25416666666666665" />

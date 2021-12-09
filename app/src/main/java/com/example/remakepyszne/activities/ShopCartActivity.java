@@ -26,6 +26,7 @@ public class ShopCartActivity extends AppCompatActivity implements AdapterView.O
     private Restaurants restaurants;
     private ListView listViewShopCart;
     protected ArrayList<ShopCart> shopCartArrayList = new ArrayList<>();
+    ShopCartAdapter shopCartAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,29 +39,49 @@ public class ShopCartActivity extends AppCompatActivity implements AdapterView.O
         restaurants = intent.getParcelableExtra("currentRestaurant");
 
         listViewShopCart = (ListView) findViewById(R.id.listViewShopCart);
-        String query = "SELECT * FROM [remakePyszne].[dbo].[ShopCart] WHERE userid=" + users.getId()
-                + "AND restaurantid=" + restaurants.getRestaurantID();
+
         try {
-            shopCartArrayList = new QueryHelper(query).tryLoginToDataBaseForShopCart();
+            shopCartArrayList = new QueryHelper(getQueryToShopCartList()).tryLoginToDataBaseForShopCart();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
-        ShopCartAdapter shopCartAdapter = new ShopCartAdapter(this, shopCartArrayList);
+        shopCartAdapter = new ShopCartAdapter(this, shopCartArrayList);
         listViewShopCart.setAdapter(shopCartAdapter);
         listViewShopCart.setOnItemClickListener(this);
-    }
-
-    public void backToProduct(View view) {
-        Intent intent = new Intent(this, ProductActivity.class);
-        intent.putExtra("currentUser", users);
-        intent.putExtra("currentAddress", addresses);
-        intent.putExtra("currentRestaurant", restaurants);
-        startActivity(intent);
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+    }
+
+    String getQueryToShopCartList() {
+        String query = "SELECT shopCartid, userid, ShopCart.productid, quantity, ShopCart.restaurantid, ShopCart.price, nameProduct, imageProduct " +
+                "FROM [remakePyszne].[dbo].[ShopCart]" +
+                "INNER JOIN [remakePyszne].[dbo].[Products] " +
+                "ON [remakePyszne].[dbo].[ShopCart].productid = [remakePyszne].[dbo].[Products].productid" +
+                " WHERE userid=" + users.getId() + " AND ShopCart.restaurantid=" + restaurants.getRestaurantID();
+        return query;
+    }
+
+    public void backToProduct(View view) {
+        openActivity(ProductActivity.class);
+    }
+
+    public void orderProduct(View view) {
+
+    }
+
+    public void refreshShopCart(View view) {
+        openActivity(ShopCartActivity.class);
+    }
+
+    public void openActivity(Class<?> cls){
+        Intent intent = new Intent(this, cls);
+        intent.putExtra("currentUser", users);
+        intent.putExtra("currentAddress", addresses);
+        intent.putExtra("currentRestaurant", restaurants);
+        startActivity(intent);
     }
 }
