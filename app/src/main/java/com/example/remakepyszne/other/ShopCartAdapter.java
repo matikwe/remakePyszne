@@ -17,15 +17,27 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.remakepyszne.R;
 import com.example.remakepyszne.activities.ShopCartActivity;
 import com.example.remakepyszne.sql.QueryHelper;
+import com.example.remakepyszne.util.Addresses;
+import com.example.remakepyszne.util.Restaurants;
 import com.example.remakepyszne.util.ShopCart;
+import com.example.remakepyszne.util.Users;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 
 public class ShopCartAdapter extends ArrayAdapter<ShopCart> {
-    public ShopCartAdapter(Context context, ArrayList<ShopCart> shopCartArrayList) {
+    Context context;
+    Users users;
+    Addresses addresses;
+    Restaurants restaurants;
+
+    public ShopCartAdapter(Context context, ArrayList<ShopCart> shopCartArrayList, Users users, Addresses addresses, Restaurants restaurants) {
         super(context, 0, shopCartArrayList);
+        this.context = context;
+        this.users = users;
+        this.addresses = addresses;
+        this.restaurants = restaurants;
     }
 
     @SuppressLint("ResourceType")
@@ -63,6 +75,7 @@ public class ShopCartAdapter extends ArrayAdapter<ShopCart> {
                 }
                 if (shopCart.getQuantity() == 0) {
                     deleteProductFromShopCart(shopCart);
+                    refreshShopCart();
                 }
 
                 loadContent(finalConvertView, shopCart);
@@ -73,11 +86,19 @@ public class ShopCartAdapter extends ArrayAdapter<ShopCart> {
             @Override
             public void onClick(View view) {
                 deleteProductFromShopCart(shopCart);
-                loadContent(finalConvertView, shopCart);
+                refreshShopCart();
             }
         });
 
         return convertView;
+    }
+
+    void refreshShopCart() {
+        Intent intent = new Intent(context, ShopCartActivity.class);
+        intent.putExtra("currentUser", users);
+        intent.putExtra("currentAddress", addresses);
+        intent.putExtra("currentRestaurant", restaurants);
+        context.startActivity(intent);
     }
 
     void deleteProductFromShopCart(ShopCart shopCart) {

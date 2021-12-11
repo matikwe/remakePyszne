@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,6 +28,7 @@ public class ShopCartActivity extends AppCompatActivity implements AdapterView.O
     private ListView listViewShopCart;
     protected ArrayList<ShopCart> shopCartArrayList = new ArrayList<>();
     ShopCartAdapter shopCartAdapter;
+    final String emptyShopCart = "Twój koszyk jest pusty...";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +48,7 @@ public class ShopCartActivity extends AppCompatActivity implements AdapterView.O
             throwables.printStackTrace();
         }
 
-        shopCartAdapter = new ShopCartAdapter(this, shopCartArrayList);
+        shopCartAdapter = new ShopCartAdapter(this, shopCartArrayList,users, addresses,restaurants);
         listViewShopCart.setAdapter(shopCartAdapter);
         listViewShopCart.setOnItemClickListener(this);
     }
@@ -69,12 +71,16 @@ public class ShopCartActivity extends AppCompatActivity implements AdapterView.O
         openActivity(ProductActivity.class);
     }
 
-    public void orderProduct(View view) {
+    public void orderProduct(View view) throws SQLException {
+        String query = "SELECT sum(quantity) AS quantity FROM [remakePyszne].[dbo].[ShopCart] WHERE userid=" + users.getId() + " AND ShopCart.restaurantid=" + restaurants.getRestaurantID();
+        int quantity = new QueryHelper(query).getQuantity();
 
-    }
-
-    public void refreshShopCart(View view) {
-        openActivity(ShopCartActivity.class);
+        if(quantity >= 1){
+            //add to orders
+            openActivity(OrderProductActivity.class);
+        }else{
+            Toast.makeText(getApplicationContext(), emptyShopCart, Toast.LENGTH_LONG).show();
+        }
     }
 
     public void openActivity(Class<?> cls){

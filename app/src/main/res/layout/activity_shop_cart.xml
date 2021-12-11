@@ -48,16 +48,6 @@
             android:textColor="@color/black"
             android:layout_marginRight="10dp"/>
 
-        <Button
-            android:id="@+id/refresh"
-            android:layout_width="60dp"
-            android:layout_height="70dp"
-            android:onClick="refreshShopCart"
-            android:background="@drawable/custom_button"
-            app:backgroundTint="@null"
-            android:textColor="@color/black"
-            android:drawableLeft="@drawable/ic_baseline_refresh_24"/>
-
     </LinearLayout>
 
     <ListView
