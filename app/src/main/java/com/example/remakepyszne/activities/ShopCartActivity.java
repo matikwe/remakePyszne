@@ -20,6 +20,8 @@ import com.example.remakepyszne.util.Restaurants;
 import com.example.remakepyszne.util.ShopCart;
 import com.example.remakepyszne.util.Users;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -100,7 +102,9 @@ public class ShopCartActivity extends AppCompatActivity implements AdapterView.O
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDateTime now = LocalDateTime.now();
 
-        String insert = "INSERT INTO [remakePyszne].[dbo].[Orders] (userid, restaurantid, addressid, description, orderTime, orderDate, state, totalPrice) VALUES(" + shopCart.getUserid() + "," + shopCart.getRestaurantID() + "," + addresses.getAddressID() + ",'" + getAllShopCart() + "','" + timeFormatter.format(time) + "','" + dtf.format(now) + "','w realizacji'," + shopCart.getQuantity() * shopCart.getPrice() + ")";
+        String insert = "INSERT INTO [remakePyszne].[dbo].[Orders] (userid, restaurantid, addressid, description, orderTime, orderDate, state, totalPrice) VALUES("
+                + shopCart.getUserid() + "," + shopCart.getRestaurantID() + "," + addresses.getAddressID() + ",'" + getAllShopCart()
+                + "','" + timeFormatter.format(time) + "','" + dtf.format(now) + "','w realizacji'," + getTotalCost() + ")";
         new QueryHelper(insert).tryConnectToDatabase();
     }
 
@@ -112,6 +116,16 @@ public class ShopCartActivity extends AppCompatActivity implements AdapterView.O
         }
 
         return items.toString();
+    }
+
+    BigDecimal getTotalCost() {
+        float total = 0;
+
+        for (ShopCart shopCart : shopCartArrayList) {
+            total += (shopCart.getQuantity() * shopCart.getPrice());
+        }
+        BigDecimal bd = BigDecimal.valueOf(total);
+        return bd.setScale(2, RoundingMode.HALF_UP);
     }
 
     void deleteShopCartFromUser(ShopCart shopCart) {
