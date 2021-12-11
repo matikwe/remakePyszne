@@ -46,6 +46,8 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
         listViewRestaurant = (ListView) findViewById(R.id.listViewRestaurant);
         iconRestaurant = (ImageView) findViewById(R.id.iconRestaurant);
 
+        Log.d("date", users.getLogin()+addresses.getCity());
+
         setUpAdapter(null);
     }
 

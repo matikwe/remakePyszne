@@ -1,12 +1,15 @@
 package com.example.remakepyszne.activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.remakepyszne.R;
@@ -18,6 +21,9 @@ import com.example.remakepyszne.util.ShopCart;
 import com.example.remakepyszne.util.Users;
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class ShopCartActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -48,9 +54,10 @@ public class ShopCartActivity extends AppCompatActivity implements AdapterView.O
             throwables.printStackTrace();
         }
 
-        shopCartAdapter = new ShopCartAdapter(this, shopCartArrayList,users, addresses,restaurants);
+        shopCartAdapter = new ShopCartAdapter(this, shopCartArrayList, users, addresses, restaurants);
         listViewShopCart.setAdapter(shopCartAdapter);
         listViewShopCart.setOnItemClickListener(this);
+        Log.d("date", users.getLogin() + addresses.getCity() + restaurants.getNameRestaurant());
     }
 
     @Override
@@ -71,19 +78,48 @@ public class ShopCartActivity extends AppCompatActivity implements AdapterView.O
         openActivity(ProductActivity.class);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void orderProduct(View view) throws SQLException {
         String query = "SELECT sum(quantity) AS quantity FROM [remakePyszne].[dbo].[ShopCart] WHERE userid=" + users.getId() + " AND ShopCart.restaurantid=" + restaurants.getRestaurantID();
         int quantity = new QueryHelper(query).getQuantity();
 
-        if(quantity >= 1){
-            //add to orders
+        if (quantity >= 1) {
+            insertProductToOrder(shopCartArrayList.get(0));
+            deleteShopCartFromUser(shopCartArrayList.get(0));
             openActivity(OrderProductActivity.class);
-        }else{
+        } else {
             Toast.makeText(getApplicationContext(), emptyShopCart, Toast.LENGTH_LONG).show();
         }
     }
 
-    public void openActivity(Class<?> cls){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    void insertProductToOrder(ShopCart shopCart) {
+        LocalDateTime time = LocalDateTime.now(ZoneId.of("ECT"));
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDateTime now = LocalDateTime.now();
+
+        String insert = "INSERT INTO [remakePyszne].[dbo].[Orders] (userid, restaurantid, addressid, description, orderTime, orderDate, state, totalPrice) VALUES(" + shopCart.getUserid() + "," + shopCart.getRestaurantID() + "," + addresses.getAddressID() + ",'" + getAllShopCart() + "','" + timeFormatter.format(time) + "','" + dtf.format(now) + "','w realizacji'," + shopCart.getPrice() + ")";
+        new QueryHelper(insert).tryConnectToDatabase();
+    }
+
+    String getAllShopCart() {
+        StringBuilder items = new StringBuilder();
+
+        for (ShopCart shopCart : shopCartArrayList) {
+            items.append(shopCart.getQuantity()).append(" x ").append(shopCart.getNameProduct()).append(" = ").append(shopCart.getQuantity() * shopCart.getPrice()).append(", ");
+        }
+
+        return items.toString();
+    }
+
+    void deleteShopCartFromUser(ShopCart shopCart) {
+        String delete = "DELETE FROM [remakePyszne].[dbo].[ShopCart] WHERE userid=" + shopCart.getUserid() + " AND restaurantid=" + shopCart.getRestaurantID();
+        new QueryHelper(delete).tryConnectToDatabase();
+    }
+
+    public void openActivity(Class<?> cls) {
         Intent intent = new Intent(this, cls);
         intent.putExtra("currentUser", users);
         intent.putExtra("currentAddress", addresses);

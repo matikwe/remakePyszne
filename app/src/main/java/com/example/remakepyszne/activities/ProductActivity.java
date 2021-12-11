@@ -48,7 +48,7 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
         listViewProduct = (ListView) findViewById(R.id.listViewProduct);
         availableProduct = (TextView) findViewById(R.id.TextViewAvailableProduct);
 
-        Log.d("Current: ", restaurants.getNameRestaurant() + " " + addresses.getStreet() + " " + users.getLogin());
+        Log.d("date", users.getLogin()+addresses.getCity()+restaurants.getNameRestaurant());
 
         try {
             setUpAdapter();
