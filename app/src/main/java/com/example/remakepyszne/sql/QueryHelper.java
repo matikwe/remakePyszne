@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.util.Log;
 
 import com.example.remakepyszne.util.Addresses;
+import com.example.remakepyszne.util.Orders;
 import com.example.remakepyszne.util.Products;
 import com.example.remakepyszne.util.Restaurants;
 import com.example.remakepyszne.util.ShopCart;
@@ -85,6 +86,7 @@ public class QueryHelper {
                         .openingHour(resultSet.getTime(8))
                         .closingHour(resultSet.getTime(9))
                         .image(resultSet.getString(10))
+                        .restaurantManagerid(resultSet.getInt(11))
                         .build();
                 restaurantsList.add(restaurants);
             }
@@ -120,8 +122,8 @@ public class QueryHelper {
         ShopCart shopCart = new ShopCart();
         ArrayList<ShopCart> shopCartArrayList = new ArrayList<>();
         ResultSet resultSet = tryConnectToDatabase();
-        if(resultSet!=null){
-            while (resultSet.next()){
+        if (resultSet != null) {
+            while (resultSet.next()) {
                 shopCart = new ShopCart.Builder()
                         .shopCartid(resultSet.getInt("shopCartid"))
                         .userid(resultSet.getInt("userid"))
@@ -134,7 +136,7 @@ public class QueryHelper {
                         .build();
                 shopCartArrayList.add(shopCart);
             }
-        }else {
+        } else {
             Log.d("Error database", "Error query");
         }
         return shopCartArrayList;
@@ -143,10 +145,37 @@ public class QueryHelper {
     public int getQuantity() throws SQLException {
         int quantity = 0;
         ResultSet resultSet = tryConnectToDatabase();
-        while (resultSet.next()){
+        while (resultSet.next()) {
             quantity = resultSet.getInt("quantity");
         }
         return quantity;
+    }
+
+    public ArrayList<Orders> tryLoginToDataBaseForOrders() throws SQLException {
+        Orders orders = new Orders();
+        ArrayList<Orders> ordersArrayList = new ArrayList<>();
+        ResultSet resultSet = tryConnectToDatabase();
+        if (resultSet != null) {
+            while (resultSet.next()) {
+                orders = new Orders.Builder()
+                        .orderID(resultSet.getInt("orderid"))
+                        .userID(resultSet.getInt("userid"))
+                        .restaurantID(resultSet.getInt("restaurantid"))
+                        .addressID(resultSet.getInt("addressid"))
+                        .description(resultSet.getString("description"))
+                        .orderTime(resultSet.getTime("orderTime"))
+                        .orderDate(resultSet.getDate("orderDate"))
+                        .state(resultSet.getString("state"))
+                        .totalPrice(resultSet.getFloat("totalPrice"))
+                        .providerID(resultSet.getInt("providerid"))
+                        .expectedDeliveryTime(resultSet.getTime("expectedDeliveryTime"))
+                        .build();
+                ordersArrayList.add(orders);
+            }
+        } else {
+            Log.d("Error database", "Error query");
+        }
+        return ordersArrayList;
     }
 
     @SuppressLint("LongLogTag")

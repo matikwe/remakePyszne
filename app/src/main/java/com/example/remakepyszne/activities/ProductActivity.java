@@ -43,24 +43,36 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
 
         Intent intent = getIntent();
         users = intent.getParcelableExtra("currentUser");
-        addresses = intent.getParcelableExtra("currentAddress");
         restaurants = intent.getParcelableExtra("currentRestaurant");
+
+        if (users.getRole().equals("user")) {
+            addresses = intent.getParcelableExtra("currentAddress");
+            Log.d("date", users.getLogin() + addresses.getCity() + restaurants.getNameRestaurant());
+            try {
+                updateShopCartIcon();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+
         listViewProduct = (ListView) findViewById(R.id.listViewProduct);
         availableProduct = (TextView) findViewById(R.id.TextViewAvailableProduct);
 
-        Log.d("date", users.getLogin()+addresses.getCity()+restaurants.getNameRestaurant());
 
         try {
             setUpAdapter();
-            updateShopCartIcon();
+            //updateShopCartIcon();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
+
     }
 
     @SuppressLint("SetTextI18n")
     void setUpAdapter() throws SQLException {
-        availableProduct.setText("Dostępne produkty z: " + restaurants.getNameRestaurant());
+        if (users.getRole().equals("user"))
+            availableProduct.setText("Dostępne produkty z: " + restaurants.getNameRestaurant());
 
         productsArrayList = new QueryHelper(getQueryToListProducts()).tryLoginToDataBaseForProducts();
 
@@ -73,36 +85,45 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        if (users.getRole().equals("user")) {
+            try {
+                shopCartArrayList = new QueryHelper(getQueryToListShopCart(i)).tryLoginToDataBaseForShopCart();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            if (Objects.requireNonNull(shopCartArrayList).isEmpty()) {
+                String queryAddProductToShoCart = "INSERT INTO [remakePyszne].[dbo].[ShopCart] (userid,productid,quantity,restaurantid, price) " +
+                        "VALUES (" + users.getId() + "," + productsArrayList.get(i).getProductID() + "," + 1 + "," + restaurants.getRestaurantID() + "," + productsArrayList.get(i).getPrice() + ");";
 
-        try {
-            shopCartArrayList = new QueryHelper(getQueryToListShopCart(i)).tryLoginToDataBaseForShopCart();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        if (Objects.requireNonNull(shopCartArrayList).isEmpty()) {
-            String queryAddProductToShoCart = "INSERT INTO [remakePyszne].[dbo].[ShopCart] (userid,productid,quantity,restaurantid, price) " +
-                    "VALUES (" + users.getId() + "," + productsArrayList.get(i).getProductID() + "," + 1 + "," + restaurants.getRestaurantID() + "," + productsArrayList.get(i).getPrice() + ");";
-
-            new QueryHelper(queryAddProductToShoCart).tryConnectToDatabase();
-        } else {
-            String updateProduct = "UPDATE [remakePyszne].[dbo].[ShopCart] SET quantity = " + (shopCartArrayList.get(0).getQuantity() + 1) + " WHERE userid=" + users.getId()
-                    + " AND productid=" + productsArrayList.get(i).getProductID() + " AND restaurantid=" + restaurants.getRestaurantID();
-            new QueryHelper(updateProduct).tryConnectToDatabase();
-        }
-        try {
-            updateShopCartIcon();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+                new QueryHelper(queryAddProductToShoCart).tryConnectToDatabase();
+            } else {
+                String updateProduct = "UPDATE [remakePyszne].[dbo].[ShopCart] SET quantity = " + (shopCartArrayList.get(0).getQuantity() + 1) + " WHERE userid=" + users.getId()
+                        + " AND productid=" + productsArrayList.get(i).getProductID() + " AND restaurantid=" + restaurants.getRestaurantID();
+                new QueryHelper(updateProduct).tryConnectToDatabase();
+            }
+            try {
+                updateShopCartIcon();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
     }
 
     String getQueryToListProducts() {
-        String query = "SELECT *  FROM [remakePyszne].[dbo].[Restaurants] " +
-                "INNER JOIN [remakePyszne].[dbo].[DeliveryCity] " +
-                "ON [remakePyszne].[dbo].[Restaurants].restaurantid = [remakePyszne].[dbo].[DeliveryCity].restaurantid " +
-                "INNER JOIN [remakePyszne].[dbo].[Products] " +
-                "ON [remakePyszne].[dbo].[Restaurants].restaurantid = [remakePyszne].[dbo].[Products].restaurantid " +
-                "WHERE DeliveryCity.city LIKE '" + addresses.getCity() + "' AND Restaurants.restaurantid = " + restaurants.getRestaurantID() + ";";
+        String query = "";
+        if (users.getRole().equals("user")) {
+            query = "SELECT *  FROM [remakePyszne].[dbo].[Restaurants] " +
+                    "INNER JOIN [remakePyszne].[dbo].[DeliveryCity] " +
+                    "ON [remakePyszne].[dbo].[Restaurants].restaurantid = [remakePyszne].[dbo].[DeliveryCity].restaurantid " +
+                    "INNER JOIN [remakePyszne].[dbo].[Products] " +
+                    "ON [remakePyszne].[dbo].[Restaurants].restaurantid = [remakePyszne].[dbo].[Products].restaurantid " +
+                    "WHERE DeliveryCity.city LIKE '" + addresses.getCity() + "' AND Restaurants.restaurantid = " + restaurants.getRestaurantID() + ";";
+        } else if (users.getRole().equals("restaurant manager")) {
+            query = "SELECT *  FROM [remakePyszne].[dbo].[Restaurants] " +
+                    "INNER JOIN [remakePyszne].[dbo].[Products] " +
+                    "ON [remakePyszne].[dbo].[Restaurants].restaurantid = [remakePyszne].[dbo].[Products].restaurantid " +
+                    "WHERE Restaurants.restaurantid = " + restaurants.getRestaurantID() + ";";
+        }
         return query;
     }
 
@@ -113,6 +134,7 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
                 "ON [remakePyszne].[dbo].[ShopCart].productid = [remakePyszne].[dbo].[Products].productid" +
                 " WHERE userid=" + users.getId() + " AND ShopCart.productid="
                 + productsArrayList.get(i).getProductID() + " AND ShopCart.restaurantid=" + restaurants.getRestaurantID();
+
         return query;
     }
 

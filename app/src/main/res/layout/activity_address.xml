@@ -50,6 +50,7 @@
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
                 android:textSize="15sp"
+                android:maxLength="30"
                 tools:ignore="MissingConstraints" />
 
             <EditText
@@ -70,6 +71,7 @@
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
                 android:textSize="15sp"
+                android:maxLength="30"
                 tools:ignore="MissingConstraints" />
 
             <EditText
@@ -90,6 +92,7 @@
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
                 android:textSize="15sp"
+                android:maxLength="30"
                 tools:ignore="MissingConstraints" />
 
             <EditText
@@ -111,6 +114,7 @@
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
                 android:textSize="15sp"
+                android:maxLength="6"
                 tools:ignore="MissingConstraints" />
 
             <Button

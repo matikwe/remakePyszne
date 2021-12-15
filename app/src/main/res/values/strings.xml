@@ -22,5 +22,6 @@
     <string-array name="roles">
         <item>user</item>
         <item>restaurant manager</item>
+        <item>provider</item>
     </string-array>
 </resources>

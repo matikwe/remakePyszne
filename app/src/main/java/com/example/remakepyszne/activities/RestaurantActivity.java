@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
+import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -25,11 +27,13 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 
 public class RestaurantActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
-    private Users users;
+    public Users users;
     private Addresses addresses;
     private Restaurants restaurants;
     private ListView listViewRestaurant;
-    ImageView iconRestaurant;
+    private Button buttonTopRestActivity;
+    private TextView TextViewAvailableProduct;
+    private HorizontalScrollView categoryScrollView;
     protected ArrayList<Restaurants> restaurantsArrayList = new ArrayList<Restaurants>();
     static final String emptyListRestaurants = "W tej chwili żadna restauracja nie przyjmuje zmówień dla tej kategorii.\nSpróbuj ponownie później!";
 
@@ -41,13 +45,20 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
 
         Intent intent = getIntent();
         users = intent.getParcelableExtra("currentUser");
-        addresses = intent.getParcelableExtra("currentAddress");
+        if (users.getRole().equals("user")) {
+            addresses = intent.getParcelableExtra("currentAddress");
+            Log.d("date", users.getLogin() + addresses.getCity());
+        } else if (users.getRole().equals("restaurant manager")) {
+            buttonTopRestActivity = (Button) findViewById(R.id.buttonTopRestActivity);
+            TextViewAvailableProduct = (TextView) findViewById(R.id.TextViewAvailableProduct);
+            categoryScrollView = (HorizontalScrollView) findViewById(R.id.categoryScrollView);
+            buttonTopRestActivity.setVisibility(View.GONE);
+
+            TextViewAvailableProduct.setVisibility(View.GONE);
+            categoryScrollView.setVisibility(View.GONE);
+        }
 
         listViewRestaurant = (ListView) findViewById(R.id.listViewRestaurant);
-        iconRestaurant = (ImageView) findViewById(R.id.iconRestaurant);
-
-        Log.d("date", users.getLogin()+addresses.getCity());
-
         setUpAdapter(null);
     }
 
@@ -71,16 +82,21 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
         listViewRestaurant.setAdapter(restaurantsAdapter);
         listViewRestaurant.setOnItemClickListener(this);
 
-        if(restaurantsArrayList.isEmpty()) {
+        if (restaurantsArrayList.isEmpty()) {
             Toast.makeText(getApplicationContext(), emptyListRestaurants, Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        openActivity(restaurantsArrayList.get(i));
+        if (users.getRole().equals("user")) {
+            openActivity(restaurantsArrayList.get(i), ProductActivity.class);
+        } else if (users.getRole().equals("restaurant manager")) {
+            openActivity(restaurantsArrayList.get(i), EditValueRestaurantActivity.class);
+        }
         Log.d("Current position", " " + restaurantsArrayList.get(i).getNameRestaurant() + " poz:" + i);
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void sortByPizza(View view) {
@@ -112,24 +128,39 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
         setUpAdapter(null);
     }
 
-    public void openActivity(Restaurants restaurants) {
-        Intent intent = new Intent(this, ProductActivity.class);
+    public void openActivity(Restaurants restaurants, Class<?> cls) {
+        Intent intent = new Intent(this, cls);
         intent.putExtra("currentUser", users);
-        intent.putExtra("currentAddress", addresses);
+
+        if (users.getRole().equals("user")) {
+            intent.putExtra("currentAddress", addresses);
+        }
         intent.putExtra("currentRestaurant", restaurants);
         startActivity(intent);
     }
 
     String getQueryToListRestaurants(String time, String type) {
-        String query = "SELECT * FROM [remakePyszne].[dbo].[Restaurants] INNER JOIN [remakePyszne].[dbo].[DeliveryCity] " +
-                "ON [remakePyszne].[dbo].[Restaurants].restaurantid = [remakePyszne].[dbo].[DeliveryCity].restaurantid " +
-                "WHERE DeliveryCity.city LIKE '" + addresses.getCity() + "' AND Restaurants.type LIKE '" + type + "%' AND" +
-                "(Restaurants.openingHour < Restaurants.closingHour AND" +
-                "'" + time + "' >= Restaurants.openingHour AND" +
-                "'" + time + "' <= Restaurants.closingHour) OR (" +
-                "Restaurants.openingHour > Restaurants.closingHour AND" +
-                "('" + time + "' >= Restaurants.openingHour OR " +
-                "'" + time + "' <= Restaurants.closingHour))";
+        String query = "";
+        if (users.getRole().equals("user")) {
+            query = "SELECT * FROM [remakePyszne].[dbo].[Restaurants] INNER JOIN [remakePyszne].[dbo].[DeliveryCity] " +
+                    "ON [remakePyszne].[dbo].[Restaurants].restaurantid = [remakePyszne].[dbo].[DeliveryCity].restaurantid " +
+                    "WHERE DeliveryCity.city LIKE '" + addresses.getCity() + "' AND Restaurants.type LIKE '" + type + "%' AND" +
+                    "(Restaurants.openingHour < Restaurants.closingHour AND" +
+                    "'" + time + "' >= Restaurants.openingHour AND" +
+                    "'" + time + "' <= Restaurants.closingHour) OR (" +
+                    "Restaurants.openingHour > Restaurants.closingHour AND" +
+                    "('" + time + "' >= Restaurants.openingHour OR " +
+                    "'" + time + "' <= Restaurants.closingHour))";
+        } else if (users.getRole().equals("restaurant manager")) {
+            query = "SELECT * FROM [remakePyszne].[dbo].[Restaurants] WHERE restaurantManagerid=" + users.getId();
+        }
         return query;
+    }
+
+    public void openOrderActivity(View view) {
+        Intent intent = new Intent(this, OrderProductActivity.class);
+        intent.putExtra("currentUser", users);
+        intent.putExtra("currentAddress", addresses);
+        startActivity(intent);
     }
 }

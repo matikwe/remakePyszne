@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".activities.EditValueRestaurantActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/addRestButton"
+                android:layout_width="270dp"
+                android:layout_height="65dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/custom_button"
+                android:onClick="addRestaurant"
+                android:text="Dodaj nową restaurację"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                app:backgroundTint="@null"
+                tools:ignore="MissingConstraints,OnClick" />
+
+            <Button
+                android:id="@+id/editRestButton"
+                android:layout_width="270dp"
+                android:layout_height="65dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/custom_button"
+                android:onClick="editRestaurant"
+                android:text="Edytuj dane restauracji"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                app:backgroundTint="@null"
+                tools:ignore="MissingConstraints,OnClick" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="270dp"
+                android:layout_height="65dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/custom_button"
+                android:onClick="addDelivery"
+                android:text="Dodaj okolicę dowozu"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                app:backgroundTint="@null"
+                tools:ignore="MissingConstraints,OnClick" />
+
+            <LinearLayout
+                android:id="@+id/dataDeliveryLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/editTextcityToDelivery"
+                    android:layout_width="280dp"
+                    android:layout_height="55dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/custom_input"
+                    android:drawableStart="@drawable/ic_user"
+                    android:drawablePadding="12dp"
+                    android:ems="10"
+                    android:hint="Miasto dowozu"
+                    android:inputType="textPersonName"
+                    android:maxLength="25"
+                    android:minHeight="48dp"
+                    android:padding="12dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textSize="15sp"
+                    tools:ignore="MissingConstraints" />
+
+                <Button
+                    android:id="@+id/addDeliveryData"
+                    android:layout_width="270dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/custom_button"
+                    android:onClick="addDeliveryDataToDataBase"
+                    android:text="Dodaj"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    app:backgroundTint="@null"
+                    tools:ignore="MissingConstraints,OnClick" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/dataRestLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <EditText
+                    android:id="@+id/editTextNameRestaurant"
+                    android:layout_width="280dp"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/custom_input"
+                    android:drawableStart="@drawable/ic_user"
+                    android:drawablePadding="12dp"
+                    android:ems="10"
+                    android:hint="Nazwa restauracji"
+                    android:inputType="textPersonName"
+                    android:maxLength="30"
+                    android:padding="12dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/editTextTypeRestaurant"
+                    android:layout_width="280dp"
+                    android:layout_height="55dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/custom_input"
+                    android:drawableStart="@drawable/ic_user"
+                    android:drawablePadding="12dp"
+                    android:ems="10"
+                    android:hint="Typ restauracji"
+                    android:inputType="textPersonName"
+                    android:maxLength="30"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/editTextStreet"
+                    android:layout_width="280dp"
+                    android:layout_height="55dp"
+                    android:background="@drawable/custom_input"
+                    android:drawableStart="@drawable/ic_user"
+                    android:drawablePadding="12dp"
+                    android:ems="10"
+                    android:hint="@string/ulica"
+                    android:inputType="textPersonName"
+                    android:maxLength="30"
+                    android:minHeight="48dp"
+                    android:padding="12dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textSize="15sp"
+                    tools:ignore="MissingConstraints" />
+
+                <EditText
+                    android:id="@+id/editTextNumber"
+                    android:layout_width="280dp"
+                    android:layout_height="55dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/custom_input"
+                    android:drawableStart="@drawable/ic_user"
+                    android:drawablePadding="12dp"
+                    android:ems="10"
+                    android:hint="@string/numer_domu"
+                    android:inputType="textPersonName"
+                    android:maxLength="30"
+                    android:minHeight="48dp"
+                    android:padding="12dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textSize="15sp"
+                    tools:ignore="MissingConstraints" />
+
+                <EditText
+                    android:id="@+id/editTextCity"
+                    android:layout_width="280dp"
+                    android:layout_height="55dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/custom_input"
+                    android:drawableStart="@drawable/ic_user"
+                    android:drawablePadding="12dp"
+                    android:ems="10"
+                    android:hint="@string/miasto"
+                    android:inputType="textPersonName"
+                    android:maxLength="30"
+                    android:minHeight="48dp"
+                    android:padding="12dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textSize="15sp"
+                    tools:ignore="MissingConstraints" />
+
+                <EditText
+                    android:id="@+id/editTextZip"
+                    android:layout_width="280dp"
+                    android:layout_height="55dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/custom_input"
+                    android:drawableStart="@drawable/ic_user"
+                    android:drawablePadding="12dp"
+                    android:ems="10"
+                    android:hint="@string/kod_pocztowy"
+                    android:inputType="textPersonName"
+                    android:maxLength="7"
+                    android:minHeight="48dp"
+                    android:padding="12dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textSize="15sp"
+                    tools:ignore="MissingConstraints" />
+
+                <EditText
+                    android:id="@+id/editTextOpeningHour"
+                    android:layout_width="280dp"
+                    android:layout_height="55dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/custom_input"
+                    android:drawableStart="@drawable/ic_user"
+                    android:drawablePadding="12dp"
+                    android:ems="10"
+                    android:hint="Godzina otwarcia"
+                    android:inputType="textPersonName"
+                    android:maxLength="5"
+                    android:minHeight="48dp"
+                    android:padding="12dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textSize="15sp"
+                    tools:ignore="MissingConstraints" />
+
+                <EditText
+                    android:id="@+id/editTextClosingHour"
+                    android:layout_width="280dp"
+                    android:layout_height="55dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/custom_input"
+                    android:drawableStart="@drawable/ic_user"
+                    android:drawablePadding="12dp"
+                    android:ems="10"
+                    android:hint="Godzina zamknięcia"
+                    android:inputType="textPersonName"
+                    android:maxLength="5"
+                    android:minHeight="48dp"
+                    android:padding="12dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:textSize="15sp"
+                    tools:ignore="MissingConstraints" />
+
+                <Button
+                    android:id="@+id/addRestButtonToDataBase"
+                    android:layout_width="270dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/custom_button"
+                    android:onClick="addRestaurantToDataBase"
+                    android:text="Dodaj"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    app:backgroundTint="@null"
+                    tools:ignore="MissingConstraints,OnClick" />
+
+                <Button
+                    android:id="@+id/editRestButtonToDataBase"
+                    android:layout_width="270dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/custom_button"
+                    android:onClick="editRestaurantToDataBase"
+                    android:text="Edytuj"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    app:backgroundTint="@null"
+                    tools:ignore="MissingConstraints,OnClick" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

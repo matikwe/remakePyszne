@@ -58,7 +58,13 @@ public class MainActivity extends AppCompatActivity {
 
             if (!(users == null)) {
                 if (String.valueOf(users.getPassword()).equals(editTextPassword.getText().toString())) {
-                    openActivityHome();
+                    if(users.getRole().equals("user"))
+                        openActivity(AddressActivity.class);
+                    else if(users.getRole().equals("provider"))
+                        openActivity(OrderProductActivity.class);
+                    else if (users.getRole().equals("restaurant manager")){
+                        openActivity(RestaurantActivity.class);
+                    }
                 } else {
                     Toast.makeText(getApplicationContext(), incorrectLoginOrPassword, Toast.LENGTH_LONG).show();
                 }
@@ -73,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openActivityHome() {
-        Intent intent = new Intent(this, AddressActivity.class);
+    public void openActivity(Class<?> cls) {
+        Intent intent = new Intent(this, cls);
         intent.putExtra("currentUser", users);
         startActivity(intent);
     }

@@ -114,7 +114,7 @@ public class Users implements Parcelable {
         return password;
     }
 
-    public String gerRole() {
+    public String getRole() {
         return role;
     }
 

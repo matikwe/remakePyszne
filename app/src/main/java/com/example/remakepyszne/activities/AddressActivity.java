@@ -30,7 +30,7 @@ public class AddressActivity extends AppCompatActivity {
     private Addresses addresses;
     private static final String emptyEditText = "Uzupełnij dane adresowe";
     private static final String badFormatStreet = "Błedna nazwa ulicy";
-    private static final String badFormatNumber = "Numer domu powinien być w formacie xxxxY";
+    private static final String badFormatNumber = "Numer lokalu powinien być w formacie xxxxY";
     private static final String badFormatCity = "Błedna nazwa miejscowości";
     private static final String badFormatZip = "Kod pocztowy powinien być w formacie xx-xxx";
     private static final String unlockedFields = "Pola odblokowane możesz wpisać adres";
@@ -43,7 +43,7 @@ public class AddressActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         users = intent.getParcelableExtra("currentUser");
-        if (users.gerRole().equals("user")) {
+        if (users.getRole().equals("user")) {
             setContentView(R.layout.activity_address);
             street = (EditText) findViewById(R.id.editTextStreet);
             number = (EditText) findViewById(R.id.editTextNumber);
@@ -52,39 +52,6 @@ public class AddressActivity extends AppCompatActivity {
             searchRestaurant = (Button) findViewById(R.id.searchRestaurant);
             searchRestaurant.setEnabled(false);
         }
-        /*
-        else if(users.gerRole().equals("restaurant manager"))
-        {
-            setContentView(R.layout.activity_managerhome);
-            BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-            bottomNavigationView.setSelectedItemId(R.id.name1);
-
-            bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @SuppressLint("NonConstantResourceId")
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    switch (item.getItemId()){
-                        case R.id.name1:
-                            startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-                            overridePendingTransition(0,0);
-                            return true;
-
-                        case R.id.name2:
-                            startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
-                            overridePendingTransition(0,0);
-                            return true;
-
-                        case R.id.name3:
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                            overridePendingTransition(0,0);
-                            return true;
-                    }
-                    return false;
-                }
-            });
-        }
-
-         */
     }
 
     public void getCurrentLocation(View view) {

@@ -10,6 +10,19 @@
     android:padding="10dp"
     android:background="@drawable/background1">
 
+    <Button
+        android:id="@+id/buttonTopRestActivity"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:onClick="openOrderActivity"
+        android:text="Historia zamówień"
+        tools:ignore="OnClick"
+        android:background="@drawable/custom_button"
+        app:backgroundTint="@null"
+        android:textColor="@color/black"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
+
     <TextView
         android:id="@+id/TextViewAvailableProduct"
         android:layout_width="wrap_content"
@@ -23,7 +36,8 @@
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:ignore="SpeakableTextPresentCheck">
+        tools:ignore="SpeakableTextPresentCheck"
+        android:id="@+id/categoryScrollView">
 
         <LinearLayout
             android:layout_width="wrap_content"

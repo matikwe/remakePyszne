@@ -16,6 +16,7 @@ public class Restaurants implements Parcelable {
     private Time openingHour;
     private Time closingHour;
     private String image;
+    private int restaurantManagerid;
 
     protected Restaurants(Parcel in) {
         restaurantID = in.readInt();
@@ -69,6 +70,7 @@ public class Restaurants implements Parcelable {
         private Time openingHour;
         private Time closingHour;
         private String image;
+        private int restaurantManagerid;
 
         public Builder restaurantID(int restaurantID) {
             this.restaurantID = restaurantID;
@@ -120,6 +122,11 @@ public class Restaurants implements Parcelable {
             return this;
         }
 
+        public Builder restaurantManagerid(int restaurantManagerid){
+            this.restaurantManagerid=restaurantManagerid;
+            return this;
+        }
+
         public Restaurants build() {
             Restaurants restaurants = new Restaurants();
             restaurants.restaurantID = this.restaurantID;
@@ -132,6 +139,7 @@ public class Restaurants implements Parcelable {
             restaurants.openingHour = this.openingHour;
             restaurants.closingHour = this.closingHour;
             restaurants.image = this.image;
+            restaurants.restaurantManagerid=this.restaurantManagerid;
             return restaurants;
         }
     }
