@@ -16,7 +16,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         android:gravity="center"
-        android:text="Dostępne dania"
         android:textSize="26sp"
         android:textStyle="bold" />
 

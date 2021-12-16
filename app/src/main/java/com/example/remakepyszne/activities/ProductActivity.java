@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,7 +31,8 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
     private Addresses addresses;
     private Restaurants restaurants;
     private ListView listViewProduct;
-    private Button buttonShopCart;
+    private Button buttonShopCart, buttonBackToRestaurant;
+    private LinearLayout linearLayoutShopCart;
     protected ArrayList<Products> productsArrayList = new ArrayList<>();
     ArrayList<ShopCart> shopCartArrayList = null;
     TextView availableProduct;
@@ -49,21 +51,21 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
             addresses = intent.getParcelableExtra("currentAddress");
             Log.d("date", users.getLogin() + addresses.getCity() + restaurants.getNameRestaurant());
             try {
+                setUpAdapter();
                 updateShopCartIcon();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        }
+        } else if (users.getRole().equals("restaurant manager")) {
+            try {
+                setUpAdapter();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            buttonShopCart.setVisibility(View.GONE);
+            availableProduct.setVisibility(View.GONE);
 
-        listViewProduct = (ListView) findViewById(R.id.listViewProduct);
-        availableProduct = (TextView) findViewById(R.id.TextViewAvailableProduct);
 
-
-        try {
-            setUpAdapter();
-            //updateShopCartIcon();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
 
 
@@ -71,16 +73,23 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
 
     @SuppressLint("SetTextI18n")
     void setUpAdapter() throws SQLException {
+        productsArrayList = new QueryHelper(getQueryToListProducts()).tryLoginToDataBaseForProducts();
+
+        listViewProduct = (ListView) findViewById(R.id.listViewProduct);
+        availableProduct = (TextView) findViewById(R.id.TextViewAvailableProduct);
+        buttonShopCart = (Button) findViewById(R.id.buttonShopCart);
+        buttonBackToRestaurant = (Button) findViewById(R.id.buttonBackToRestaurant);
+
+
         if (users.getRole().equals("user"))
             availableProduct.setText("Dostępne produkty z: " + restaurants.getNameRestaurant());
 
-        productsArrayList = new QueryHelper(getQueryToListProducts()).tryLoginToDataBaseForProducts();
-
-        ProductsAdapter productsAdapter = new ProductsAdapter(this, productsArrayList);
+        ProductsAdapter productsAdapter = new ProductsAdapter(this, productsArrayList, users);
+        Log.d("setUpAdapter: ", String.valueOf(productsArrayList.isEmpty()));
         listViewProduct.setAdapter(productsAdapter);
         listViewProduct.setOnItemClickListener(this);
 
-        buttonShopCart = (Button) findViewById(R.id.buttonShopCart);
+
     }
 
     @Override
@@ -106,6 +115,8 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
+        } else if (users.getRole().equals("restaurant manager")) {
+            openActivity(productsArrayList.get(i), EditValueProductActivity.class);
         }
     }
 
@@ -139,11 +150,7 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
     }
 
     public void openShopCart(View view) {
-        Intent intent = new Intent(this, ShopCartActivity.class);
-        intent.putExtra("currentUser", users);
-        intent.putExtra("currentAddress", addresses);
-        intent.putExtra("currentRestaurant", restaurants);
-        startActivity(intent);
+        openActivity(null, ShopCartActivity.class);
     }
 
     @SuppressLint("SetTextI18n")
@@ -158,9 +165,18 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
     }
 
     public void backToRestaurant(View view) {
-        Intent intent = new Intent(this, RestaurantActivity.class);
+        openActivity(null, RestaurantActivity.class);
+    }
+
+    public void openActivity(Products products, Class<?> cls) {
+        Intent intent = new Intent(this, cls);
         intent.putExtra("currentUser", users);
-        intent.putExtra("currentAddress", addresses);
+
+        if (users.getRole().equals("user")) {
+            intent.putExtra("currentAddress", addresses);
+        } else if (users.getRole().equals("restaurant manager")) {
+            intent.putExtra("currentProduct", products);
+        }
         intent.putExtra("currentRestaurant", restaurants);
         startActivity(intent);
     }

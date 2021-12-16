@@ -3,31 +3,37 @@ package com.example.remakepyszne.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.remakepyszne.R;
 import com.example.remakepyszne.sql.QueryHelper;
 import com.example.remakepyszne.util.Restaurants;
 import com.example.remakepyszne.util.Users;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class EditValueRestaurantActivity extends AppCompatActivity {
+public class EditValueRestaurantActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     LinearLayout add, dataDeliveryLinearLayout;
     private EditText nameRestaurant, typeRestaurant, street, number, city, zip, openingHour, closingHour, editTextcityToDelivery;
     Button addRestButtonToDataBase, editRestButtonToDataBase;
+    private TextView textViewEditValueRestaurant;
+    private BottomNavigationView bottomNavigationView;
     private boolean addToDataBase = false;
     private static final String emptyEditText = "Uzupełnij dane";
-    private static final String badFormatStreet = "Błedna nazwa restauracji";
-    private static final String badFormatNameRestaurant = "Błedna nazwa typu";
-    private static final String badFormatType = "Błedna nazwa ulicy";
+    private static final String badFormatStreet = "Błedna nazwa ulicy";
+    private static final String badFormatNameRestaurant = "Błedna nazwa restauracji";
+    private static final String badFormatType = "Błedna nazwa typu restauracji";
     private static final String badFormatNumber = "Numer lokalu powinien być w formacie xxxxY";
     private static final String badFormatCity = "Błedna nazwa miejscowości";
     private static final String badFormatZip = "Kod pocztowy powinien być w formacie xx-xxx";
@@ -47,7 +53,7 @@ public class EditValueRestaurantActivity extends AppCompatActivity {
         restaurants = intent.getParcelableExtra("currentRestaurant");
 
         add = (LinearLayout) findViewById(R.id.dataRestLinearLayout);
-        dataDeliveryLinearLayout = (LinearLayout)findViewById(R.id.dataDeliveryLinearLayout);
+        dataDeliveryLinearLayout = (LinearLayout) findViewById(R.id.dataDeliveryLinearLayout);
 
         nameRestaurant = (EditText) findViewById(R.id.editTextNameRestaurant);
         typeRestaurant = (EditText) findViewById(R.id.editTextTypeRestaurant);
@@ -56,6 +62,8 @@ public class EditValueRestaurantActivity extends AppCompatActivity {
         city = (EditText) findViewById(R.id.editTextCity);
         zip = (EditText) findViewById(R.id.editTextZip);
 
+        textViewEditValueRestaurant = (TextView) findViewById(R.id.textViewEditValueRestaurant);
+
         openingHour = (EditText) findViewById(R.id.editTextOpeningHour);
         closingHour = (EditText) findViewById(R.id.editTextClosingHour);
         editTextcityToDelivery = (EditText) findViewById(R.id.editTextcityToDelivery);
@@ -63,36 +71,73 @@ public class EditValueRestaurantActivity extends AppCompatActivity {
         addRestButtonToDataBase = (Button) findViewById(R.id.addRestButtonToDataBase);
         editRestButtonToDataBase = (Button) findViewById(R.id.editRestButtonToDataBase);
 
-        add.setVisibility(View.GONE);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavRestEdit);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        bottomNavigationView.setSelectedItemId(R.id.addRestaurant);
+        if(restaurants == null){
+            bottomNavigationView.setVisibility(View.GONE);
+        }
+
+        addRestaurant();
         dataDeliveryLinearLayout.setVisibility(View.GONE);
+
     }
 
-    public void addRestaurant(View view) {
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.addRestaurant:
+                addRestaurant();
+                bottomNavigationView.getMenu().findItem(R.id.addRestaurant).setChecked(true);
+                break;
+            case R.id.editRestaurant:
+                editRestaurant();
+                bottomNavigationView.getMenu().findItem(R.id.editRestaurant).setChecked(true);
+                break;
+            case R.id.addDelivery:
+                addDelivery();
+                bottomNavigationView.getMenu().findItem(R.id.addDelivery).setChecked(true);
+                break;
+            case R.id.displayProduct:
+                openActivity(ProductActivity.class);
+                break;
+            case R.id.backToRest:
+                openActivity(RestaurantActivity.class);
+                break;
+
+        }
+        return false;
+    }
+
+    private void addRestaurant() {
         add.setVisibility(View.VISIBLE);
         dataDeliveryLinearLayout.setVisibility(View.GONE);
         editRestButtonToDataBase.setVisibility(View.GONE);
         addRestButtonToDataBase.setVisibility(View.VISIBLE);
+        textViewEditValueRestaurant.setText("Dodaj restaurację");
         deleteDataFromEditText();
     }
 
-    public void editRestaurant(View view) {
+    private void editRestaurant() {
         add.setVisibility(View.VISIBLE);
         dataDeliveryLinearLayout.setVisibility(View.GONE);
         addRestButtonToDataBase.setVisibility(View.GONE);
         editRestButtonToDataBase.setVisibility(View.VISIBLE);
+        textViewEditValueRestaurant.setText("Edytuj restaurację");
         addDataToEditText();
     }
 
-    public void addDelivery(View view) {
+    private void addDelivery() {
         add.setVisibility(View.GONE);
         dataDeliveryLinearLayout.setVisibility(View.VISIBLE);
         editTextcityToDelivery.setVisibility(View.VISIBLE);
+        textViewEditValueRestaurant.setText("Dodaj rejon dowozu");
     }
 
     public void addDeliveryDataToDataBase(View view) {
         if (!validation("^[a-zA-Z]+(?:[\\s-][a-zA-Z]+)*$", editTextcityToDelivery.getText().toString())) {
             Toast.makeText(getApplicationContext(), badPlaceDelivery, Toast.LENGTH_LONG).show();
-        }else{
+        } else {
             String query = "INSERT INTO DeliveryCity (restaurantid, city) VALUES(" + restaurants.getRestaurantID() + ", '" + editTextcityToDelivery.getText().toString() + "');";
             new QueryHelper(query).tryConnectToDatabase();
             openActivity(RestaurantActivity.class);

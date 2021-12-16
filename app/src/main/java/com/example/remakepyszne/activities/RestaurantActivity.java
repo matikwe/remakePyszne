@@ -4,14 +4,17 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,12 +24,13 @@ import com.example.remakepyszne.sql.QueryHelper;
 import com.example.remakepyszne.util.Addresses;
 import com.example.remakepyszne.util.Restaurants;
 import com.example.remakepyszne.util.Users;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.sql.SQLException;
 import java.time.ZoneId;
 import java.util.ArrayList;
 
-public class RestaurantActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class RestaurantActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
     public Users users;
     private Addresses addresses;
     private Restaurants restaurants;
@@ -34,6 +38,7 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
     private Button buttonTopRestActivity;
     private TextView TextViewAvailableProduct;
     private HorizontalScrollView categoryScrollView;
+    private BottomNavigationView bottomNavigationView,bottomNavAdd1;
     protected ArrayList<Restaurants> restaurantsArrayList = new ArrayList<Restaurants>();
     static final String emptyListRestaurants = "W tej chwili żadna restauracja nie przyjmuje zmówień dla tej kategorii.\nSpróbuj ponownie później!";
 
@@ -45,9 +50,14 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
 
         Intent intent = getIntent();
         users = intent.getParcelableExtra("currentUser");
+        bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottomNavAdd);
+        bottomNavAdd1 = (BottomNavigationView)findViewById(R.id.bottomNavAdd1);
         if (users.getRole().equals("user")) {
             addresses = intent.getParcelableExtra("currentAddress");
             Log.d("date", users.getLogin() + addresses.getCity());
+            bottomNavigationView.setVisibility(View.GONE);
+
+            bottomNavAdd1.setOnNavigationItemSelectedListener(this);
         } else if (users.getRole().equals("restaurant manager")) {
             buttonTopRestActivity = (Button) findViewById(R.id.buttonTopRestActivity);
             TextViewAvailableProduct = (TextView) findViewById(R.id.TextViewAvailableProduct);
@@ -56,7 +66,12 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
 
             TextViewAvailableProduct.setVisibility(View.GONE);
             categoryScrollView.setVisibility(View.GONE);
+            bottomNavigationView.setOnNavigationItemSelectedListener(this);
+            bottomNavAdd1.setVisibility(View.GONE);
+
         }
+
+
 
         listViewRestaurant = (ListView) findViewById(R.id.listViewRestaurant);
         setUpAdapter(null);
@@ -81,6 +96,8 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
         RestaurantsAdapter restaurantsAdapter = new RestaurantsAdapter(this, restaurantsArrayList);
         listViewRestaurant.setAdapter(restaurantsAdapter);
         listViewRestaurant.setOnItemClickListener(this);
+
+        Log.d("liczba list: ", String.valueOf(restaurantsArrayList.size()));
 
         if (restaurantsArrayList.isEmpty()) {
             Toast.makeText(getApplicationContext(), emptyListRestaurants, Toast.LENGTH_LONG).show();
@@ -142,7 +159,7 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
     String getQueryToListRestaurants(String time, String type) {
         String query = "";
         if (users.getRole().equals("user")) {
-            query = "SELECT * FROM [remakePyszne].[dbo].[Restaurants] INNER JOIN [remakePyszne].[dbo].[DeliveryCity] " +
+            query = "SELECT DISTINCT * FROM [remakePyszne].[dbo].[Restaurants] INNER JOIN [remakePyszne].[dbo].[DeliveryCity] " +
                     "ON [remakePyszne].[dbo].[Restaurants].restaurantid = [remakePyszne].[dbo].[DeliveryCity].restaurantid " +
                     "WHERE DeliveryCity.city LIKE '" + addresses.getCity() + "' AND Restaurants.type LIKE '" + type + "%' AND" +
                     "(Restaurants.openingHour < Restaurants.closingHour AND" +
@@ -162,5 +179,15 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
         intent.putExtra("currentUser", users);
         intent.putExtra("currentAddress", addresses);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.addObject:
+                openActivity(null, EditValueRestaurantActivity.class);
+                break;
+        }
+        return false;
     }
 }

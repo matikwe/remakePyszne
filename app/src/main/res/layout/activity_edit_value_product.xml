@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".activities.EditValueProductActivity">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewEditValueProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dodaj restauracje"
+            android:layout_marginBottom="15dp"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:layout_marginTop="15dp"
+            />
+
+            <EditText
+                android:id="@+id/editTextNameProduct"
+                android:layout_width="280dp"
+                android:layout_height="55dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/ic_user"
+                android:drawablePadding="12dp"
+                android:ems="10"
+                android:hint="Nazwa Produktu"
+                android:inputType="textPersonName"
+                android:maxLength="25"
+                android:minHeight="48dp"
+                android:padding="12dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textSize="15sp"
+                tools:ignore="MissingConstraints" />
+
+            <EditText
+                android:id="@+id/editTextCategory"
+                android:layout_width="280dp"
+                android:layout_height="55dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/ic_user"
+                android:drawablePadding="12dp"
+                android:ems="10"
+                android:hint="Kategoria"
+                android:inputType="textPersonName"
+                android:maxLength="25"
+                android:minHeight="48dp"
+                android:padding="12dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textSize="15sp"
+                tools:ignore="MissingConstraints" />
+
+            <EditText
+                android:id="@+id/editTextPrice"
+                android:layout_width="280dp"
+                android:layout_height="55dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/ic_user"
+                android:drawablePadding="12dp"
+                android:ems="10"
+                android:hint="Cena"
+                android:inputType="textPersonName"
+                android:maxLength="8"
+                android:minHeight="48dp"
+                android:padding="12dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textSize="15sp"
+                tools:ignore="MissingConstraints" />
+
+            <Button
+                android:id="@+id/addProductButtonToDataBase"
+                android:layout_width="270dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/custom_button"
+                android:onClick="addProductToDataBase"
+                android:text="Dodaj"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                app:backgroundTint="@null"
+                tools:ignore="MissingConstraints,OnClick" />
+
+            <Button
+                android:id="@+id/editProductButtonToDataBase"
+                android:layout_width="270dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/custom_button"
+                android:onClick="editProductToDataBase"
+                android:text="Edytuj"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                app:backgroundTint="@null"
+                tools:ignore="MissingConstraints,OnClick" />
+
+        </LinearLayout>
+
+    </ScrollView>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavProductEdit"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/menu_navigation_product_edit"
+        android:background="?android:attr/windowBackground"
+        app:itemIconTint="@drawable/tab_color"
+        app:itemTextColor="@drawable/tab_color"
+        />
+</RelativeLayout>

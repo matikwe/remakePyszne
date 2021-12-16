@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,7 +9,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp">
 
 
         <LinearLayout
@@ -18,47 +19,16 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/addRestButton"
-                android:layout_width="270dp"
-                android:layout_height="65dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/custom_button"
-                android:onClick="addRestaurant"
-                android:text="Dodaj nową restaurację"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="17sp"
-                app:backgroundTint="@null"
-                tools:ignore="MissingConstraints,OnClick" />
-
-            <Button
-                android:id="@+id/editRestButton"
-                android:layout_width="270dp"
-                android:layout_height="65dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/custom_button"
-                android:onClick="editRestaurant"
-                android:text="Edytuj dane restauracji"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="17sp"
-                app:backgroundTint="@null"
-                tools:ignore="MissingConstraints,OnClick" />
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="270dp"
-                android:layout_height="65dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/custom_button"
-                android:onClick="addDelivery"
-                android:text="Dodaj okolicę dowozu"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="17sp"
-                app:backgroundTint="@null"
-                tools:ignore="MissingConstraints,OnClick" />
+            <TextView
+                android:id="@+id/textViewEditValueRestaurant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dodaj restauracje"
+                android:layout_marginBottom="15dp"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                />
 
             <LinearLayout
                 android:id="@+id/dataDeliveryLinearLayout"
@@ -93,7 +63,7 @@
                 <Button
                     android:id="@+id/addDeliveryData"
                     android:layout_width="270dp"
-                    android:layout_height="45dp"
+                    android:layout_height="48dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/custom_button"
                     android:onClick="addDeliveryDataToDataBase"
@@ -303,6 +273,20 @@
                     tools:ignore="MissingConstraints,OnClick" />
 
             </LinearLayout>
+
         </LinearLayout>
+
     </ScrollView>
-</LinearLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavRestEdit"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/menu_navigation"
+        android:background="?android:attr/windowBackground"
+        app:itemIconTint="@drawable/tab_color"
+        app:itemTextColor="@drawable/tab_color"
+        />
+
+
+</RelativeLayout>

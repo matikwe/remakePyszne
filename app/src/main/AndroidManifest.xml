@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RemakePyszne">
         <activity
+            android:name=".activities.EditValueProductActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.EditValueRestaurantActivity"
             android:exported="false" />
         <activity

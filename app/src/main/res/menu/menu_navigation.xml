@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/name1"
-        android:title="name1"
-        android:icon="@drawable/ic_android_black_24dp"/>
+        android:id="@+id/addRestaurant"
+        android:title="Dodaj restauracje"
+        android:icon="@drawable/ic_add_rest"/>
 
     <item
-        android:id="@+id/name2"
-        android:title="name2"
-        android:icon="@drawable/ic_android_black_24dp"/>
+        android:id="@+id/editRestaurant"
+        android:title="Edytuj restauracje"
+        android:icon="@drawable/ic_edit_rest"/>
 
     <item
-        android:id="@+id/name3"
-        android:title="name3"
-        android:icon="@drawable/ic_android_black_24dp"/>
+        android:id="@+id/addDelivery"
+        android:title="Dodaj dostawe"
+        android:icon="@drawable/ic_add_location"/>
+
+    <item
+        android:id="@+id/displayProduct"
+        android:title="Lista produktów"
+        android:icon="@drawable/ic_product_list"/>
+
+    <item
+        android:id="@+id/backToRest"
+        android:title="Wróć"
+        android:icon="@drawable/ic_back"/>
 </menu>
