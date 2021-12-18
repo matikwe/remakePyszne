@@ -28,7 +28,7 @@ public class EditValueRestaurantActivity extends AppCompatActivity implements Bo
     private EditText nameRestaurant, typeRestaurant, street, number, city, zip, openingHour, closingHour, editTextcityToDelivery;
     Button addRestButtonToDataBase, editRestButtonToDataBase;
     private TextView textViewEditValueRestaurant;
-    private BottomNavigationView bottomNavigationView;
+    private BottomNavigationView bottomNavigationView,bottomNavBack;
     private boolean addToDataBase = false;
     private static final String emptyEditText = "Uzupełnij dane";
     private static final String badFormatStreet = "Błedna nazwa ulicy";
@@ -72,10 +72,15 @@ public class EditValueRestaurantActivity extends AppCompatActivity implements Bo
         editRestButtonToDataBase = (Button) findViewById(R.id.editRestButtonToDataBase);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavRestEdit);
+        bottomNavBack = (BottomNavigationView) findViewById(R.id.bottomNavBack);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.addRestaurant);
+
         if(restaurants == null){
             bottomNavigationView.setVisibility(View.GONE);
+            bottomNavBack.setOnNavigationItemSelectedListener(this);
+        }else{
+            bottomNavBack.setVisibility(View.GONE);
         }
 
         addRestaurant();
@@ -104,7 +109,8 @@ public class EditValueRestaurantActivity extends AppCompatActivity implements Bo
             case R.id.backToRest:
                 openActivity(RestaurantActivity.class);
                 break;
-
+            case R.id.back:
+                openActivity(RestaurantActivity.class);
         }
         return false;
     }
@@ -264,5 +270,9 @@ public class EditValueRestaurantActivity extends AppCompatActivity implements Bo
         intent.putExtra("currentUser", users);
         intent.putExtra("currentRestaurant", restaurants);
         startActivity(intent);
+    }
+
+    public void openOrderActivity(View view) {
+        openActivity(OrderProductActivity.class);
     }
 }

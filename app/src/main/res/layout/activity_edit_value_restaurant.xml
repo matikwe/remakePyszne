@@ -19,6 +19,20 @@
             android:gravity="center"
             android:orientation="vertical">
 
+            <Button
+                android:id="@+id/buttonTopRestActivity"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:onClick="openOrderActivity"
+                android:text="Historia zamówień"
+                tools:ignore="OnClick"
+                android:background="@drawable/custom_button"
+                app:backgroundTint="@null"
+                android:textColor="@color/black"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"/>
+
             <TextView
                 android:id="@+id/textViewEditValueRestaurant"
                 android:layout_width="wrap_content"
@@ -283,6 +297,17 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         app:menu="@menu/menu_navigation"
+        android:background="?android:attr/windowBackground"
+        app:itemIconTint="@drawable/tab_color"
+        app:itemTextColor="@drawable/tab_color"
+        />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavBack"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/menu_navigation_back_solo"
         android:background="?android:attr/windowBackground"
         app:itemIconTint="@drawable/tab_color"
         app:itemTextColor="@drawable/tab_color"

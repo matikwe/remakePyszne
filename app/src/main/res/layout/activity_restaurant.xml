@@ -16,18 +16,6 @@
         android:orientation="vertical"
         android:padding="10dp"
         android:layout_marginBottom="50dp">
-    <Button
-        android:id="@+id/buttonTopRestActivity"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:onClick="openOrderActivity"
-        android:text="Historia zamówień"
-        tools:ignore="OnClick"
-        android:background="@drawable/custom_button"
-        app:backgroundTint="@null"
-        android:textColor="@color/black"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"/>
 
     <TextView
         android:id="@+id/TextViewAvailableProduct"
@@ -157,11 +145,11 @@
         />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavAdd1"
+        android:id="@+id/historySoloBottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/menu_navigation_product_edit"
+        app:menu="@menu/menu_navigation_history_solo"
         android:background="?android:attr/windowBackground"
         app:itemIconTint="@drawable/tab_color"
         app:itemTextColor="@drawable/tab_color"

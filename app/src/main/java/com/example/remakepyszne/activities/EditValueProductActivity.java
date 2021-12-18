@@ -30,7 +30,7 @@ public class EditValueProductActivity extends AppCompatActivity implements Botto
     private Products products;
     private EditText editTextNameProduct, editTextCategory, editTextPrice;
     private TextView textViewEditValueProduct;
-    private BottomNavigationView bottomNavigationView;
+    private BottomNavigationView bottomNavigationView, bottomNavBack;
     private Button addProductButtonToDataBase, editProductButtonToDataBase;
     private boolean addToDataBase = false;
     private static final String emptyEditText = "Uzupełnij dane";
@@ -50,6 +50,7 @@ public class EditValueProductActivity extends AppCompatActivity implements Botto
         products = intent.getParcelableExtra("currentProduct");
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavProductEdit);
+        bottomNavBack = (BottomNavigationView) findViewById(R.id.bottomNavBack);
         addProductButtonToDataBase = (Button) findViewById(R.id.addProductButtonToDataBase);
         editProductButtonToDataBase = (Button) findViewById(R.id.editProductButtonToDataBase);
         editTextNameProduct = (EditText) findViewById(R.id.editTextNameProduct);
@@ -60,6 +61,13 @@ public class EditValueProductActivity extends AppCompatActivity implements Botto
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.addProduct);
         editProductButtonToDataBase.setVisibility(View.GONE);
+
+        if (products == null) {
+            bottomNavigationView.setVisibility(View.GONE);
+            bottomNavBack.setOnNavigationItemSelectedListener(this);
+        } else {
+            bottomNavBack.setVisibility(View.GONE);
+        }
     }
 
     public boolean validationData() {
@@ -135,6 +143,9 @@ public class EditValueProductActivity extends AppCompatActivity implements Botto
                 openActivity(ProductActivity.class);
                 bottomNavigationView.getMenu().findItem(R.id.backToProduct).setChecked(true);
                 break;
+            case R.id.back:
+                openActivity(ProductActivity.class);
+                break;
         }
         return false;
     }
@@ -158,7 +169,7 @@ public class EditValueProductActivity extends AppCompatActivity implements Botto
 
     public void editProductToDataBase(View view) {
         if (validationData()) {
-            String query = "UPDATE Products SET nameProduct = '" + editTextNameProduct.getText().toString() + "', category='" + editTextCategory.getText().toString() + "', price=" + Double.parseDouble(editTextPrice.getText().toString()) + " WHERE productid="+products.getProductID()+";";
+            String query = "UPDATE Products SET nameProduct = '" + editTextNameProduct.getText().toString() + "', category='" + editTextCategory.getText().toString() + "', price=" + Double.parseDouble(editTextPrice.getText().toString()) + " WHERE productid=" + products.getProductID() + ";";
             new QueryHelper(query).tryConnectToDatabase();
             openActivity(ProductActivity.class);
         }

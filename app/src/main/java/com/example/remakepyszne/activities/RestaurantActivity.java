@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +34,6 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
     private Addresses addresses;
     private Restaurants restaurants;
     private ListView listViewRestaurant;
-    private Button buttonTopRestActivity;
     private TextView TextViewAvailableProduct;
     private HorizontalScrollView categoryScrollView;
     private BottomNavigationView bottomNavigationView,bottomNavAdd1;
@@ -51,19 +49,15 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
         Intent intent = getIntent();
         users = intent.getParcelableExtra("currentUser");
         bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottomNavAdd);
-        bottomNavAdd1 = (BottomNavigationView)findViewById(R.id.bottomNavAdd1);
+        bottomNavAdd1 = (BottomNavigationView)findViewById(R.id.historySoloBottomNavigationView);
         if (users.getRole().equals("user")) {
             addresses = intent.getParcelableExtra("currentAddress");
             Log.d("date", users.getLogin() + addresses.getCity());
             bottomNavigationView.setVisibility(View.GONE);
-
             bottomNavAdd1.setOnNavigationItemSelectedListener(this);
         } else if (users.getRole().equals("restaurant manager")) {
-            buttonTopRestActivity = (Button) findViewById(R.id.buttonTopRestActivity);
             TextViewAvailableProduct = (TextView) findViewById(R.id.TextViewAvailableProduct);
             categoryScrollView = (HorizontalScrollView) findViewById(R.id.categoryScrollView);
-            buttonTopRestActivity.setVisibility(View.GONE);
-
             TextViewAvailableProduct.setVisibility(View.GONE);
             categoryScrollView.setVisibility(View.GONE);
             bottomNavigationView.setOnNavigationItemSelectedListener(this);
@@ -186,6 +180,9 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
         switch (item.getItemId()) {
             case R.id.addObject:
                 openActivity(null, EditValueRestaurantActivity.class);
+                break;
+            case R.id.historySolo:
+                openActivity(null, OrderProductActivity.class);
                 break;
         }
         return false;

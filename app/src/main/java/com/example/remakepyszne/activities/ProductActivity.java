@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.remakepyszne.R;
@@ -21,18 +23,20 @@ import com.example.remakepyszne.util.Products;
 import com.example.remakepyszne.util.Restaurants;
 import com.example.remakepyszne.util.ShopCart;
 import com.example.remakepyszne.util.Users;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class ProductActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class ProductActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
     private Users users;
     private Addresses addresses;
     private Restaurants restaurants;
     private ListView listViewProduct;
-    private Button buttonShopCart, buttonBackToRestaurant;
+    private Button buttonShopCart;
     private LinearLayout linearLayoutShopCart;
+    private BottomNavigationView bottomNavigationView,backSoloBottomNavigationView;
     protected ArrayList<Products> productsArrayList = new ArrayList<>();
     ArrayList<ShopCart> shopCartArrayList = null;
     TextView availableProduct;
@@ -46,7 +50,8 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
         Intent intent = getIntent();
         users = intent.getParcelableExtra("currentUser");
         restaurants = intent.getParcelableExtra("currentRestaurant");
-
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavProduct);
+        backSoloBottomNavigationView = (BottomNavigationView) findViewById(R.id.backSoloBottomNavigationView);
         if (users.getRole().equals("user")) {
             addresses = intent.getParcelableExtra("currentAddress");
             Log.d("date", users.getLogin() + addresses.getCity() + restaurants.getNameRestaurant());
@@ -56,6 +61,8 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
+            bottomNavigationView.setVisibility(View.GONE);
+            backSoloBottomNavigationView.setOnNavigationItemSelectedListener(this);
         } else if (users.getRole().equals("restaurant manager")) {
             try {
                 setUpAdapter();
@@ -64,8 +71,8 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
             }
             buttonShopCart.setVisibility(View.GONE);
             availableProduct.setVisibility(View.GONE);
-
-
+            bottomNavigationView.setOnNavigationItemSelectedListener(this);
+            backSoloBottomNavigationView.setVisibility(View.GONE);
         }
 
 
@@ -78,7 +85,6 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
         listViewProduct = (ListView) findViewById(R.id.listViewProduct);
         availableProduct = (TextView) findViewById(R.id.TextViewAvailableProduct);
         buttonShopCart = (Button) findViewById(R.id.buttonShopCart);
-        buttonBackToRestaurant = (Button) findViewById(R.id.buttonBackToRestaurant);
 
 
         if (users.getRole().equals("user"))
@@ -179,5 +185,21 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
         }
         intent.putExtra("currentRestaurant", restaurants);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.addObject:
+                openActivity(null, EditValueProductActivity.class);
+                break;
+            case R.id.backToRestFromProduct:
+                openActivity(null, RestaurantActivity.class);
+                break;
+            case R.id.back:
+                openActivity(null, RestaurantActivity.class);
+                break;
+        }
+        return false;
     }
 }

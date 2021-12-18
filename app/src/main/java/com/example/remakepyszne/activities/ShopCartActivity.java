@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,6 +21,7 @@ import com.example.remakepyszne.util.Addresses;
 import com.example.remakepyszne.util.Restaurants;
 import com.example.remakepyszne.util.ShopCart;
 import com.example.remakepyszne.util.Users;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -28,12 +31,13 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class ShopCartActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class ShopCartActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
 
     private Users users;
     private Addresses addresses;
     private Restaurants restaurants;
     private ListView listViewShopCart;
+    private BottomNavigationView backSoloBottomNavigationView;
     protected ArrayList<ShopCart> shopCartArrayList = new ArrayList<>();
     ShopCartAdapter shopCartAdapter;
     final String emptyShopCart = "Twój koszyk jest pusty...";
@@ -48,7 +52,10 @@ public class ShopCartActivity extends AppCompatActivity implements AdapterView.O
         addresses = intent.getParcelableExtra("currentAddress");
         restaurants = intent.getParcelableExtra("currentRestaurant");
 
+        backSoloBottomNavigationView = (BottomNavigationView) findViewById(R.id.backSoloBottomNavigationView);
         listViewShopCart = (ListView) findViewById(R.id.listViewShopCart);
+
+        backSoloBottomNavigationView.setOnNavigationItemSelectedListener(this);
 
         try {
             shopCartArrayList = new QueryHelper(getQueryToShopCartList()).tryLoginToDataBaseForShopCart();
@@ -64,7 +71,6 @@ public class ShopCartActivity extends AppCompatActivity implements AdapterView.O
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
     }
 
     String getQueryToShopCartList() {
@@ -74,10 +80,6 @@ public class ShopCartActivity extends AppCompatActivity implements AdapterView.O
                 "ON [remakePyszne].[dbo].[ShopCart].productid = [remakePyszne].[dbo].[Products].productid" +
                 " WHERE userid=" + users.getId() + " AND ShopCart.restaurantid=" + restaurants.getRestaurantID();
         return query;
-    }
-
-    public void backToProduct(View view) {
-        openActivity(ProductActivity.class);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -139,5 +141,15 @@ public class ShopCartActivity extends AppCompatActivity implements AdapterView.O
         intent.putExtra("currentAddress", addresses);
         intent.putExtra("currentRestaurant", restaurants);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.back:
+                openActivity(ProductActivity.class);
+                break;
+        }
+        return false;
     }
 }
