@@ -19,16 +19,15 @@
             android:gravity="center"
             android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textViewEditValueProduct"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dodaj restauracje"
-            android:layout_marginBottom="15dp"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:layout_marginTop="15dp"
-            />
+            <TextView
+                android:id="@+id/textViewEditValueProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:text="Dodaj restauracje"
+                android:textSize="28sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/editTextNameProduct"
@@ -127,24 +126,24 @@
         </LinearLayout>
 
     </ScrollView>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavProductEdit"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/menu_navigation_product_edit"
         android:background="?android:attr/windowBackground"
         app:itemIconTint="@drawable/tab_color"
         app:itemTextColor="@drawable/tab_color"
-        />
+        app:menu="@menu/menu_navigation_product_edit" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavBack"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/menu_navigation_back_solo"
         android:background="?android:attr/windowBackground"
         app:itemIconTint="@drawable/tab_color"
         app:itemTextColor="@drawable/tab_color"
-        />
+        app:menu="@menu/menu_navigation_back_solo" />
 </RelativeLayout>

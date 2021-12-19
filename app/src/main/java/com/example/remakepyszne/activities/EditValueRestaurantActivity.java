@@ -48,6 +48,20 @@ public class EditValueRestaurantActivity extends AppCompatActivity implements Bo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_value_restaurant);
 
+        loadContent();
+
+        if(restaurants == null){
+            bottomNavigationView.setVisibility(View.GONE);
+            bottomNavBack.setOnNavigationItemSelectedListener(this);
+        }else{
+            bottomNavBack.setVisibility(View.GONE);
+        }
+
+        addRestaurant();
+        dataDeliveryLinearLayout.setVisibility(View.GONE);
+    }
+
+    private void loadContent(){
         Intent intent = getIntent();
         users = intent.getParcelableExtra("currentUser");
         restaurants = intent.getParcelableExtra("currentRestaurant");
@@ -75,17 +89,6 @@ public class EditValueRestaurantActivity extends AppCompatActivity implements Bo
         bottomNavBack = (BottomNavigationView) findViewById(R.id.bottomNavBack);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.addRestaurant);
-
-        if(restaurants == null){
-            bottomNavigationView.setVisibility(View.GONE);
-            bottomNavBack.setOnNavigationItemSelectedListener(this);
-        }else{
-            bottomNavBack.setVisibility(View.GONE);
-        }
-
-        addRestaurant();
-        dataDeliveryLinearLayout.setVisibility(View.GONE);
-
     }
 
     @Override

@@ -1,159 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".activities.RestaurantActivity"
-    android:orientation="vertical"
+    android:background="@drawable/background1"
     android:gravity="center"
-    android:background="@drawable/background1">
+    android:orientation="vertical"
+    tools:context=".activities.RestaurantActivity">
 
     <LinearLayout
         android:id="@+id/linearLayoutMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
         android:orientation="vertical"
-        android:padding="10dp"
-        android:layout_marginBottom="50dp">
+        android:padding="10dp">
 
-    <TextView
-        android:id="@+id/TextViewAvailableProduct"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:text="Sortuj po kategorii"
-        android:textSize="26sp"
-        android:textStyle="bold" />
-
-
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="SpeakableTextPresentCheck"
-        android:id="@+id/categoryScrollView">
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/TextViewAvailableProduct"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:padding="5dp"
-            android:layout_marginBottom="10dp">
-
-            <Button
-                android:id="@+id/pizza"
-                android:layout_width="120dp"
-                android:layout_height="48dp"
-                android:layout_marginLeft="5dp"
-                android:background="@drawable/custom_button"
-                android:onClick="sortByPizza"
-                android:text="Pizza"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="17sp"
-                app:backgroundTint="@null"
-                tools:ignore="MissingConstraints,OnClick" />
-
-            <Button
-                android:id="@+id/kebab"
-                android:layout_width="120dp"
-                android:layout_height="48dp"
-                android:background="@drawable/custom_button"
-                android:text="Kebab"
-                android:onClick="sortByKebab"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="17sp"
-                app:backgroundTint="@null"
-                tools:ignore="MissingConstraints,OnClick"
-                android:layout_marginLeft="5dp"/>
-
-            <Button
-                android:id="@+id/indyjska"
-                android:layout_width="120dp"
-                android:layout_height="48dp"
-                android:background="@drawable/custom_button"
-                android:text="Indyjska"
-                android:onClick="sortByIndyjska"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="17sp"
-                app:backgroundTint="@null"
-                tools:ignore="MissingConstraints,OnClick"
-                android:layout_marginLeft="5dp"/>
-
-            <Button
-                android:id="@+id/wloska"
-                android:layout_width="120dp"
-                android:layout_height="48dp"
-                android:background="@drawable/custom_button"
-                android:text="Włoska"
-                android:onClick="sortByWloska"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="17sp"
-                app:backgroundTint="@null"
-                tools:ignore="MissingConstraints,OnClick"
-                android:layout_marginLeft="5dp"/>
-
-            <Button
-                android:id="@+id/burger"
-                android:layout_width="120dp"
-                android:layout_height="48dp"
-                android:background="@drawable/custom_button"
-                android:text="Burger"
-                android:onClick="sortByBurger"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="17sp"
-                app:backgroundTint="@null"
-                tools:ignore="MissingConstraints,OnClick"
-                android:layout_marginLeft="5dp"/>
-
-            <Button
-                android:id="@+id/all"
-                android:layout_width="120dp"
-                android:layout_height="48dp"
-                android:background="@drawable/custom_button"
-                android:text="ALL"
-                android:onClick="sortByAll"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="17sp"
-                app:backgroundTint="@null"
-                tools:ignore="MissingConstraints,OnClick"
-                android:layout_marginLeft="5dp"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:text="Sortuj po kategorii"
+            android:textSize="26sp"
+            android:textStyle="bold" />
 
 
-        </LinearLayout>
-    </HorizontalScrollView>
+        <HorizontalScrollView
+            android:id="@+id/categoryScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="SpeakableTextPresentCheck">
 
-    <ListView
-        android:id="@+id/listViewRestaurant"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <Button
+                    android:id="@+id/pizza"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/custom_button"
+                    android:onClick="sortByPizza"
+                    android:text="Pizza"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    app:backgroundTint="@null"
+                    tools:ignore="MissingConstraints,OnClick" />
+
+                <Button
+                    android:id="@+id/kebab"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/custom_button"
+                    android:onClick="sortByKebab"
+                    android:text="Kebab"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    app:backgroundTint="@null"
+                    tools:ignore="MissingConstraints,OnClick" />
+
+                <Button
+                    android:id="@+id/indyjska"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/custom_button"
+                    android:onClick="sortByIndyjska"
+                    android:text="Indyjska"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    app:backgroundTint="@null"
+                    tools:ignore="MissingConstraints,OnClick" />
+
+                <Button
+                    android:id="@+id/wloska"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/custom_button"
+                    android:onClick="sortByWloska"
+                    android:text="Włoska"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    app:backgroundTint="@null"
+                    tools:ignore="MissingConstraints,OnClick" />
+
+                <Button
+                    android:id="@+id/burger"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/custom_button"
+                    android:onClick="sortByBurger"
+                    android:text="Burger"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    app:backgroundTint="@null"
+                    tools:ignore="MissingConstraints,OnClick" />
+
+                <Button
+                    android:id="@+id/all"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/custom_button"
+                    android:onClick="sortByAll"
+                    android:text="ALL"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    app:backgroundTint="@null"
+                    tools:ignore="MissingConstraints,OnClick" />
+
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+        <ListView
+            android:id="@+id/listViewRestaurant"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavAdd"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/menu_navigation_add_item_solo"
         android:background="?android:attr/windowBackground"
         app:itemIconTint="@drawable/tab_color"
         app:itemTextColor="@drawable/tab_color"
-        />
+        app:menu="@menu/menu_navigation_add_item_solo" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/historySoloBottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/menu_navigation_history_solo"
         android:background="?android:attr/windowBackground"
         app:itemIconTint="@drawable/tab_color"
         app:itemTextColor="@drawable/tab_color"
-        />
-
+        app:menu="@menu/menu_navigation_history_solo" />
 
 </RelativeLayout>

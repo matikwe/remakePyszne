@@ -31,7 +31,7 @@
                 android:textColor="@color/black"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="15dp"/>
+                android:layout_marginTop="15dp" />
 
             <TextView
                 android:id="@+id/textViewEditValueRestaurant"
@@ -41,8 +41,7 @@
                 android:layout_marginBottom="15dp"
                 android:textSize="28sp"
                 android:textStyle="bold"
-                android:layout_marginTop="15dp"
-                />
+                android:layout_marginTop="15dp" />
 
             <LinearLayout
                 android:id="@+id/dataDeliveryLinearLayout"
@@ -291,6 +290,7 @@
         </LinearLayout>
 
     </ScrollView>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavRestEdit"
         android:layout_width="match_parent"
@@ -299,8 +299,7 @@
         app:menu="@menu/menu_navigation"
         android:background="?android:attr/windowBackground"
         app:itemIconTint="@drawable/tab_color"
-        app:itemTextColor="@drawable/tab_color"
-        />
+        app:itemTextColor="@drawable/tab_color" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavBack"
@@ -310,8 +309,7 @@
         app:menu="@menu/menu_navigation_back_solo"
         android:background="?android:attr/windowBackground"
         app:itemIconTint="@drawable/tab_color"
-        app:itemTextColor="@drawable/tab_color"
-        />
+        app:itemTextColor="@drawable/tab_color" />
 
 
 </RelativeLayout>

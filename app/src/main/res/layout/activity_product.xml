@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background1"
     android:gravity="right"
     android:orientation="vertical"
@@ -13,67 +13,67 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp"
         android:layout_marginBottom="50dp"
-        >
-    <TextView
-        android:id="@+id/TextViewAvailableProduct"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:gravity="center"
-        android:textSize="26sp"
-        android:textStyle="bold" />
+        android:orientation="vertical"
+        android:padding="10dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
+        <TextView
+            android:id="@+id/TextViewAvailableProduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:gravity="center"
+            android:textSize="26sp"
+            android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/buttonShopCart"
-            android:layout_width="300dp"
-            android:layout_height="70dp"
-            android:drawableRight="@drawable/ic_shopping_cart"
-            android:onClick="openShopCart"
-            android:text="KOSZYK (0)"
-            android:textSize="30dp"
-            tools:ignore="OnClick"
-            android:background="@drawable/custom_button"
-            app:backgroundTint="@null"
-            android:textColor="@color/black"
-            android:padding="5dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonShopCart"
+                android:layout_width="300dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/custom_button"
+                android:drawableRight="@drawable/ic_shopping_cart"
+                android:onClick="openShopCart"
+                android:padding="5dp"
+                android:text="KOSZYK (0)"
+                android:textColor="@color/black"
+                android:textSize="30dp"
+                app:backgroundTint="@null"
+                tools:ignore="OnClick" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/listViewProduct"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp" />
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/listViewProduct"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="5dp"/>
-    </LinearLayout>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavProduct"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/menu_navigation_product_bottom"
         android:background="?android:attr/windowBackground"
         app:itemIconTint="@drawable/tab_color"
         app:itemTextColor="@drawable/tab_color"
-        />
+        app:menu="@menu/menu_navigation_product_bottom" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/backSoloBottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/menu_navigation_back_solo"
         android:background="?android:attr/windowBackground"
         app:itemIconTint="@drawable/tab_color"
         app:itemTextColor="@drawable/tab_color"
-        />
+        app:menu="@menu/menu_navigation_back_solo" />
 
 </RelativeLayout>

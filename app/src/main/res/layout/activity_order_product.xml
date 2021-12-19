@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".activities.OrderProductActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
         android:orientation="vertical"
-        android:padding="10dp"
-        android:layout_marginBottom="50dp">
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/titleOrder"
@@ -25,13 +25,11 @@
             android:textStyle="bold"
             tools:ignore="InvalidId" />
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal">
-
 
             <ListView
                 android:id="@+id/listViewOrderProduct"
@@ -40,28 +38,29 @@
                 android:layout_marginTop="5dp" />
 
         </LinearLayout>
+
     </LinearLayout>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/orderBottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/menu_navigation_order"
         android:background="?android:attr/windowBackground"
         app:itemIconTint="@drawable/tab_color"
         app:itemTextColor="@drawable/tab_color"
-        />
+        app:menu="@menu/menu_navigation_order" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/backSoloBottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/menu_navigation_back_solo"
         android:background="?android:attr/windowBackground"
         app:itemIconTint="@drawable/tab_color"
         app:itemTextColor="@drawable/tab_color"
-        />
+        app:menu="@menu/menu_navigation_back_solo" />
+
 </RelativeLayout>
 
 

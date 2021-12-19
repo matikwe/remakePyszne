@@ -2,12 +2,13 @@ package com.example.remakepyszne.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class OrderProductActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
     private Users users;
@@ -31,22 +34,30 @@ public class OrderProductActivity extends AppCompatActivity implements AdapterVi
     protected ArrayList<Orders> ordersArrayList;
     BottomNavigationView orderBottomNavigationView, backSoloBottomNavigationView;
     ListView listViewOrders;
-    Button backToRestaurant;
     TextView title;
-    String query, nextState;
+    String query, nextState, currentState;
+    List<String> states;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_product);
+        loadTypeState();
+        loadNav();
+        initiation();
 
+    }
+
+    private void loadNav() {
+        orderBottomNavigationView = (BottomNavigationView) findViewById(R.id.orderBottomNavigationView);
+        orderBottomNavigationView.setSelectedItemId(R.id.accept);
+    }
+
+    private void initiation() {
         Intent intent = getIntent();
         users = intent.getParcelableExtra("currentUser");
-
-
         listViewOrders = (ListView) findViewById(R.id.listViewOrderProduct);
         title = (TextView) findViewById(R.id.titleOrder);
-        orderBottomNavigationView = (BottomNavigationView) findViewById(R.id.orderBottomNavigationView);
         backSoloBottomNavigationView = (BottomNavigationView) findViewById(R.id.backSoloBottomNavigationView);
 
         if (users.getRole().equals("user")) {
@@ -58,19 +69,23 @@ public class OrderProductActivity extends AppCompatActivity implements AdapterVi
         } else if (users.getRole().equals("restaurant manager")) {
             title.setText("Zamówione produkty");
             restaurants = intent.getParcelableExtra("currentRestaurant");
+            if (currentState == null) {
+                currentState = states.get(0);
+                nextState = states.get(1);
+            }
             query = getQueryToDisplayOrder();
             orderBottomNavigationView.setOnNavigationItemSelectedListener(this);
-            orderBottomNavigationView.setSelectedItemId(R.id.accept);
             backSoloBottomNavigationView.setVisibility(View.GONE);
         } else if (users.getRole().equals("provider")) {
             title.setText("Aktualne dostawy");
-            backToRestaurant.setVisibility(View.GONE);
+            if (currentState == null) {
+                currentState = states.get(2);
+                nextState = states.get(3);
+            }
             query = getQueryToDisplayProductDelivery();
             orderBottomNavigationView.setOnNavigationItemSelectedListener(this);
-            orderBottomNavigationView.setSelectedItemId(R.id.accept);
             backSoloBottomNavigationView.setVisibility(View.GONE);
         }
-
 
         try {
             ordersArrayList = new QueryHelper(query).tryLoginToDataBaseForOrders();
@@ -78,28 +93,32 @@ public class OrderProductActivity extends AppCompatActivity implements AdapterVi
             throwables.printStackTrace();
         }
 
-        OrdersAdapter ordersAdapter = new OrdersAdapter(this, ordersArrayList);
+        loadArrayAdapter();
+    }
+
+    private void loadArrayAdapter() {
+        OrdersAdapter ordersAdapter = new OrdersAdapter(this, ordersArrayList, nextState);
         listViewOrders.setAdapter(ordersAdapter);
         listViewOrders.setOnItemClickListener(this);
     }
-
 
     String getQueryToDisplayHistoryOrders() {
         return "SELECT * FROM [remakePyszne].[dbo].[Orders] WHERE userid=" + users.getId() + " ORDER BY [orderDate]DESC, [orderTime]DESC;";
     }
 
     String getQueryToDisplayOrder() {
-        return "SELECT * FROM [remakePyszne].[dbo].[Orders] WHERE restaurantid=" + restaurants.getRestaurantID()  + " ORDER BY [orderDate]DESC, [orderTime]DESC;";
+        return "SELECT * FROM [remakePyszne].[dbo].[Orders] WHERE restaurantid=" + restaurants.getRestaurantID() + " AND state LIKE '%" + currentState + "%' ORDER BY [orderDate]DESC, [orderTime]DESC;";
     }
 
     String getQueryToDisplayProductDelivery() {
-        return "SELECT * FROM [remakePyszne].[dbo].[Orders] WHERE providerid='null' ORDER BY [orderDate]DESC, [orderTime]DESC;";
+        return "SELECT * FROM [remakePyszne].[dbo].[Orders] WHERE state LIKE '%" + currentState + "%' ORDER BY [orderDate]DESC, [orderTime]DESC;";
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         if (users.getRole().equals("restaurant manager") || users.getRole().equals("provider")) {
-            updateStateOrder(ordersArrayList.get(i));
+            new QueryHelper(updateStateOrder(ordersArrayList.get(i))).tryConnectToDatabase();
+            openActivity(OrderProductActivity.class);
         }
     }
 
@@ -109,30 +128,41 @@ public class OrderProductActivity extends AppCompatActivity implements AdapterVi
             case R.id.accept:
                 orderBottomNavigationView.getMenu().findItem(R.id.accept).setChecked(true);
                 if (users.getRole().equals("restaurant manager")) {
-                    nextState = "gotowe do dostarczenia";
+                    currentState = states.get(0);
+                    nextState = states.get(1);
                 } else if (users.getRole().equals("provider")) {
-                    nextState = "dostawca jest w twojej okolicy";
+                    currentState = states.get(2);
+                    nextState = states.get(3);
                 }
+                initiation();
                 break;
             case R.id.forward:
                 orderBottomNavigationView.getMenu().findItem(R.id.forward).setChecked(true);
                 if (users.getRole().equals("restaurant manager")) {
-                    nextState = "odebrano przez dostawcę";
+                    currentState = states.get(1);
+                    nextState = states.get(2);
                 } else if (users.getRole().equals("provider")) {
-                    nextState = "dostarczono";
+                    currentState = states.get(3);
+                    nextState = states.get(4);
                 }
+                initiation();
                 break;
             case R.id.back:
-                openActivity(RestaurantActivity.class);
+                if (users.getRole().equals("provider")) {
+                    Toast.makeText(getApplicationContext(), "Nie masz uprawnień do powrotu...", Toast.LENGTH_LONG).show();
+                } else {
+                    orderBottomNavigationView.getMenu().findItem(R.id.back).setChecked(true);
+                    openActivity(RestaurantActivity.class);
+                }
         }
         return false;
     }
 
-    String updateStateOrder(Orders orders){
-        if(users.getRole().equals("provider") && nextState.equals("dostawca jest w twojej okolic"))
-            return "UPDATE [remakePyszne].[dbo].[Orders] SET state='" + nextState + "' providerid='"+users.getId()+"' WHERE orderid="+orders.getOrderID();
-        else
-            return "UPDATE [remakePyszne].[dbo].[Orders] SET state='" + nextState + "' WHERE orderid="+orders.getOrderID();
+    String updateStateOrder(Orders orders) {
+        if (users.getRole().equals("provider") && currentState.equals(states.get(2))) {
+            return "UPDATE [remakePyszne].[dbo].[Orders] SET state='" + nextState + "', providerid=" + users.getId() + " WHERE orderid=" + orders.getOrderID();
+        } else
+            return "UPDATE [remakePyszne].[dbo].[Orders] SET state='" + nextState + "' WHERE orderid=" + orders.getOrderID();
     }
 
     public void openActivity(Class<?> cls) {
@@ -144,5 +174,14 @@ public class OrderProductActivity extends AppCompatActivity implements AdapterVi
         }
         intent.putExtra("currentRestaurant", restaurants);
         startActivity(intent);
+    }
+
+    private void loadTypeState() {
+        states = new LinkedList<>();
+        states.add("w realizacji");
+        states.add("gotowe do dostarczenia");
+        states.add("odebrano przez dostawcę");
+        states.add("dostawa jest w twojej okolicy");
+        states.add("dostarczono");
     }
 }

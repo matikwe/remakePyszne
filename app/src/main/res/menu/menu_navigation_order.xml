@@ -2,10 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/accept"
-        android:title="Akceptuj"
-        android:icon="@drawable/ic_baseline_accept"/>
+        android:icon="@drawable/ic_baseline_accept"
+        android:title="Akceptuj" />
     <item
         android:id="@+id/forward"
-        android:title="Przekaż"
-        android:icon="@drawable/ic_baseline_forward"/>
+        android:icon="@drawable/ic_baseline_forward"
+        android:title="Przekaż" />
+    <item
+        android:id="@+id/back"
+        android:icon="@drawable/ic_back"
+        android:title="Wróć" />
 </menu>

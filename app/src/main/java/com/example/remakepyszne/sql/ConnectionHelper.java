@@ -14,7 +14,6 @@ public class ConnectionHelper {
 
     @SuppressLint("NewApi")
     public Connection connectionClass(){
-        //pomyśleć nad tymi danymi
         ip = "192.168.0.175";
         database = "remakePyszne";
         uname = "sa";

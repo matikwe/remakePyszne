@@ -44,6 +44,10 @@ public class EditValueProductActivity extends AppCompatActivity implements Botto
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_value_product);
 
+        loadContent();
+    }
+
+    private void loadContent(){
         Intent intent = getIntent();
         users = intent.getParcelableExtra("currentUser");
         restaurants = intent.getParcelableExtra("currentRestaurant");

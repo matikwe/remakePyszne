@@ -15,8 +15,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textViewHome"
@@ -26,11 +26,11 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:fontFamily="sans-serif-condensed-medium"
+                android:gravity="center"
                 android:text="@string/wpisz_dane_do_dostawy"
                 android:textSize="35sp"
                 android:textStyle="bold"
-                tools:ignore="MissingConstraints"
-                android:gravity="center"/>
+                tools:ignore="MissingConstraints" />
 
             <EditText
                 android:id="@+id/editTextStreet"
@@ -45,12 +45,12 @@
                 android:ems="10"
                 android:hint="@string/ulica"
                 android:inputType="textPersonName"
+                android:maxLength="30"
                 android:minHeight="48dp"
                 android:padding="12dp"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
                 android:textSize="15sp"
-                android:maxLength="30"
                 tools:ignore="MissingConstraints" />
 
             <EditText
@@ -66,12 +66,12 @@
                 android:ems="10"
                 android:hint="@string/numer_domu"
                 android:inputType="textPersonName"
+                android:maxLength="30"
                 android:minHeight="48dp"
                 android:padding="12dp"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
                 android:textSize="15sp"
-                android:maxLength="30"
                 tools:ignore="MissingConstraints" />
 
             <EditText
@@ -87,12 +87,12 @@
                 android:ems="10"
                 android:hint="@string/miasto"
                 android:inputType="textPersonName"
+                android:maxLength="30"
                 android:minHeight="48dp"
                 android:padding="12dp"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
                 android:textSize="15sp"
-                android:maxLength="30"
                 tools:ignore="MissingConstraints" />
 
             <EditText
@@ -109,12 +109,12 @@
                 android:ems="10"
                 android:hint="@string/kod_pocztowy"
                 android:inputType="textPersonName"
+                android:maxLength="6"
                 android:minHeight="48dp"
                 android:padding="12dp"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
                 android:textSize="15sp"
-                android:maxLength="6"
                 tools:ignore="MissingConstraints" />
 
             <Button

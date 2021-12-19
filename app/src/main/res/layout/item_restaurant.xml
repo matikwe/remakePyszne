@@ -90,9 +90,7 @@
                     android:text="time"
                     android:textSize="14dp" />
 
-
             </LinearLayout>
-
 
         </LinearLayout>
 

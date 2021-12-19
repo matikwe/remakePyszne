@@ -32,7 +32,6 @@ import java.util.ArrayList;
 public class RestaurantActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, BottomNavigationView.OnNavigationItemSelectedListener {
     public Users users;
     private Addresses addresses;
-    private Restaurants restaurants;
     private ListView listViewRestaurant;
     private TextView TextViewAvailableProduct;
     private HorizontalScrollView categoryScrollView;
@@ -46,10 +45,18 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant);
 
+        loadContent();
+
+        listViewRestaurant = (ListView) findViewById(R.id.listViewRestaurant);
+        setUpAdapter(null);
+    }
+
+    private void loadContent(){
         Intent intent = getIntent();
         users = intent.getParcelableExtra("currentUser");
         bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottomNavAdd);
         bottomNavAdd1 = (BottomNavigationView)findViewById(R.id.historySoloBottomNavigationView);
+
         if (users.getRole().equals("user")) {
             addresses = intent.getParcelableExtra("currentAddress");
             Log.d("date", users.getLogin() + addresses.getCity());
@@ -62,13 +69,7 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
             categoryScrollView.setVisibility(View.GONE);
             bottomNavigationView.setOnNavigationItemSelectedListener(this);
             bottomNavAdd1.setVisibility(View.GONE);
-
         }
-
-
-
-        listViewRestaurant = (ListView) findViewById(R.id.listViewRestaurant);
-        setUpAdapter(null);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

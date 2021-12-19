@@ -23,9 +23,11 @@ public class OrdersAdapter extends ArrayAdapter<Orders> {
     private Users users;
     private Addresses addresses;
     private Orders orders;
+    private String nextState;
 
-    public OrdersAdapter(Context context, ArrayList<Orders> ordersArrayList) {
+    public OrdersAdapter(Context context, ArrayList<Orders> ordersArrayList, String nextState) {
         super(context, 0, ordersArrayList);
+        this.nextState = nextState;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -35,7 +37,7 @@ public class OrdersAdapter extends ArrayAdapter<Orders> {
         try {
             restaurants = getRestaurants();
             users = getUsers();
-            addresses=getAddressesForUser();
+            addresses = getAddressesForUser();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -53,8 +55,8 @@ public class OrdersAdapter extends ArrayAdapter<Orders> {
         TextView addressUser = convertView.findViewById(R.id.addressUser);
 
         TextView description = (TextView) convertView.findViewById(R.id.description);
-        TextView state=(TextView)convertView.findViewById(R.id.state);
-
+        TextView state = (TextView) convertView.findViewById(R.id.state);
+        TextView stateButton = (TextView) convertView.findViewById(R.id.stateButton);
 
 
         nameRestaurant.setText(restaurants.getNameRestaurant());
@@ -73,11 +75,14 @@ public class OrdersAdapter extends ArrayAdapter<Orders> {
         description.setText(orders.getDescription());
         state.setText("Status zamówienia: " + orders.getState());
 
-        if(users.getRole().equals("user"))
+        if (users.getRole().equals("user"))
             linearLayoutStateButton.setVisibility(View.GONE);
+        else
+            linearLayoutStateButton.setVisibility(View.VISIBLE);
+        stateButton.setText("eeeeeeeeeeeeeeeeeeeeeeeee");
 
         return convertView;
-}
+    }
 
     private Restaurants getRestaurants() throws SQLException {
         ArrayList<Restaurants> restaurantsArrayList = new QueryHelper(queryToGetRestaurant()).tryLoginToDataBaseForRestaurants();
@@ -104,7 +109,7 @@ public class OrdersAdapter extends ArrayAdapter<Orders> {
                 "WHERE [remakePyszne].[dbo].[Users].userid=" + orders.getUserID();
     }
 
-    private String queryToGetAddressForUser(){
+    private String queryToGetAddressForUser() {
         return "SELECT * FROM [remakePyszne].[dbo].[Addresses] INNER JOIN [remakePyszne].[dbo].[Orders] " +
                 "ON [remakePyszne].[dbo].[Addresses].addressid = [remakePyszne].[dbo].[Orders].addressid " +
                 "WHERE [remakePyszne].[dbo].[Addresses].addressid=" + orders.getAddressID();

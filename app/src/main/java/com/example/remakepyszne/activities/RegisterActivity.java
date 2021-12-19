@@ -41,18 +41,25 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        loadContent();
+        initiationSpinner();
+        users = new Users();
+    }
+
+    private void loadContent(){
         editTextLoginRegisterPage = (EditText) findViewById(R.id.editTextLoginRegisterPage);
         editTextPasswordRegisterPage1 = (EditText) findViewById(R.id.editTextPasswordRegisterPage1);
         editTextPasswordRegisterPage2 = (EditText) findViewById(R.id.editTextPasswordRegisterPage2);
         editTextEmailAddressRegisterPage = (EditText) findViewById(R.id.editTextEmailAddressRegisterPage);
         editTextPhoneRegisterPage = (EditText) findViewById(R.id.editTextPhoneRegisterPage);
         spinner = (Spinner) findViewById(R.id.userRoleSpinner);
+    }
 
+    private void initiationSpinner(){
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.roles, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-        users = new Users();
     }
 
     public void tryRegisterOnClick(View v) throws SQLException {

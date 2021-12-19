@@ -47,15 +47,7 @@ public class ShopCartActivity extends AppCompatActivity implements AdapterView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_cart);
 
-        Intent intent = getIntent();
-        users = intent.getParcelableExtra("currentUser");
-        addresses = intent.getParcelableExtra("currentAddress");
-        restaurants = intent.getParcelableExtra("currentRestaurant");
-
-        backSoloBottomNavigationView = (BottomNavigationView) findViewById(R.id.backSoloBottomNavigationView);
-        listViewShopCart = (ListView) findViewById(R.id.listViewShopCart);
-
-        backSoloBottomNavigationView.setOnNavigationItemSelectedListener(this);
+        loadContent();
 
         try {
             shopCartArrayList = new QueryHelper(getQueryToShopCartList()).tryLoginToDataBaseForShopCart();
@@ -66,11 +58,18 @@ public class ShopCartActivity extends AppCompatActivity implements AdapterView.O
         shopCartAdapter = new ShopCartAdapter(this, shopCartArrayList, users, addresses, restaurants);
         listViewShopCart.setAdapter(shopCartAdapter);
         listViewShopCart.setOnItemClickListener(this);
-        Log.d("date", users.getLogin() + addresses.getCity() + restaurants.getNameRestaurant());
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    private void loadContent(){
+        Intent intent = getIntent();
+        users = intent.getParcelableExtra("currentUser");
+        addresses = intent.getParcelableExtra("currentAddress");
+        restaurants = intent.getParcelableExtra("currentRestaurant");
+
+        backSoloBottomNavigationView = (BottomNavigationView) findViewById(R.id.backSoloBottomNavigationView);
+        listViewShopCart = (ListView) findViewById(R.id.listViewShopCart);
+
+        backSoloBottomNavigationView.setOnNavigationItemSelectedListener(this);
     }
 
     String getQueryToShopCartList() {
@@ -104,9 +103,9 @@ public class ShopCartActivity extends AppCompatActivity implements AdapterView.O
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDateTime now = LocalDateTime.now();
 
-        String insert = "INSERT INTO [remakePyszne].[dbo].[Orders] (userid, restaurantid, addressid, description, orderTime, orderDate, state, totalPrice) VALUES("
+        String insert = "INSERT INTO [remakePyszne].[dbo].[Orders] (userid, restaurantid, addressid, description, orderTime, orderDate, state, totalPrice, providerid) VALUES("
                 + shopCart.getUserid() + "," + shopCart.getRestaurantID() + "," + addresses.getAddressID() + ",'" + getAllShopCart()
-                + "','" + timeFormatter.format(time) + "','" + dtf.format(now) + "','w realizacji'," + getTotalCost() + ")";
+                + "','" + timeFormatter.format(time) + "','" + dtf.format(now) + "','w realizacji'," + getTotalCost() + ", 0)";
         new QueryHelper(insert).tryConnectToDatabase();
     }
 
@@ -151,5 +150,9 @@ public class ShopCartActivity extends AppCompatActivity implements AdapterView.O
                 break;
         }
         return false;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
     }
 }

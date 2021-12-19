@@ -35,12 +35,10 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
     private Restaurants restaurants;
     private ListView listViewProduct;
     private Button buttonShopCart;
-    private LinearLayout linearLayoutShopCart;
     private BottomNavigationView bottomNavigationView,backSoloBottomNavigationView;
     protected ArrayList<Products> productsArrayList = new ArrayList<>();
     ArrayList<ShopCart> shopCartArrayList = null;
     TextView availableProduct;
-    String query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +50,7 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
         restaurants = intent.getParcelableExtra("currentRestaurant");
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavProduct);
         backSoloBottomNavigationView = (BottomNavigationView) findViewById(R.id.backSoloBottomNavigationView);
+
         if (users.getRole().equals("user")) {
             addresses = intent.getParcelableExtra("currentAddress");
             Log.d("date", users.getLogin() + addresses.getCity() + restaurants.getNameRestaurant());
@@ -74,8 +73,6 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
             bottomNavigationView.setOnNavigationItemSelectedListener(this);
             backSoloBottomNavigationView.setVisibility(View.GONE);
         }
-
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -86,7 +83,6 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
         availableProduct = (TextView) findViewById(R.id.TextViewAvailableProduct);
         buttonShopCart = (Button) findViewById(R.id.buttonShopCart);
 
-
         if (users.getRole().equals("user"))
             availableProduct.setText("Dostępne produkty z: " + restaurants.getNameRestaurant());
 
@@ -94,8 +90,6 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
         Log.d("setUpAdapter: ", String.valueOf(productsArrayList.isEmpty()));
         listViewProduct.setAdapter(productsAdapter);
         listViewProduct.setOnItemClickListener(this);
-
-
     }
 
     @Override
@@ -168,10 +162,6 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
             buttonShopCart.setText("KOSZYK(" + 0 + ")");
         else
             buttonShopCart.setText("KOSZYK(" + quantity + ")");
-    }
-
-    public void backToRestaurant(View view) {
-        openActivity(null, RestaurantActivity.class);
     }
 
     public void openActivity(Products products, Class<?> cls) {

@@ -41,6 +41,10 @@ public class AddressActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadContent();
+    }
+
+    private void loadContent() {
         Intent intent = getIntent();
         users = intent.getParcelableExtra("currentUser");
         if (users.getRole().equals("user")) {
@@ -68,7 +72,6 @@ public class AddressActivity extends AppCompatActivity {
             addToDataBase = false;
             setEmptyFields();
         }
-        Log.d("Empty location: ", String.valueOf(getCurrentLocation.isEmptyLocation()));
         searchRestaurant.setEnabled(addToDataBase);
     }
 

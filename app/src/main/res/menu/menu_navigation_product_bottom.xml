@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/addObject"
-        android:title="Dodaj"
-        android:icon="@drawable/ic_add_rest"/>
+        android:icon="@drawable/ic_add_rest"
+        android:title="Dodaj" />
     <item
         android:id="@+id/backToRestFromProduct"
-        android:title="Powrót do restauracji"
-        android:icon="@drawable/ic_back"/>
+        android:icon="@drawable/ic_back"
+        android:title="Powrót do restauracji" />
 </menu>

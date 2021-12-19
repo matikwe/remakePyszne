@@ -2,26 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/addRestaurant"
-        android:title="Dodaj restauracje"
-        android:icon="@drawable/ic_add_rest"/>
-
+        android:icon="@drawable/ic_add_rest"
+        android:title="Dodaj restauracje" />
     <item
         android:id="@+id/editRestaurant"
-        android:title="Edytuj restauracje"
-        android:icon="@drawable/ic_edit_rest"/>
-
+        android:icon="@drawable/ic_edit_rest"
+        android:title="Edytuj restauracje" />
     <item
         android:id="@+id/addDelivery"
-        android:title="Dodaj dostawe"
-        android:icon="@drawable/ic_add_location"/>
-
+        android:icon="@drawable/ic_add_location"
+        android:title="Dodaj dostawe" />
     <item
         android:id="@+id/displayProduct"
-        android:title="Lista produktów"
-        android:icon="@drawable/ic_product_list"/>
-
+        android:icon="@drawable/ic_product_list"
+        android:title="Lista produktów" />
     <item
         android:id="@+id/backToRest"
-        android:title="Wróć"
-        android:icon="@drawable/ic_back"/>
+        android:icon="@drawable/ic_back"
+        android:title="Wróć" />
 </menu>
