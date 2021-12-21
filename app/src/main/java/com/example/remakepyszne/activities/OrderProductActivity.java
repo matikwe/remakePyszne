@@ -2,7 +2,6 @@ package com.example.remakepyszne.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,6 +20,7 @@ import com.example.remakepyszne.util.Orders;
 import com.example.remakepyszne.util.Restaurants;
 import com.example.remakepyszne.util.Users;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.mlkit.common.sdkinternal.SharedPrefManager;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class OrderProductActivity extends AppCompatActivity implements AdapterVi
     private Addresses addresses;
     private Restaurants restaurants;
     protected ArrayList<Orders> ordersArrayList;
-    BottomNavigationView orderBottomNavigationView, backSoloBottomNavigationView;
+    BottomNavigationView orderBottomNavigationView, backSoloBottomNavigationView, backAndLogoutBottomNavigationView;
     ListView listViewOrders;
     TextView title;
     String query, nextState, currentState;
@@ -59,6 +59,7 @@ public class OrderProductActivity extends AppCompatActivity implements AdapterVi
         listViewOrders = (ListView) findViewById(R.id.listViewOrderProduct);
         title = (TextView) findViewById(R.id.titleOrder);
         backSoloBottomNavigationView = (BottomNavigationView) findViewById(R.id.backSoloBottomNavigationView);
+        backAndLogoutBottomNavigationView = (BottomNavigationView) findViewById(R.id.backAndLogoutBottomNavigationView);
 
         if (users.getRole().equals("user")) {
             title.setText("Historia zamówień");
@@ -66,6 +67,7 @@ public class OrderProductActivity extends AppCompatActivity implements AdapterVi
             query = getQueryToDisplayHistoryOrders();
             backSoloBottomNavigationView.setOnNavigationItemSelectedListener(this);
             orderBottomNavigationView.setVisibility(View.GONE);
+            backAndLogoutBottomNavigationView.setVisibility(View.GONE);
         } else if (users.getRole().equals("restaurant manager")) {
             title.setText("Zamówione produkty");
             restaurants = intent.getParcelableExtra("currentRestaurant");
@@ -76,6 +78,7 @@ public class OrderProductActivity extends AppCompatActivity implements AdapterVi
             query = getQueryToDisplayOrder();
             orderBottomNavigationView.setOnNavigationItemSelectedListener(this);
             backSoloBottomNavigationView.setVisibility(View.GONE);
+            backAndLogoutBottomNavigationView.setVisibility(View.GONE);
         } else if (users.getRole().equals("provider")) {
             title.setText("Aktualne dostawy");
             if (currentState == null) {
@@ -83,8 +86,9 @@ public class OrderProductActivity extends AppCompatActivity implements AdapterVi
                 nextState = states.get(3);
             }
             query = getQueryToDisplayProductDelivery();
-            orderBottomNavigationView.setOnNavigationItemSelectedListener(this);
+            backAndLogoutBottomNavigationView.setOnNavigationItemSelectedListener(this);
             backSoloBottomNavigationView.setVisibility(View.GONE);
+            orderBottomNavigationView.setVisibility(View.GONE);
         }
 
         try {
@@ -154,8 +158,19 @@ public class OrderProductActivity extends AppCompatActivity implements AdapterVi
                     orderBottomNavigationView.getMenu().findItem(R.id.back).setChecked(true);
                     openActivity(RestaurantActivity.class);
                 }
+                break;
+            case R.id.logout:
+                logout();
+                break;
+
         }
         return false;
+    }
+
+    private void logout() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     String updateStateOrder(Orders orders) {

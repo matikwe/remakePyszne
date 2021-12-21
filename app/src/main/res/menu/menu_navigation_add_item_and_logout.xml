@@ -4,4 +4,9 @@
         android:id="@+id/addObject"
         android:icon="@drawable/ic_add_rest"
         android:title="Dodaj" />
+
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/ic_baseline_logout"
+        android:title="Wyloguj" />
 </menu>

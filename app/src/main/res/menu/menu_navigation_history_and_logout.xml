@@ -4,4 +4,9 @@
         android:id="@+id/historySolo"
         android:icon="@drawable/ic_history_order"
         android:title="Historia zamówień" />
+
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/ic_baseline_logout"
+        android:title="Wyloguj" />
 </menu>

@@ -62,6 +62,16 @@
         app:itemTextColor="@drawable/tab_color"
         app:menu="@menu/menu_navigation_back_solo" />
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/backAndLogoutBottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="?android:attr/windowBackground"
+        app:itemIconTint="@drawable/tab_color"
+        app:itemTextColor="@drawable/tab_color"
+        app:menu="@menu/menu_navigation_order_to_delivery" />
+
 </RelativeLayout>
 
 

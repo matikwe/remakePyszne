@@ -176,6 +176,12 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
         startActivity(intent);
     }
 
+    private void logout() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -184,6 +190,9 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
                 break;
             case R.id.historySolo:
                 openActivity(null, OrderProductActivity.class);
+                break;
+            case R.id.logout:
+                logout();
                 break;
         }
         return false;
