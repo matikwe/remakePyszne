@@ -52,28 +52,6 @@
                 tools:ignore="MissingConstraints" />
 
             <EditText
-                android:id="@+id/editTextCategory"
-                android:layout_width="280dp"
-                android:layout_height="55dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/custom_input"
-                android:drawableStart="@drawable/ic_user"
-                android:drawablePadding="12dp"
-                android:ems="10"
-                android:hint="Kategoria"
-                android:inputType="textPersonName"
-                android:maxLength="25"
-                android:minHeight="48dp"
-                android:padding="12dp"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:textSize="15sp"
-                tools:ignore="MissingConstraints" />
-
-            <EditText
                 android:id="@+id/editTextPrice"
                 android:layout_width="280dp"
                 android:layout_height="55dp"
@@ -94,6 +72,34 @@
                 android:paddingEnd="12dp"
                 android:textSize="15sp"
                 tools:ignore="MissingConstraints" />
+
+            <EditText
+                android:id="@+id/editTextURL"
+                android:layout_width="280dp"
+                android:layout_height="55dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/custom_input"
+                android:drawableStart="@drawable/ic_user"
+                android:drawablePadding="12dp"
+                android:ems="10"
+                android:hint="Link do zdjęcia produktu"
+                android:inputType="textPersonName"
+                android:maxLength="25"
+                android:minHeight="48dp"
+                android:padding="12dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:textSize="15sp"
+                tools:ignore="MissingConstraints" />
+
+            <CheckBox
+                android:id="@+id/visibleCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Produkt dostępny dla użytkownika"/>
 
             <Button
                 android:id="@+id/addProductButtonToDataBase"

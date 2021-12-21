@@ -7,15 +7,14 @@ public class Products implements Parcelable {
     private int productID;
     private int restaurantID;
     private String nameProduct;
-    private String category;
     private float price;
     private String image;
+    private String visible;
 
     protected Products(Parcel in) {
         productID = in.readInt();
         restaurantID = in.readInt();
         nameProduct = in.readString();
-        category = in.readString();
         price = in.readInt();
         image = in.readString();
     }
@@ -46,7 +45,6 @@ public class Products implements Parcelable {
         parcel.writeInt(productID);
         parcel.writeInt(restaurantID);
         parcel.writeString(nameProduct);
-        parcel.writeString(category);
         parcel.writeFloat(price);
         parcel.writeString(image);
     }
@@ -55,9 +53,9 @@ public class Products implements Parcelable {
         private int productID;
         private int restaurantID;
         private String nameProduct;
-        private String category;
         private float price;
         private String image;
+        private String visible;
 
         public Builder productID(int productID) {
             this.productID = productID;
@@ -74,11 +72,6 @@ public class Products implements Parcelable {
             return this;
         }
 
-        public Builder category(String category) {
-            this.category = category;
-            return this;
-        }
-
         public Builder price(float price) {
             this.price = price;
             return this;
@@ -89,17 +82,23 @@ public class Products implements Parcelable {
             return this;
         }
 
+        public Builder visible(String visible) {
+            this.visible = visible;
+            return this;
+        }
+
         public Products build() {
             Products products = new Products();
             products.productID = this.productID;
             products.restaurantID = this.restaurantID;
             products.nameProduct = this.nameProduct;
-            products.category = this.category;
             products.price = this.price;
             products.image = this.image;
+            products.visible = this.visible;
             return products;
         }
     }
+
     public int getProductID() {
         return productID;
     }
@@ -112,15 +111,15 @@ public class Products implements Parcelable {
         return nameProduct;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
     public float getPrice() {
         return price;
     }
 
     public String getImage() {
         return image;
+    }
+
+    public String getVisible() {
+        return visible;
     }
 }

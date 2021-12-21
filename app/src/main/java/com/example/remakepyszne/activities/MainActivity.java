@@ -53,7 +53,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void sendRequestToDatabaseAndEquals(boolean notEmptyData) throws SQLException {
         if (notEmptyData) {
-            String query = "SELECT * FROM [remakePyszne].[dbo].[users] WHERE login='" + editTextLogin.getText() + "';";
+            String query = "SELECT userid, login, password, role, email, phone_number FROM [remakePyszne].[dbo].[users] INNER JOIN [remakePyszne].[dbo].[Roles] " +
+                    "ON [remakePyszne].[dbo].[users].roleid = [remakePyszne].[dbo].[Roles].roleid " +
+                    "WHERE login='" + editTextLogin.getText() + "';";
             users = new QueryHelper(query).tryLoginToDataBaseForUsers();
 
             if (!(users == null)) {

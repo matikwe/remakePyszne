@@ -39,7 +39,6 @@ public class ProductsAdapter extends ArrayAdapter<Products> {
 
         ImageView iconProduct = (ImageView) convertView.findViewById(R.id.iconProduct);
         TextView nameProduct = (TextView) convertView.findViewById(R.id.nameProduct);
-        TextView nameCategory = (TextView) convertView.findViewById(R.id.nameCategory);
         TextView price = (TextView) convertView.findViewById(R.id.price);
         LinearLayout linearLayoutShopCart = (LinearLayout) convertView.findViewById(R.id.linearLayoutShopCart);
 
@@ -49,7 +48,6 @@ public class ProductsAdapter extends ArrayAdapter<Products> {
                 .into(iconProduct);
 
         nameProduct.setText(products.getNameProduct());
-        nameCategory.setText(products.getCategory());
         price.setText(products.getPrice() + " zł");
 
         if (users.getRole().equals("restaurant manager"))

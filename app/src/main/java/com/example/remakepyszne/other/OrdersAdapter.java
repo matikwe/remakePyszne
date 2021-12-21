@@ -46,8 +46,6 @@ public class OrdersAdapter extends ArrayAdapter<Orders> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_order, parent, false);
         }
 
-        LinearLayout linearLayoutStateButton = (LinearLayout) convertView.findViewById(R.id.linearLayoutStateButton);
-
         TextView nameRestaurant = (TextView) convertView.findViewById(R.id.nameRestaurant);
         TextView addressRest = convertView.findViewById(R.id.addressRest);
 
@@ -56,7 +54,6 @@ public class OrdersAdapter extends ArrayAdapter<Orders> {
 
         TextView description = (TextView) convertView.findViewById(R.id.description);
         TextView state = (TextView) convertView.findViewById(R.id.state);
-        TextView stateButton = (TextView) convertView.findViewById(R.id.stateButton);
 
 
         nameRestaurant.setText(restaurants.getNameRestaurant());
@@ -74,12 +71,6 @@ public class OrdersAdapter extends ArrayAdapter<Orders> {
 
         description.setText(orders.getDescription());
         state.setText("Status zamówienia: " + orders.getState());
-
-        if (users.getRole().equals("user"))
-            linearLayoutStateButton.setVisibility(View.GONE);
-        else
-            linearLayoutStateButton.setVisibility(View.VISIBLE);
-        stateButton.setText("eeeeeeeeeeeeeeeeeeeeeeeee");
 
         return convertView;
     }

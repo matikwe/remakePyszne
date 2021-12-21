@@ -19,7 +19,7 @@
             <ImageView
                 android:id="@+id/iconProduct"
                 android:layout_width="110dp"
-                android:layout_height="155dp"
+                android:layout_height="115dp"
                 android:background="@drawable/custom_image"
                 android:outlineProvider="background"
                 android:padding="5dp" />
@@ -37,15 +37,6 @@
                 android:padding="1dp"
                 android:text="Name"
                 android:textSize="30dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/nameCategory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="1dp"
-                android:text="Category"
-                android:textSize="25dp"
                 android:textStyle="bold" />
 
             <LinearLayout

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,14 +29,15 @@ public class EditValueProductActivity extends AppCompatActivity implements Botto
     private Users users;
     private Restaurants restaurants;
     private Products products;
-    private EditText editTextNameProduct, editTextCategory, editTextPrice;
+    private EditText editTextNameProduct, editTextURL, editTextPrice;
     private TextView textViewEditValueProduct;
     private BottomNavigationView bottomNavigationView, bottomNavBack;
     private Button addProductButtonToDataBase, editProductButtonToDataBase;
+    private CheckBox visibleCheckBox;
     private boolean addToDataBase = false;
     private static final String emptyEditText = "Uzupełnij dane";
     private static final String badFormatNameProduct = "Błedna nazwa produktu";
-    private static final String badFormatCategory = "Błedna nazwa kategorii produktu";
+    private static final String badFormatURL = "Błedna nazwa linku";
     private static final String badFormatPrice = "Błedny format ceny";
 
 
@@ -47,7 +49,7 @@ public class EditValueProductActivity extends AppCompatActivity implements Botto
         loadContent();
     }
 
-    private void loadContent(){
+    private void loadContent() {
         Intent intent = getIntent();
         users = intent.getParcelableExtra("currentUser");
         restaurants = intent.getParcelableExtra("currentRestaurant");
@@ -58,9 +60,10 @@ public class EditValueProductActivity extends AppCompatActivity implements Botto
         addProductButtonToDataBase = (Button) findViewById(R.id.addProductButtonToDataBase);
         editProductButtonToDataBase = (Button) findViewById(R.id.editProductButtonToDataBase);
         editTextNameProduct = (EditText) findViewById(R.id.editTextNameProduct);
-        editTextCategory = (EditText) findViewById(R.id.editTextCategory);
+        editTextURL = (EditText) findViewById(R.id.editTextURL);
         editTextPrice = (EditText) findViewById(R.id.editTextPrice);
         textViewEditValueProduct = (TextView) findViewById(R.id.textViewEditValueProduct);
+        visibleCheckBox = (CheckBox) findViewById(R.id.visibleCheckBox);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.addProduct);
@@ -76,7 +79,7 @@ public class EditValueProductActivity extends AppCompatActivity implements Botto
 
     public boolean validationData() {
 
-        if (editTextNameProduct.getText().toString().isEmpty() || editTextCategory.getText().toString().isEmpty() || editTextPrice.getText().toString().isEmpty()) {
+        if (editTextNameProduct.getText().toString().isEmpty() || editTextURL.getText().toString().isEmpty() || editTextPrice.getText().toString().isEmpty()) {
             Toast.makeText(getApplicationContext(), emptyEditText, Toast.LENGTH_LONG).show();
         } else {
             addToDataBase = true;
@@ -84,15 +87,14 @@ public class EditValueProductActivity extends AppCompatActivity implements Botto
                 Toast.makeText(getApplicationContext(), badFormatNameProduct, Toast.LENGTH_LONG).show();
                 addToDataBase = false;
             }
-            if (!validation("^[a-zA-Z]+(?:[\\s-][a-zA-Z]+)*$", editTextCategory.getText().toString())) {
-                Toast.makeText(getApplicationContext(), badFormatCategory, Toast.LENGTH_LONG).show();
+            if (!validation("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)", editTextURL.getText().toString())) {
+                Toast.makeText(getApplicationContext(), badFormatURL, Toast.LENGTH_LONG).show();
                 addToDataBase = false;
             }
             if (!validation("[0-9]+([.][0-9]{1,2})?", editTextPrice.getText().toString())) {
                 Toast.makeText(getApplicationContext(), badFormatPrice, Toast.LENGTH_LONG).show();
                 addToDataBase = false;
             }
-
         }
 
         return addToDataBase;
@@ -103,7 +105,6 @@ public class EditValueProductActivity extends AppCompatActivity implements Botto
         Matcher matcher = pattern.matcher(dataFromValid);
         return matcher.matches();
     }
-
 
     private void addProduct() {
         editProductButtonToDataBase.setVisibility(View.GONE);
@@ -121,13 +122,13 @@ public class EditValueProductActivity extends AppCompatActivity implements Botto
 
     private void clearEditText() {
         editTextNameProduct.setText("");
-        editTextCategory.setText("");
+        editTextURL.setText("");
         editTextPrice.setText("");
     }
 
     private void addDataToEditText() {
         editTextNameProduct.setText(products.getNameProduct());
-        editTextCategory.setText(products.getCategory());
+        editTextURL.setText(products.getImage());
         //editTextPrice.setText(Float.toString(products.getPrice()));
     }
 
@@ -163,9 +164,9 @@ public class EditValueProductActivity extends AppCompatActivity implements Botto
 
     public void addProductToDataBase(View view) {
         if (validationData()) {
-            String query = "INSERT INTO Products(restaurantid,nameProduct,category,price)" +
+            String query = "INSERT INTO Products(restaurantid,nameProduct,imageProduct,price,visible)" +
                     "VALUES(" + restaurants.getRestaurantID() + ",'" + editTextNameProduct.getText().toString() +
-                    "','" + editTextCategory.getText().toString() + "'," + Double.parseDouble(editTextPrice.getText().toString()) + ");";
+                    "','" + editTextURL.getText().toString() + "'," + Double.parseDouble(editTextPrice.getText().toString()) + ",'" + visibleCheckBox.isChecked() + "');";
             new QueryHelper(query).tryConnectToDatabase();
             openActivity(ProductActivity.class);
         }
@@ -173,7 +174,7 @@ public class EditValueProductActivity extends AppCompatActivity implements Botto
 
     public void editProductToDataBase(View view) {
         if (validationData()) {
-            String query = "UPDATE Products SET nameProduct = '" + editTextNameProduct.getText().toString() + "', category='" + editTextCategory.getText().toString() + "', price=" + Double.parseDouble(editTextPrice.getText().toString()) + " WHERE productid=" + products.getProductID() + ";";
+            String query = "UPDATE Products SET nameProduct = '" + editTextNameProduct.getText().toString() + "', imageProduct='" + editTextURL.getText().toString() + "', price=" + Double.parseDouble(editTextPrice.getText().toString()) + ", visible='" + visibleCheckBox.isChecked() + "' WHERE productid=" + products.getProductID() + ";";
             new QueryHelper(query).tryConnectToDatabase();
             openActivity(ProductActivity.class);
         }

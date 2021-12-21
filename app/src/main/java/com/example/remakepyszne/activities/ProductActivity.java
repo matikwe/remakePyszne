@@ -50,6 +50,8 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
         restaurants = intent.getParcelableExtra("currentRestaurant");
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavProduct);
         backSoloBottomNavigationView = (BottomNavigationView) findViewById(R.id.backSoloBottomNavigationView);
+        buttonShopCart = (Button) findViewById(R.id.buttonShopCart);
+        availableProduct = (TextView) findViewById(R.id.TextViewAvailableProduct);
 
         if (users.getRole().equals("user")) {
             addresses = intent.getParcelableExtra("currentAddress");
@@ -80,8 +82,6 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
         productsArrayList = new QueryHelper(getQueryToListProducts()).tryLoginToDataBaseForProducts();
 
         listViewProduct = (ListView) findViewById(R.id.listViewProduct);
-        availableProduct = (TextView) findViewById(R.id.TextViewAvailableProduct);
-        buttonShopCart = (Button) findViewById(R.id.buttonShopCart);
 
         if (users.getRole().equals("user"))
             availableProduct.setText("Dostępne produkty z: " + restaurants.getNameRestaurant());
@@ -128,7 +128,7 @@ public class ProductActivity extends AppCompatActivity implements AdapterView.On
                     "ON [remakePyszne].[dbo].[Restaurants].restaurantid = [remakePyszne].[dbo].[DeliveryCity].restaurantid " +
                     "INNER JOIN [remakePyszne].[dbo].[Products] " +
                     "ON [remakePyszne].[dbo].[Restaurants].restaurantid = [remakePyszne].[dbo].[Products].restaurantid " +
-                    "WHERE DeliveryCity.city LIKE '" + addresses.getCity() + "' AND Restaurants.restaurantid = " + restaurants.getRestaurantID() + ";";
+                    "WHERE DeliveryCity.city LIKE '" + addresses.getCity() + "' AND Restaurants.restaurantid = " + restaurants.getRestaurantID() + " AND visible ='true';";
         } else if (users.getRole().equals("restaurant manager")) {
             query = "SELECT *  FROM [remakePyszne].[dbo].[Restaurants] " +
                     "INNER JOIN [remakePyszne].[dbo].[Products] " +

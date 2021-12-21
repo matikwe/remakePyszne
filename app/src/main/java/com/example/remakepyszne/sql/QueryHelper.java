@@ -106,7 +106,6 @@ public class QueryHelper {
                         .productID(resultSet.getInt("productid"))
                         .restaurantID(resultSet.getInt("restaurantid"))
                         .nameProduct(resultSet.getString("nameProduct"))
-                        .category(resultSet.getString("category"))
                         .price(resultSet.getFloat("price"))
                         .image(resultSet.getString("imageProduct"))
                         .build();

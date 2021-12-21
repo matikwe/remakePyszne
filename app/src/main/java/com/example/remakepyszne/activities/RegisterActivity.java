@@ -1,6 +1,5 @@
 package com.example.remakepyszne.activities;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,7 +45,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         users = new Users();
     }
 
-    private void loadContent(){
+    private void loadContent() {
         editTextLoginRegisterPage = (EditText) findViewById(R.id.editTextLoginRegisterPage);
         editTextPasswordRegisterPage1 = (EditText) findViewById(R.id.editTextPasswordRegisterPage1);
         editTextPasswordRegisterPage2 = (EditText) findViewById(R.id.editTextPasswordRegisterPage2);
@@ -55,7 +54,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
         spinner = (Spinner) findViewById(R.id.userRoleSpinner);
     }
 
-    private void initiationSpinner(){
+    private void initiationSpinner() {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.roles, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -104,7 +103,7 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
                 isNotDuplicated = false;
 
             if (isNotDuplicated) {
-                String query = "INSERT INTO Users (login, password, role, email, phone_number) values ('" + editTextLoginRegisterPage.getText().toString() +
+                String query = "INSERT INTO Users (login, password, roleid, email, phone_number) values ('" + editTextLoginRegisterPage.getText().toString() +
                         "','" + editTextPasswordRegisterPage1.getText().toString() + "','" + role + "','" + editTextEmailAddressRegisterPage.getText().toString() +
                         "','" + editTextPhoneRegisterPage.getText().toString() + "');";
                 insertIntoDatabase(query);
@@ -151,8 +150,8 @@ public class RegisterActivity extends AppCompatActivity implements AdapterView.O
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        role = adapterView.getItemAtPosition(i).toString();
-        Log.d("Role", role);
+        role = String.valueOf(i + 1);
+        Log.d("Role", role + " pos: " + i);
     }
 
     @Override
