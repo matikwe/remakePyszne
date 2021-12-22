@@ -17,9 +17,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.remakepyszne.R;
 import com.example.remakepyszne.sql.QueryHelper;
 import com.example.remakepyszne.util.Restaurants;
+import com.example.remakepyszne.util.Types;
 import com.example.remakepyszne.util.Users;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -178,23 +180,23 @@ public class EditValueRestaurantActivity extends AppCompatActivity implements Bo
         closingHour.setText("");
     }
 
-    public void addRestaurantToDataBase(View view) {
+    public void addRestaurantToDataBase(View view) throws SQLException {
         if (validationData()) {
             new QueryHelper(getQueryToInsetRestaurant()).tryConnectToDatabase();
             openActivity(RestaurantActivity.class);
         }
     }
 
-    public void editRestaurantToDataBase(View view) {
+    public void editRestaurantToDataBase(View view) throws SQLException {
         if (validationData()) {
             new QueryHelper(getQueryToUpdateRestaurant()).tryConnectToDatabase();
             openActivity(RestaurantActivity.class);
         }
     }
 
-    private String getQueryToUpdateRestaurant() {
+    private String getQueryToUpdateRestaurant() throws SQLException {
         String query = "UPDATE Restaurants SET nameRestaurant = '" + nameRestaurant.getText().toString() +
-                "', type = '" + typeRestaurant.getText().toString() + "', street='" + street.getText().toString() +
+                "', typeid = '" + checkExist() + "', street='" + street.getText().toString() +
                 "', number='" + number.getText().toString() + "', city='" + city.getText().toString() + "', zip_code='" + zip.getText().toString() +
                 "', openingHour='" + openingHour.getText().toString() + "', closingHour='" + closingHour.getText().toString() +
                 "' WHERE restaurantid=" + restaurants.getRestaurantID();
@@ -202,12 +204,28 @@ public class EditValueRestaurantActivity extends AppCompatActivity implements Bo
         return query;
     }
 
-    private String getQueryToInsetRestaurant() {
-        String query = "INSERT INTO Restaurants (nameRestaurant, type, street, number, city, zip_code, openingHour, closingHour, image, restaurantManagerid)" +
-                " VALUES ('" + nameRestaurant.getText().toString() + "','" + typeRestaurant.getText().toString() + "','" + street.getText().toString() + "','" + number.getText().toString() + "','" + city.getText().toString() +
+    private String getQueryToInsetRestaurant() throws SQLException {
+
+        String query = "INSERT INTO Restaurants (nameRestaurant, typeid, street, number, city, zip_code, openingHour, closingHour, image, restaurantManagerid)" +
+                " VALUES ('" + nameRestaurant.getText().toString() + "',"+checkExist()+",'" + street.getText().toString() + "','" + number.getText().toString() + "','" + city.getText().toString() +
                 "','" + zip.getText().toString() + "','" + openingHour.getText().toString() + "','" + closingHour.getText().toString() + "','" + nameRestaurant.getText().toString() + "','" + users.getId() + "');";
 
         return query;
+    }
+
+    private int checkExist() throws SQLException {
+        Types types = checkType();
+        if(types==null){
+            String addType = "INSERT INTO Types (type) VALUES('"+typeRestaurant.getText().toString()+"')";
+            new QueryHelper(addType).tryConnectToDatabase();
+            types = checkType();
+        }
+        return  types.getTypeid();
+    }
+
+    private Types checkType() throws SQLException {
+        String query = "SELECT * FROM Types WHERE type='"+typeRestaurant.getText().toString()+"';";
+        return new QueryHelper(query).getType();
     }
 
     public boolean validationData() {

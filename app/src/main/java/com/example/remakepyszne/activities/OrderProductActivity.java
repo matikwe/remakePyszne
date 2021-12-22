@@ -20,7 +20,6 @@ import com.example.remakepyszne.util.Orders;
 import com.example.remakepyszne.util.Restaurants;
 import com.example.remakepyszne.util.Users;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.mlkit.common.sdkinternal.SharedPrefManager;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -45,7 +44,6 @@ public class OrderProductActivity extends AppCompatActivity implements AdapterVi
         loadTypeState();
         loadNav();
         initiation();
-
     }
 
     private void loadNav() {
@@ -96,26 +94,28 @@ public class OrderProductActivity extends AppCompatActivity implements AdapterVi
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
         loadArrayAdapter();
     }
 
     private void loadArrayAdapter() {
-        OrdersAdapter ordersAdapter = new OrdersAdapter(this, ordersArrayList, nextState);
+        OrdersAdapter ordersAdapter = new OrdersAdapter(this, ordersArrayList);
         listViewOrders.setAdapter(ordersAdapter);
         listViewOrders.setOnItemClickListener(this);
     }
 
     String getQueryToDisplayHistoryOrders() {
-        return "SELECT * FROM [remakePyszne].[dbo].[Orders] WHERE userid=" + users.getId() + " ORDER BY [orderDate]DESC, [orderTime]DESC;";
+        return "SELECT orderid,userid,restaurantid,addressid,description,orderTime,orderDate,state,totalPrice,providerid,[remakePyszne].[dbo].[Orders].stateid FROM [remakePyszne].[dbo].[Orders] INNER JOIN [remakePyszne].[dbo].[States]" +
+                " ON [remakePyszne].[dbo].[Orders].stateid = [remakePyszne].[dbo].[States].stateid WHERE userid=" + users.getId() + " ORDER BY [orderDate]DESC, [orderTime]DESC;";
     }
 
     String getQueryToDisplayOrder() {
-        return "SELECT * FROM [remakePyszne].[dbo].[Orders] WHERE restaurantid=" + restaurants.getRestaurantID() + " AND state LIKE '%" + currentState + "%' ORDER BY [orderDate]DESC, [orderTime]DESC;";
+        return "SELECT orderid,userid,restaurantid,addressid,description,orderTime,orderDate,state,totalPrice,providerid,[remakePyszne].[dbo].[Orders].stateid FROM [remakePyszne].[dbo].[Orders] INNER JOIN [remakePyszne].[dbo].[States]" +
+                " ON [remakePyszne].[dbo].[Orders].stateid=[remakePyszne].[dbo].[States].stateid WHERE restaurantid=" + restaurants.getRestaurantID() + " AND state LIKE '%" + currentState + "%' ORDER BY [orderDate]DESC, [orderTime]DESC;";
     }
 
     String getQueryToDisplayProductDelivery() {
-        return "SELECT * FROM [remakePyszne].[dbo].[Orders] WHERE state LIKE '%" + currentState + "%' ORDER BY [orderDate]DESC, [orderTime]DESC;";
+        return "SELECT orderid,userid,restaurantid,addressid,description,orderTime,orderDate,state,totalPrice,providerid,[remakePyszne].[dbo].[Orders].stateid FROM [remakePyszne].[dbo].[Orders] INNER JOIN [remakePyszne].[dbo].[States]" +
+                " ON [remakePyszne].[dbo].[Orders].stateid=[remakePyszne].[dbo].[States].stateid WHERE state LIKE '%" + currentState + "%' ORDER BY [orderDate]DESC, [orderTime]DESC;";
     }
 
     @Override
@@ -162,7 +162,6 @@ public class OrderProductActivity extends AppCompatActivity implements AdapterVi
             case R.id.logout:
                 logout();
                 break;
-
         }
         return false;
     }
@@ -175,9 +174,24 @@ public class OrderProductActivity extends AppCompatActivity implements AdapterVi
 
     String updateStateOrder(Orders orders) {
         if (users.getRole().equals("provider") && currentState.equals(states.get(2))) {
-            return "UPDATE [remakePyszne].[dbo].[Orders] SET state='" + nextState + "', providerid=" + users.getId() + " WHERE orderid=" + orders.getOrderID();
-        } else
-            return "UPDATE [remakePyszne].[dbo].[Orders] SET state='" + nextState + "' WHERE orderid=" + orders.getOrderID();
+            return "UPDATE [remakePyszne].[dbo].[Orders] SET stateid=4, providerid=" + users.getId() + " WHERE orderid=" + orders.getOrderID();
+        } else {
+            int stateid = getState();
+
+            return "UPDATE [remakePyszne].[dbo].[Orders] SET stateid=" + stateid + " WHERE orderid=" + orders.getOrderID();
+        }
+    }
+
+    private int getState() {
+        if (currentState.equals(states.get(0)))
+            return 2;
+        if (currentState.equals(states.get(1)))
+            return 3;
+        if (currentState.equals(states.get(2)))
+            return 4;
+        if (currentState.equals(states.get(3)))
+            return 5;
+        else return 0;
     }
 
     public void openActivity(Class<?> cls) {

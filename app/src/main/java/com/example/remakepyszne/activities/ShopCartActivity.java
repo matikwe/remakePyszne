@@ -103,9 +103,9 @@ public class ShopCartActivity extends AppCompatActivity implements AdapterView.O
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDateTime now = LocalDateTime.now();
 
-        String insert = "INSERT INTO [remakePyszne].[dbo].[Orders] (userid, restaurantid, addressid, description, orderTime, orderDate, state, totalPrice, providerid) VALUES("
+        String insert = "INSERT INTO [remakePyszne].[dbo].[Orders] (userid, restaurantid, addressid, description, orderTime, orderDate, totalPrice, providerid, stateid) VALUES("
                 + shopCart.getUserid() + "," + shopCart.getRestaurantID() + "," + addresses.getAddressID() + ",'" + getAllShopCart()
-                + "','" + timeFormatter.format(time) + "','" + dtf.format(now) + "','w realizacji'," + getTotalCost() + ", 0)";
+                + "','" + timeFormatter.format(time) + "','" + dtf.format(now) + "'," + getTotalCost() + ", 0,1)";
         new QueryHelper(insert).tryConnectToDatabase();
     }
 

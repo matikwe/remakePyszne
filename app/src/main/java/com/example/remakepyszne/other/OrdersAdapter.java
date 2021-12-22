@@ -23,11 +23,9 @@ public class OrdersAdapter extends ArrayAdapter<Orders> {
     private Users users;
     private Addresses addresses;
     private Orders orders;
-    private String nextState;
 
-    public OrdersAdapter(Context context, ArrayList<Orders> ordersArrayList, String nextState) {
+    public OrdersAdapter(Context context, ArrayList<Orders> ordersArrayList) {
         super(context, 0, ordersArrayList);
-        this.nextState = nextState;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {

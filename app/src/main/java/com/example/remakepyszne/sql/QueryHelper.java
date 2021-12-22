@@ -8,6 +8,7 @@ import com.example.remakepyszne.util.Orders;
 import com.example.remakepyszne.util.Products;
 import com.example.remakepyszne.util.Restaurants;
 import com.example.remakepyszne.util.ShopCart;
+import com.example.remakepyszne.util.Types;
 import com.example.remakepyszne.util.Users;
 
 import java.sql.Connection;
@@ -166,8 +167,7 @@ public class QueryHelper {
                         .orderDate(resultSet.getDate("orderDate"))
                         .state(resultSet.getString("state"))
                         .totalPrice(resultSet.getFloat("totalPrice"))
-                        .providerID(resultSet.getInt("providerid"))
-                        .expectedDeliveryTime(resultSet.getTime("expectedDeliveryTime"))
+                        .stateid(resultSet.getInt("stateid"))
                         .build();
                 ordersArrayList.add(orders);
             }
@@ -175,6 +175,19 @@ public class QueryHelper {
             Log.d("Error database", "Error query");
         }
         return ordersArrayList;
+    }
+
+    public Types getType() throws SQLException {
+        Types types = null;
+        ResultSet resultSet = tryConnectToDatabase();
+        if (resultSet != null) {
+            while (resultSet.next()) {
+                types = new Types(resultSet.getInt("typeid"), resultSet.getString("type"));
+            }
+        } else {
+            Log.d("Error database", "Error query");
+        }
+        return types;
     }
 
     @SuppressLint("LongLogTag")

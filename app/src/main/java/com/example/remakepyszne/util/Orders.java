@@ -18,7 +18,7 @@ public class Orders implements Parcelable {
     private String state;
     private float totalPrice;
     private int providerID;
-    private Time expectedDeliveryTime;
+    private int stateid;
 
     protected Orders(Parcel in) {
     }
@@ -59,7 +59,7 @@ public class Orders implements Parcelable {
         private String state;
         private float totalPrice;
         private int providerID;
-        private Time expectedDeliveryTime;
+        private int stateid;
 
         public Builder orderID(int orderID) {
             this.orderID = orderID;
@@ -111,8 +111,8 @@ public class Orders implements Parcelable {
             return this;
         }
 
-        public Builder expectedDeliveryTime(Time expectedDeliveryTime) {
-            this.expectedDeliveryTime = expectedDeliveryTime;
+        public Builder stateid(int stateid) {
+            this.stateid = stateid;
             return this;
         }
 
@@ -128,7 +128,7 @@ public class Orders implements Parcelable {
             orders.state=this.state;
             orders.totalPrice=this.totalPrice;
             orders.providerID=this.providerID;
-            orders.expectedDeliveryTime=this.expectedDeliveryTime;
+            orders.stateid=this.stateid;
             return orders;
         }
     }
@@ -173,8 +173,8 @@ public class Orders implements Parcelable {
         return providerID;
     }
 
-    public Time getExpectedDeliveryTime() {
-        return expectedDeliveryTime;
+    public int stateid() {
+        return stateid;
     }
 
     public static Creator<Orders> getCREATOR() {

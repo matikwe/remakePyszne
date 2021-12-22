@@ -154,9 +154,10 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
     String getQueryToListRestaurants(String time, String type) {
         String query = "";
         if (users.getRole().equals("user")) {
-            query = "SELECT DISTINCT * FROM [remakePyszne].[dbo].[Restaurants] INNER JOIN [remakePyszne].[dbo].[DeliveryCity] " +
+            query = "SELECT [remakePyszne].[dbo].[Restaurants].restaurantid,nameRestaurant,type,street,number,[remakePyszne].[dbo].[Restaurants].city,zip_code,openingHour,closingHour,image,restaurantManagerid FROM [remakePyszne].[dbo].[Restaurants] INNER JOIN [remakePyszne].[dbo].[DeliveryCity] " +
                     "ON [remakePyszne].[dbo].[Restaurants].restaurantid = [remakePyszne].[dbo].[DeliveryCity].restaurantid " +
-                    "WHERE DeliveryCity.city LIKE '" + addresses.getCity() + "' AND Restaurants.type LIKE '" + type + "%' AND" +
+                    " INNER JOIN [remakePyszne].[dbo].[Types] ON [remakePyszne].[dbo].[Restaurants].typeid = [remakePyszne].[dbo].[Types].typeid"+
+                    " WHERE DeliveryCity.city LIKE '" + addresses.getCity() + "' AND type LIKE '" + type + "%' AND" +
                     "(Restaurants.openingHour < Restaurants.closingHour AND" +
                     "'" + time + "' >= Restaurants.openingHour AND" +
                     "'" + time + "' <= Restaurants.closingHour) OR (" +
@@ -164,7 +165,9 @@ public class RestaurantActivity extends AppCompatActivity implements AdapterView
                     "('" + time + "' >= Restaurants.openingHour OR " +
                     "'" + time + "' <= Restaurants.closingHour))";
         } else if (users.getRole().equals("restaurant manager")) {
-            query = "SELECT * FROM [remakePyszne].[dbo].[Restaurants] WHERE restaurantManagerid=" + users.getId();
+            query = "SELECT restaurantid,nameRestaurant,type,street,number,city,zip_code,openingHour,closingHour,image,restaurantManagerid " +
+                    "FROM [remakePyszne].[dbo].[Restaurants] INNER JOIN [remakePyszne].[dbo].[Types] ON [remakePyszne].[dbo].[Restaurants].typeid = [remakePyszne].[dbo].[Types].typeid" +
+                    " WHERE restaurantManagerid=" + users.getId();
         }
         return query;
     }
