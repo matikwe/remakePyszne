@@ -58,8 +58,8 @@ public class QueryHelper {
                         .userID(resultSet.getInt(2))
                         .street(resultSet.getString(3))
                         .number(resultSet.getString(4))
-                        .city(resultSet.getString(5))
-                        .zip(resultSet.getString(6))
+                        .zip(resultSet.getString(5))
+                        .city(resultSet.getString(6))
                         .build();
             }
         } else {
@@ -82,12 +82,12 @@ public class QueryHelper {
                         .type(resultSet.getString(3))
                         .street(resultSet.getString(4))
                         .number(resultSet.getString(5))
-                        .city(resultSet.getString(6))
-                        .zip(resultSet.getString(7))
-                        .openingHour(resultSet.getTime(8))
-                        .closingHour(resultSet.getTime(9))
-                        .image(resultSet.getString(10))
-                        .restaurantManagerid(resultSet.getInt(11))
+                        .zip(resultSet.getString(6))
+                        .openingHour(resultSet.getTime(7))
+                        .closingHour(resultSet.getTime(8))
+                        .image(resultSet.getString(9))
+                        .restaurantManagerid(resultSet.getInt(10))
+                        .city(resultSet.getString(11))
                         .build();
                 restaurantsList.add(restaurants);
             }
